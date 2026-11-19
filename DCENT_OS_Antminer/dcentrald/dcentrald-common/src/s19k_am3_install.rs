@@ -2137,9 +2137,9 @@ pub fn admit_s19k_aml_factory_sd_execute() -> Result<(), &'static str> {
 pub const S19K_AML_UPGRADE_MAGIC: u32 = 0x27B5_1956;
 /// CRC field of held S19k factory `aml_upgrade_package_enc.img`. Not bible S19/S21/T21.
 pub const S19K_AML_UPGRADE_CRC: u32 = 0x1CCB_07DA;
-pub const : u32 = 0x9C6E_1B2C;
-pub const : u32 = 0xF61B_B630;
-pub const : u32 = 0x7BF6_F59F;
+pub const LOCAL_SCRUBBED_S19K_AML_U32_A: u32 = 0x9C6E_1B2C; // LOCAL: name scrubbed in public mirror
+pub const LOCAL_SCRUBBED_S19K_AML_U32_B: u32 = 0xF61B_B630; // LOCAL: name scrubbed in public mirror
+pub const LOCAL_SCRUBBED_S19K_AML_U32_C: u32 = 0x7BF6_F59F; // LOCAL: name scrubbed in public mirror
 pub const S19K_AML_UPGRADE_VERSION: u32 = 2;
 pub const S19K_AML_UPGRADE_ITEM_NUM: u32 = 19;
 pub const S19K_AML_UPGRADE_ITEM_ALIGN: u32 = 8;
@@ -2233,9 +2233,9 @@ pub fn admit_s19k_aml_upgrade_header(h: S19kAmlUpgradeHeader) -> Result<(), &'st
 }
 
 pub fn refuse_bible_aml_crc_as_s19k_factory(crc: u32) -> Result<(), &'static str> {
-    if crc == 
-        || crc == 
-        || crc == 
+    if crc == LOCAL_SCRUBBED_S19K_AML_U32_A
+        || crc == LOCAL_SCRUBBED_S19K_AML_U32_B
+        || crc == LOCAL_SCRUBBED_S19K_AML_U32_C
     {
         return Err("bible S19/S21/T21 AmlImagePack CRC is not the S19k factory pack");
     }

@@ -92,11 +92,11 @@ pub const BOSMINER_ANTMINER_DRIVER_INIT_FUTURE_FN_VA: u64 = 0x0083_6E2C;
 /// Adjacent names: `unknown_bits_31_28` … `rfs` … `tfs`.
 pub const BOSMINER_FASTUART_FIELDS_STR_VA: u64 = 0x0132_0C4B;
 /// Bible BM1366 3.125 Mbaud FastUART at reg `0x28`. Not S19k host `3_000_000`.
-pub const : u32 = 0x0000_3001;
+pub const LOCAL_BM1366_FASTUART_3M125_VALUE: u32 = 0x0000_3001; // LOCAL: name scrubbed in public mirror
 /// Bible / live BM1362 3.125 Mbaud FastUART at reg `0x28`.
-pub const : u32 = 0x0000_3011;
+pub const LOCAL_BM1362_FASTUART_3M125_VALUE: u32 = 0x0000_3011; // LOCAL: name scrubbed in public mirror
 /// Host rate that matches the bible BM1366 encoding. Distinct from Track-1 3M.
-pub const : u32 = 3_125_000;
+pub const LOCAL_BM1366_HOST_BAUD_3M125: u32 = 3_125_000; // LOCAL: name scrubbed in public mirror
 /// Exact stock BM1366 builder result for requested 3.125 Mbaud. This is not
 /// the public-bible `0x3001`: the held S19k bosminer BM1366 vtable selects
 /// `FUN_008dd3b8`, whose `mode=2` input to the common `0x28` packer produces
@@ -6174,7 +6174,7 @@ pub fn admit_bosminer_fastuart_named_bit_blob(blob: &[u8]) -> Result<(), &'stati
 /// Bible `0x00003001` has bit 16 clear — it is not `ext_baud_enable`.
 pub fn refuse_bible_3001_as_ext_baud_enable(value: u32) -> Result<(), &'static str> {
     let bits = decode_bosminer_fastuart_reg_named(value);
-    if value ==  && !bits.ext_baud_enable {
+    if value == LOCAL_BM1366_FASTUART_3M125_VALUE && !bits.ext_baud_enable {
         return Err(
             "bible 0x00003001 has ext_baud_enable bit16=0; not the FastUartReg enable flag",
         );
@@ -6449,7 +6449,7 @@ pub fn admit_s19k_stock_fastuart_28_write_as_leave_115200(value: u32) -> Result<
         PUBLIC_FASTUART_VALUE => {
             Err("0x11300200 is ESP BM1366_set_max_baud 1 Mbps; not Track-1 leave-115200 to 3M")
         }
-         => Err(
+        LOCAL_BM1366_FASTUART_3M125_VALUE => Err(
             "0x00003001 is bible BM1366 3.125M FastUART; not Track-1 host 3_000_000 leave-115200",
         ),
         BOSMINER_BM1366_FASTUART_3M125 => Ok(()),
@@ -6589,7 +6589,7 @@ pub fn refuse_esp_fastuart_as_s19k_braiins_3m(value: u32) -> Result<(), &'static
 
 /// : bible BM1366 `0x00003001` is 3.125 Mbaud, not Track-1 host 3M.
 pub fn refuse_bm1366_3001_as_s19k_braiins_3m(value: u32) -> Result<(), &'static str> {
-    if value ==  {
+    if value == LOCAL_BM1366_FASTUART_3M125_VALUE {
         return Err(
             "0x00003001 is bible BM1366 3.125M FastUART; not Braiins S19k 3_000_000 host termios",
         );
@@ -6600,7 +6600,7 @@ pub fn refuse_bm1366_3001_as_s19k_braiins_3m(value: u32) -> Result<(), &'static 
 /// A bare BM1362 attribution is not sufficient S19k evidence even though the
 /// exact stock BM1366 builder is now proven to produce the same numeric word.
 pub fn refuse_bm1362_3011_as_s19k_braiins_3m(value: u32) -> Result<(), &'static str> {
-    if value ==  {
+    if value == LOCAL_BM1362_FASTUART_3M125_VALUE {
         return Err(
             "bare BM1362 0x00003011 provenance is insufficient; require the exact stock BM1366 vtable/packer + AML B3000000 chain",
         );
@@ -6673,7 +6673,7 @@ pub fn admit_bosminer_contains_reg28_fastuart_be(
 
 /// Bible 3.125M chip FastUART may pair only with host 3.125M — never 3M/115200/1M.
 pub fn admit_s19k_bible_fastuart_3125k_with_host_baud(host_baud: u32) -> Result<(), &'static str> {
-    if host_baud ==  {
+    if host_baud == LOCAL_BM1366_HOST_BAUD_3M125 {
         Ok(())
     } else {
         Err("bible BM1366 0x00003001 requires host 3_125_000; refuse 3M/115200/1M merge")
@@ -6705,7 +6705,7 @@ pub fn classify_s19k_uart_baud_dialect(
             }
             return Ok(S19kUartBaudDialect::EspChipFastUart1M);
         }
-        if v ==  {
+        if v == LOCAL_BM1366_FASTUART_3M125_VALUE {
             return Err(
                 "0x00003001 is bible BM1366 3.125M; refuse pairing as S19k Braiins 3M dialect",
             );
@@ -6723,7 +6723,7 @@ pub fn classify_s19k_uart_baud_dialect(
         BRAIINS_PASSTHROUGH_BAUD => Ok(S19kUartBaudDialect::BraiinsHost3M),
         S19K_78_DMESG_HOLD_BAUD => Ok(S19kUartBaudDialect::Dmesg78Hold115200),
         ESP_FASTUART_HOST_BAUD => Err("host 1M without chip FastUART is not an S19k dialect"),
-         => {
+        LOCAL_BM1366_HOST_BAUD_3M125 => {
             Err("host 3.125M without an admitted chip FastUART is not an S19k dialect")
         }
         _ => Err("unrecognized S19k host baud"),
@@ -6778,7 +6778,7 @@ pub fn classify_s19k_chip_fastuart_word(v: Option<u32>) -> S19kChipFastUartKind 
     match v {
         None => S19kChipFastUartKind::Unread,
         Some(0) => S19kChipFastUartKind::ZeroOrDefault,
-        Some => S19kChipFastUartKind::BibleBm1366_3m125,
+        Some(LOCAL_BM1366_FASTUART_3M125_VALUE) => S19kChipFastUartKind::BibleBm1366_3m125,
         Some(BOSMINER_BM1366_FASTUART_3M125) => S19kChipFastUartKind::BosminerBm1362Bm1366_3m125,
         Some(PUBLIC_FASTUART_VALUE) => S19kChipFastUartKind::Esp1M,
         Some(BOSMINER_LEGACY_S17_REG28_VALUE) => S19kChipFastUartKind::LegacyBm1396Bm1397_0600000F,
@@ -7056,7 +7056,7 @@ pub fn s19k_native_fastuart_bible_3125k_write() -> S19kExperimentalInitWrite {
     init_write(
         "fastuart_bible_3125k",
         PUBLIC_FASTUART_REG,
-        ,
+        LOCAL_BM1366_FASTUART_3M125_VALUE,
         true,
         0,
     )

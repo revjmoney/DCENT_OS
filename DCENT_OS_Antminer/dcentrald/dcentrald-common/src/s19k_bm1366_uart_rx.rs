@@ -2414,7 +2414,7 @@ mod tests {
     #[test]
     fn expected_rx_fixtures_and_diag_are_not_parser_proof() {
         use crate::s19k_bm1366_init_seq::{
-            classify_s19k_uart_baud_dialect, , BRAIINS_PASSTHROUGH_BAUD,
+            classify_s19k_uart_baud_dialect, BRAIINS_PASSTHROUGH_BAUD, // LOCAL: scrubbed import removed
         };
         use crate::s19k_bm1366_wire_b::PUBLIC_FASTUART_VALUE;
         use crate::s19k_braiins_job::{
