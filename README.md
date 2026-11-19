@@ -153,19 +153,6 @@ Start with [`TESTING.md`](TESTING.md):
 Community test reports — success or failure — are how bring-up models get promoted. Use the
 platform-bring-up issue template.
 
-## The D-Central open-source Bitcoin mining ecosystem
-
-All under one roof at **[github.com/DCentralTech](https://github.com/DCentralTech)** — decentralize every
-layer: mining, tools, hardware, communication.
-
-- **[DCENT_OS](https://github.com/DCentralTech/DCENT_OS)** — this repo: open-source mining firmware for
-  industrial Antminers and ESP32 Bitaxe-class miners, plus an experimental Avalon (Canaan) port
-  (WhatsMiner scaffolded).
-- **[DCENT_Toolbox](https://github.com/DCentralTech/DCENT_Toolbox)** — the open-source bench tool: scan,
-  unlock, audit, flash, and prove — from your own machine.
-- **[DCENT_axe](https://github.com/DCentralTech/DCENT_axe)** — open-hardware Bitaxe-class boards
-  (Solo / Quad / Hex) with integrated LoRa mesh.
-- **[DCENT_Raven](https://github.com/DCentralTech/DCENT_Raven)** — LoRa-mesh accessory for any Bitaxe.
 
 ## Support
 
