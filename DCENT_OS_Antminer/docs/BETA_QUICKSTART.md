@@ -1,4 +1,4 @@
-# Quickstart
+# DCENT_OS beta quickstart
 
 > Fork placeholder. D-Central's `BETA_QUICKSTART.md` is not included in the public mirror
 > (see [DCentralTech/DCENT_OS#6](https://github.com/DCentralTech/DCENT_OS/issues/6)). The
