@@ -8,8 +8,8 @@ No cloud account, no telemetry, no license server.**
 A [JMSCNC](https://jmscnc.com) fork of [D-Central's DCENT_OS](https://github.com/DCentralTech/DCENT_OS) ·
 Rust mining daemon · Buildroot Linux · local web dashboard · GPL-3.0
 
-[![CI](https://github.com/revjmoney/DCENT_OS/actions/workflows/ci.yml/badge.svg?branch=amlogic-s19jpro-home-build)](https://github.com/revjmoney/DCENT_OS/actions/workflows/ci.yml)
-[![Security](https://github.com/revjmoney/DCENT_OS/actions/workflows/security.yml/badge.svg?branch=amlogic-s19jpro-home-build)](https://github.com/revjmoney/DCENT_OS/actions/workflows/security.yml)
+[![CI](https://github.com/revjmoney/jmscnc-heater-os-s19j/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/revjmoney/jmscnc-heater-os-s19j/actions/workflows/ci.yml)
+[![Security](https://github.com/revjmoney/jmscnc-heater-os-s19j/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/revjmoney/jmscnc-heater-os-s19j/actions/workflows/security.yml)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 ![Dev support: 1% default, opt-out](https://img.shields.io/badge/dev%20support-1%25%20default%2C%20opt--out-F7931A)
 
@@ -174,6 +174,8 @@ layer: mining, tools, hardware, communication.
 
 ## Support
 
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/revjmoney)
+
 - Buy Me a Coffee: https://buymeacoffee.com/revjmoney
 - Website: https://jmscnc.com
 - The track that started this, "Proof of Heat, Whitepaper Foreplay":
@@ -190,4 +192,4 @@ attribution live in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). Vulnerab
 [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). Upstream DCENT_OS is steered by D-Central Technologies and
 built in the open for the whole mining community. JMSCNC Heater OS is an independent fork and is not
 endorsed by D-Central; report fork-specific problems at
-[revjmoney/DCENT_OS](https://github.com/revjmoney/DCENT_OS).
+[revjmoney/jmscnc-heater-os-s19j](https://github.com/revjmoney/jmscnc-heater-os-s19j).

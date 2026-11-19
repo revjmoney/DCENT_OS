@@ -476,6 +476,8 @@ every layer: mining, tools, hardware, communication.
 
 ## ☕ Support JMSCNC Heater OS
 
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/revjmoney)
+
 - Buy Me a Coffee: https://buymeacoffee.com/revjmoney
 - Website: https://jmscnc.com
 - The track that started this, "Proof of Heat, Whitepaper Foreplay":

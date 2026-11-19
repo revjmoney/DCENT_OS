@@ -180,7 +180,7 @@ export function AboutPage() {
           You are free to use, modify, and distribute this firmware.
           Source code is available on{' '}
           <a
-            href="https://github.com/revjmoney/DCENT_OS"
+            href="https://github.com/revjmoney/jmscnc-heater-os-s19j"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: 'var(--accent, #FAA500)' }}

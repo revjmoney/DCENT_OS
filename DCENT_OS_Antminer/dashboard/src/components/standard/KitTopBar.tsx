@@ -169,7 +169,7 @@ export function KitTopBar(props: KitTopBarProps) {
         </a>
         <a
           className="topbar-link"
-          href="https://github.com/revjmoney/DCENT_OS"
+          href="https://github.com/revjmoney/jmscnc-heater-os-s19j"
           target="_blank"
           rel="noopener noreferrer"
           data-tip="Firmware reference, troubleshooting, install paths."
