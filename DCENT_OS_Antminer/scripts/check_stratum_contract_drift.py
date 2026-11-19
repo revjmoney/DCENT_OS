@@ -256,20 +256,10 @@ def main() -> int:
         shared_work_fields | antminer_only_work_fields,
     )
 
-    wm_cargo = read("DCENT_OS_WhatsMiner/dcentrald/dcentrald/Cargo.toml")
-    require_contains(
-        "Whatsminer Stratum dependency",
-        wm_cargo,
-        'dcentrald-stratum = { path = "../../../dcentos/dcentrald/dcentrald-stratum"',
-    )
-    if re.search(r"^\s*dcentaxe-stratum\s*=", wm_cargo, re.MULTILINE):
-        raise SystemExit("Whatsminer must stay on dcentrald-stratum for the first migration slice")
-
+    # WhatsMiner and the industrial Avalon product trees are not part of the
+    # JMSCNC Heater OS S19j fork; only the home (Bitaxe-class) Avalon path is
+    # checked for stratum-contract drift.
     for label, rel in [
-        (
-            "industrial Avalon Stratum dependency",
-            "DCENT_OS_AvalonMiner/dcentrald/dcentrald/Cargo.toml",
-        ),
         ("home Avalon Stratum dependency", "projects/dcentaxe-avalon/dcentaxe-nano3s/Cargo.toml"),
     ]:
         cargo = read(rel)

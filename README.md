@@ -75,20 +75,15 @@ or efficiency (J/TH), with an honest before → after prediction and hard safety
 
 ```
 DCENT_OS/
-├── DCENT_OS_Antminer/     → industrial Antminers (S9 → S21): Rust dcentrald daemon + Buildroot Linux + dashboard + docs/
+├── DCENT_OS_Antminer/     → industrial Antminers (this fork builds the S19j Pro / Amlogic): Rust dcentrald daemon + Buildroot Linux + dashboard + docs/
 ├── DCENT_OS_ESP/          → ESP32-S3 Bitaxe-class miners (BM1397/1366/1368/1370): original Rust firmware + MCP
-├── DCENT_OS_AvalonMiner/  → Avalon (Canaan) K230/K210 — experimental port: board support, daemon crates,
-│                             recovery tooling, gauntlets (see DCENT_OS_AvalonMiner/README.md)
-├── DCENT_OS_WhatsMiner/   → WhatsMiner (MicroBT) support — in development (see DCENT_OS_WhatsMiner/README.md)
-└── shared/                → crates shared across the family (dcent-schema)
+└── shared/                → crates shared across the family (dcent-schema, avalon proto)
 ```
 
 | Platform | Where | Status |
 |---|---|---|
-| **Antminer** S9 / S17 / S19 / S19 Pro / S19j Pro / S21 | `DCENT_OS_Antminer/` | **Supported** — **mining achieved on multiple models** (accepted pool shares on our bench); see the honest per-model matrix in [`DCENT_OS_Antminer/docs/PLATFORMS.md`](DCENT_OS_Antminer/docs/PLATFORMS.md) (mining achieved vs bring-up vs blocked, and which proofs are still untested on the latest binaries). |
-| **Bitaxe-class** Max / Ultra / Supra / Gamma / Hex Ultra / Hex Supra (ESP32-S3) | `DCENT_OS_ESP/` | **Supported** — Gamma live-verified; others driver- and host-tested. Built-in MCP (AI-control) server. |
-| **Avalon** (Canaan) Nano 3 / K230 / K210 | `DCENT_OS_AvalonMiner/` | **Experimental** — the real port is published here. DCENT_OS userspace, persistence, and recovery are live-proven on a Nano 3 while **stock `btcminer` retained all hardware ownership**; the hashrate and accepted shares in that milestone were stock's, not ours. **No accepted-share proof for DCENT_OS's own mining path**, and unattended production is closed. See [`DCENT_OS_AvalonMiner/README.md`](DCENT_OS_AvalonMiner/README.md). |
-| **WhatsMiner** (MicroBT) | `DCENT_OS_WhatsMiner/` | **In development** — reverse engineering + bring-up underway; no mining claim yet. |
+| **Antminer S19j Pro** (Amlogic control board) | `DCENT_OS_Antminer/` | **This fork's focus.** Home build compiles and passes CI; not yet run on real hardware. The daemon still carries D-Central's other Antminer board support, but this fork targets and brands the S19j Pro. See [`DCENT_OS_Antminer/docs/HOME_BUILD_S19JPRO_AML.md`](DCENT_OS_Antminer/docs/HOME_BUILD_S19JPRO_AML.md). |
+| **Bitaxe-class** Max / Ultra / Supra / Gamma / Hex (ESP32-S3) | `DCENT_OS_ESP/` | Kept from upstream; see [`DCENT_OS_ESP/`](DCENT_OS_ESP/). |
 
 We publish an **honest readiness taxonomy**: *mining achieved* means accepted pool shares on real
 hardware on our bench — nothing weaker earns the label, and where a proof hasn't been re-run on the

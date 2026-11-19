@@ -116,7 +116,6 @@ DIRECT_CONSUMERS = [
     "DCENT_OS_Antminer/dcentrald/dcentrald",
     "DCENT_OS_Antminer/dcentrald/dcentrald-api",
     "DCENT_OS_Antminer/dcentrald/fuzz",
-    "DCENT_OS_WhatsMiner/dcentrald/dcentrald",
 ]
 
 SURFACE_CLASSES = {
