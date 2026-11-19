@@ -234,9 +234,9 @@ mod tests {
     use ed25519_dalek::{Signer, SigningKey};
 
     const FIXTURE: &[u8] =
-        include_bytes!("../../../../dcent-schema/tests/fixtures/channel_feed.json");
+        include_bytes!("../../../../shared/dcent-schema/tests/fixtures/channel_feed.json");
     const PUBLIC_KEY: &str =
-        include_str!("../../../../dcent-schema/tests/fixtures/channel_feed_public_key.txt");
+        include_str!("../../../../shared/dcent-schema/tests/fixtures/channel_feed_public_key.txt");
 
     fn fixture() -> VerifiedChannelFeed {
         verify_with_key(
