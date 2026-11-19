@@ -93,10 +93,7 @@ measure; the captures come from real bench hardware.
 
 ## Quick start
 
-> **New: DCENT_OS 0.9.0 Beta 1 (Drop 1)** — 28 signed Antminer images, S9 through S21, each labelled
-> Public beta / Lab preview / Developer preview. Grab yours from the
-> [Releases page](https://github.com/DCentralTech/DCENT_OS/releases) and verify the signature before you flash.
-
+> 
 Pick your platform and follow its guide:
 
 - **Antminer:** [`DCENT_OS_Antminer/README.md`](DCENT_OS_Antminer/README.md) → flash a prebuilt signed
