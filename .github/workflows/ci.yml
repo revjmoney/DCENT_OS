@@ -23,6 +23,9 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
+permissions:
+  contents: read
+
 jobs:
   daemon-check:
     name: Rust daemon · type-check (blocking)
@@ -130,7 +133,9 @@ jobs:
           grep -q "Version 3, 29 June 2007" LICENSE
       - name: No secrets or private keys committed
         run: |
-          ! grep -rInE 'BEGIN [A-Z ]*PRIVATE KEY' --include='*' . || { echo "private key material found"; exit 1; }
+          # A real PEM key starts its line with the header. Matching mid-line
+          # caught test fixtures that only mention the header inside a string.
+          ! grep -rInE '^[[:space:]]*-----BEGIN [A-Z ]*PRIVATE KEY-----' --exclude-dir=.git . || { echo "private key material found"; exit 1; }
       - name: Cargo.lock is committed (reproducible builds)
         run: test -f DCENT_OS_Antminer/dcentrald/Cargo.lock
       - name: Security policy is present

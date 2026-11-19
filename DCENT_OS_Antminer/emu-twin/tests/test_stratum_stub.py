@@ -354,9 +354,12 @@ class TestShareValidation:
 
 class TestJobFactory:
     def test_jobs_are_deterministic(self):
-        first = make_job(3, ntime=0x66112233)
-        second = make_job(3, ntime=0x66112233)
-        assert first.describe() == second.describe()
+        first = make_job(3, ntime=0x66112233).describe()
+        second = make_job(3, ntime=0x66112233).describe()
+        # issued_at is the wall-clock creation time, not job content.
+        first.pop("issued_at", None)
+        second.pop("issued_at", None)
+        assert first == second
 
     def test_jobs_differ_per_index(self):
         assert make_job(1).prev_hash_hex != make_job(2).prev_hash_hex

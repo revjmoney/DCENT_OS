@@ -6,6 +6,9 @@ name: BitAxe Build Matrix
 
 on:
   workflow_dispatch:
+permissions:
+  contents: read
+
 jobs:
   host-tests:
     name: Host tests (pure Rust crates)

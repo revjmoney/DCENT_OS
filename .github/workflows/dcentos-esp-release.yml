@@ -2,6 +2,9 @@ name: dcentos-esp-release
 
 on:
   workflow_dispatch:
+permissions:
+  contents: read
+
 jobs:
   plan:
     runs-on: ubuntu-latest
