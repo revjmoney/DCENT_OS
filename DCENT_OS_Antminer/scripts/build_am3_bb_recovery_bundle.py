@@ -50,7 +50,7 @@ def attach(unsigned: Path, signature: Path, output: Path) -> dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, epilog="Support DCENT development: https://d-central.tech/fund/")
+    parser = argparse.ArgumentParser(description=__doc__, epilog="Support JMSCNC Heater OS development: https://buymeacoffee.com/revjmoney")
     sub = parser.add_subparsers(dest="action", required=True)
     first = sub.add_parser("prepare")
     first.add_argument("--recovery-root", type=Path, required=True)

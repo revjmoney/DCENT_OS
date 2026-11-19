@@ -4,7 +4,7 @@
 """Prepare or inspect exact native21 NoPIC local loader review files.
 
 Only regular host files are consumed or created. Commands are textual artifacts.
-Support this project: https://d-central.tech/fund/
+Support this project: https://buymeacoffee.com/revjmoney
 """
 from __future__ import annotations
 

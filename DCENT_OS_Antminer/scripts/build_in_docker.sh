@@ -3157,7 +3157,7 @@ if [ -n "$RELEASE_NAME" ]; then
             echo "signature_trust=$SIGNATURE_TRUST"
             echo "proof_scope=$PROOF_SCOPE"
             echo "release_grade=$RELEASE_GRADE"
-            echo "fund_url=https://d-central.tech/fund/"
+            echo "fund_url=https://buymeacoffee.com/revjmoney"
         })"
         echo "--- Standardized release name (Phase 8a) ---"
         echo "  name:     $RELEASE_NAME   (firmware $FW_VERSION)"

@@ -823,7 +823,7 @@ svg text[font-size="8"],svg text[font-size="9"]{font-size:10px}
   <div class="sb-creature" id="creatureFace">(^_^)</div>
   <b>D-Central Technologies</b><br>
   <span id="fwVer">DCENT_axe v?</span><br>
-  <a href="https://d-central.tech/fund/go?source=dcent_axe&placement=dashboard" target="_blank" rel="noopener">Support open firmware &rarr;</a>
+  <a href="https://buymeacoffee.com/revjmoney" target="_blank" rel="noopener">Support JMSCNC Heater OS &rarr;</a>
  </div>
 </div>
 <div class="sb-scrim" id="sbScrim" onclick="closeSBMobile()" hidden></div>
@@ -1083,7 +1083,7 @@ svg text[font-size="8"],svg text[font-size="9"]{font-size:10px}
    <div class="component-loading" style="font-family:var(--mono);font-size:11px;color:var(--dim);text-align:center;padding:14px">awaiting first telemetry…</div>
   </div>
  </div>
- <a class=fund href="https://d-central.tech/fund/go?source=dcent_axe&placement=p0" target=_blank rel=noopener>Fund open firmware</a>
+ <a class=fund href="https://buymeacoffee.com/revjmoney" target=_blank rel=noopener>Support JMSCNC Heater OS</a>
 </div>
 
 <!-- ════════════════════ PAGE 2: LOGS ════════════════════ -->
@@ -1299,7 +1299,7 @@ svg text[font-size="8"],svg text[font-size="9"]{font-size:10px}
    <div style="font-size:11px;color:var(--dim);margin-bottom:8px">Default ON at 2%, matching DCENT_OS. Time-sliced, never a mandatory fee, subordinate to your pool failover, and one toggle away from OFF.</div>
    <div class="field"><label><input type=checkbox id="donationEnable"> Enable donation</label></div>
    <div class="field"><label>Percent: <span id="donationPctLabel">2.0</span>%</label><input type=range id="donationPct" min=0 max=5 step=.1 value=2 oninput="S('donationPctLabel',Number(this.value).toFixed(1))"></div>
-   <div style="font-size:10px;color:var(--muted);margin:8px 0">Payout <code>bc1q04lzwddzgmtjex6jlsv2fwhe4se4jxje6rhzp6</code> · <a href="https://mempool.space/address/bc1q04lzwddzgmtjex6jlsv2fwhe4se4jxje6rhzp6" target="_blank">verify on-chain</a></div>
+   <div style="font-size:10px;color:var(--muted);margin:8px 0">Mines to the Mining Dutch account (account-based pool, no single on-chain payout address)</div>
    <div class="btn-row"><button class="btn btn-primary btn-sm" onclick="saveDonation()">Save Donation Setting</button></div>
   </div>
   <div class="card">
@@ -1459,7 +1459,7 @@ svg text[font-size="8"],svg text[font-size="9"]{font-size:10px}
      <div>MQTT + auto-discovery for climate &amp; sensor entities. Not yet released.</div>
     </div>
    </div>
-   <a class=fund href="https://d-central.tech/fund/go?source=dcent_axe&placement=sys" target=_blank rel=noopener>Fund open firmware</a>
+   <a class=fund href="https://buymeacoffee.com/revjmoney" target=_blank rel=noopener>Support JMSCNC Heater OS</a>
   </div>
   <div class="card">
    <div class="card-title">Firmware Update (OTA)</div>

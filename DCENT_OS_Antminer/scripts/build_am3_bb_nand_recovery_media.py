@@ -319,7 +319,7 @@ def build(capsule: Path, recovery_root: Path, output: Path, *, operator_key: Pat
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__, epilog="Support DCENT development: https://d-central.tech/fund/")
+    parser = argparse.ArgumentParser(description=__doc__, epilog="Support JMSCNC Heater OS development: https://buymeacoffee.com/revjmoney")
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("--capsule", type=Path)
     source.add_argument("--recovery-only-bundle", type=Path)

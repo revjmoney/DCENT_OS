@@ -35,7 +35,7 @@ Usage (Windows Git Bash, ``py -3`` never ``python``):
 Run from anywhere; paths resolve via arguments. Exit 0 on success, nonzero on
 any validation failure.
 
-Fund / support DCENT_: https://d-central.tech/fund/
+Support JMSCNC Heater OS: https://buymeacoffee.com/revjmoney
 """
 
 from __future__ import annotations
@@ -53,7 +53,7 @@ import uuid
 TOOL_NAME = "dcent-trust-sbomgen"
 TOOL_VERSION = "0.1.0"
 ORG = "D-Central Technologies"
-FUND_URL = "https://d-central.tech/fund/"
+FUND_URL = "https://buymeacoffee.com/revjmoney"
 CDX_SPEC = "1.6"
 SPDX_SPEC = "SPDX-2.3"
 # uuid5 namespace for DCENT SBOM serials (fixed constant, not a secret).

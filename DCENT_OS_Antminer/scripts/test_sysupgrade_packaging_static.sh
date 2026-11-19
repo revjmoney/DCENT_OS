@@ -1260,7 +1260,7 @@ require_pattern "$BUILD_DOCKER" 'find buildroot/output/build -mindepth 2 -maxdep
 require_pattern "$BUILD_DOCKER" '[ ! -e "$package_dir/.stamp_patched" ]' 'evidence sweep removes dirs whose patch stamp is missing'
 require_pattern "$BUILD_DOCKER" '.stamp_patched" -ot "$package_dir/.stamp_extracted"' 'evidence sweep also heals patch stamps older than their extract prerequisite'
 require_pattern "$BUILD_DOCKER" 'rm -rf "$package_dir"' 'evidence sweep completes the package-dir removal its detection prescribes'
-require_pattern "$BUILD_DOCKER" 'echo "fund_url=https://d-central.tech/fund/"' 'release metadata carries the fund link the train publication gate scans for'
+require_pattern "$BUILD_DOCKER" 'echo "fund_url=https://buymeacoffee.com/revjmoney"' 'release metadata carries the fund link the train publication gate scans for'
 require_pattern "$BUILD_DOCKER" 'trap "rm -rf -- \"$PACKAGE_ONLY_TMP\"" EXIT HUP INT TERM' 'am2-s17pro package validator cleanup stays inside the container-script quoting boundary'
 require_pattern "$BUILD_DOCKER" 'S17 package-only manifest must declare installable=false' 'am2-s17pro wrapper preserves package-only denial'
 require_pattern "$BUILD_DOCKER" 'extract_am2_s17_kernel.py verify-fit' 'am2-s17pro wrapper re-admits the exact model-bound FIT after export'

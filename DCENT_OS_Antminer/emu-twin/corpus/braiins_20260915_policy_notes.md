@@ -22,7 +22,7 @@ caveats           :
   - bosminer/boser in 26.08.1 are UPX-packed: config-schema strings not directly greppable.
     Tuner-behavior facts remain those of the held unpacked 0.9.0 binaries
     (extractions/s19k/live-probe-78-2026-04-29 + research/ecosystem/BOSMINER_AUTOTUNER_RE.md).
-fund link         : https://d-central.tech/fund/
+fund link         : https://buymeacoffee.com/revjmoney
 ```
 
 ## 1. Inventory (5 platforms)

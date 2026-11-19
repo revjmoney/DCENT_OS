@@ -253,7 +253,7 @@ printf 'producer=%s\n' "$DCENT_RELEASE_PRODUCER" >> "$HARNESS_AUDIT_LOG"
 for suffix in '' .sig .runtime-image.json .runtime-image.sig; do
     cp "$artifact$suffix" "$output/$primary$suffix"
 done
-printf 'SD/installer policy remains independent. https://d-central.tech/fund/\n' > "$output/TESTER_README.txt"
+printf 'SD/installer policy remains independent. https://buymeacoffee.com/revjmoney\n' > "$output/TESTER_README.txt"
 printf '{"schema":"harness-packaging-input.v1"}\n' > "$output/release-packaging-input.json"
 printf '{"schema":"harness-source-closure.v1"}\n' > \
     "$output/$primary.source-closure.json"

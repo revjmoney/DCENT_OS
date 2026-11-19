@@ -223,4 +223,4 @@ C1-F1).
 
 ---
 
-**Support the DCENT_OS open-source effort:** <https://d-central.tech/fund/>
+**Support the DCENT_OS open-source effort:** <https://buymeacoffee.com/revjmoney>

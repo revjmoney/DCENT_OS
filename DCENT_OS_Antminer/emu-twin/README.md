@@ -140,7 +140,7 @@ guard (`chain_server._guard_path`), and a test runs a full session with
 ## Fund / Support
 
 DCENT open-source projects are funded by the community:
-**[https://d-central.tech/fund/](https://d-central.tech/fund/)** (Stripe +
+**[https://buymeacoffee.com/revjmoney](https://buymeacoffee.com/revjmoney)** (Stripe +
 BTCPay). A missing fund link is a release-gate failure — never strip it.
 
 License: GPL-3.0 (DCENT_OS emu-twin). Company: D-Central Technologies

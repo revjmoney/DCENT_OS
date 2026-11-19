@@ -6,7 +6,7 @@ T1 sim surface).  Provenance labels ([LUXOS-79-LIVE], [A2-TWIN-SPEC],
 [DCENT-MODEL], [BRAIINS-AUTOTUNE]) are carried in physics.py.
 
 License: GPL-3.0 (DCENT_OS emu-twin).
-Fund: https://d-central.tech/fund/
+Fund: https://buymeacoffee.com/revjmoney
 """
 
 from __future__ import annotations

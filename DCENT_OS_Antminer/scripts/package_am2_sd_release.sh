@@ -166,7 +166,7 @@ THIS IS NOT A NAND INSTALLER.
   for acknowledged experimental testers only; boot-trial media never writes
   NAND and never persists without a separate, signed install step.
 
-Fund DCENT_OS development: https://d-central.tech/fund/
+Support JMSCNC Heater OS development: https://buymeacoffee.com/revjmoney
 
 Write with balenaEtcher or DCENT_OS_Antminer/scripts/write_sd_card.sh (dry-run first).
 After boot, optional read-only proof:

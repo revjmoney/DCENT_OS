@@ -1638,20 +1638,31 @@ fn register_donation_info(server: &mut EspHttpServer, state: SharedState) {
                 let pool_host = pool_url
                     .strip_prefix("stratum+tcp://")
                     .unwrap_or(pool_url.as_str());
-                let explorer_url = format!(
-                    "https://mempool.space/address/{}",
-                    crate::config::DONATION_PAYOUT_ADDRESS
-                );
+                // Account-based pool (Mining Dutch): no single on-chain payout
+                // address, so there is nothing to show on a block explorer.
+                let has_address = !crate::config::DONATION_PAYOUT_ADDRESS.is_empty();
+                let explorer_url = if has_address {
+                    format!(
+                        "https://mempool.space/address/{}",
+                        crate::config::DONATION_PAYOUT_ADDRESS
+                    )
+                } else {
+                    String::new()
+                };
                 let body = json!({
                     "pool_url": pool_url,
                     "pool_host": pool_host,
                     "worker": config.donation.worker,
                     "payout_address": crate::config::DONATION_PAYOUT_ADDRESS,
                     "explorer_url": explorer_url,
-                    "explorer_name": "mempool.space",
-                    "verify_label": "View on-chain payout history",
-                    "trust_model": "trust_but_verify",
-                    "disclosure": "Donation slice flows to the address above. Verify on the block explorer.",
+                    "explorer_name": if has_address { "mempool.space" } else { "" },
+                    "verify_label": if has_address { "View on-chain payout history" } else { "" },
+                    "trust_model": if has_address { "trust_but_verify" } else { "account_based_pool" },
+                    "disclosure": if has_address {
+                        "Donation slice flows to the address above. Verify on the block explorer."
+                    } else {
+                        "The donation slice mines to the Mining Dutch account revjmoney (account-based pool). There is no single on-chain payout address to verify."
+                    },
                     "enabled": config.donation.enabled,
                     "donating": donating,
                     "percent": config.donation.percent,

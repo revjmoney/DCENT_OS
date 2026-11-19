@@ -44,7 +44,7 @@ Tier honesty: this module is byte-model code (T1 sim surface).  Its vectors
 are pinned against retained in-tree oracle fixtures, not live silicon.
 
 License: GPL-3.0 (DCENT_OS emu-twin).
-Fund: https://d-central.tech/fund/
+Fund: https://buymeacoffee.com/revjmoney
 """
 
 from __future__ import annotations

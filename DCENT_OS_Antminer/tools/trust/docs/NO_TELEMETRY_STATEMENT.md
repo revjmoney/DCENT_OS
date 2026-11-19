@@ -6,7 +6,7 @@
 > designed separately (wave1, agent A4) — this statement must not outpace
 > that schema's guarantees.
 
-**Fund / support DCENT_:** https://d-central.tech/fund/
+**Support JMSCNC Heater OS:** https://buymeacoffee.com/revjmoney
 
 ## 1. The statement (public text)
 
@@ -90,4 +90,4 @@ as a new version called out in the release notes and the About screen.
 ---
 
 *DCENT_ open-source trust program — D-Central Technologies.
-Fund / support: **https://d-central.tech/fund/** *
+Fund / support: **https://buymeacoffee.com/revjmoney** *

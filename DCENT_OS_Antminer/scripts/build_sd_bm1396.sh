@@ -60,7 +60,7 @@ DCENTos $dcent_model native SD beta: removable media must remain inserted.
 Mining is off by default. Verify the signed artifact and runtime companions.
 The image performs no NAND installation. Remove the card to return to NAND.
 Physical quiet-policy airflow, hashing and recovery remain bench qualification.
-Support development: https://d-central.tech/fund/
+Support development: https://buymeacoffee.com/revjmoney
 README
 case "$dcent_work" in /tmp/dcentos-bm1396.????????) rm -rf -- "$dcent_work" ;; *) exit 3 ;; esac
 echo "Built $dcent_target native SD candidate: $dcent_output/dcentos-sd.img"

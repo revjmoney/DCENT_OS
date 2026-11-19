@@ -45,7 +45,7 @@ CHANNEL_BETA = "beta"
 # media capability; its signed release channel is Beta like other engine rows.
 CHANNEL_EXPBETA = CHANNEL_BETA
 
-FUND_URL = "https://d-central.tech/fund/"
+FUND_URL = "https://buymeacoffee.com/revjmoney"
 
 
 @dataclass(frozen=True)

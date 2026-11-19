@@ -8,7 +8,7 @@
 > **development** key and is superseded by this ceremony before any stable
 > channel ships. Never write real key material into this file or any repo.
 
-**Fund / support DCENT_:** https://d-central.tech/fund/
+**Support JMSCNC Heater OS:** https://buymeacoffee.com/revjmoney
 
 ## 1. Roles (fill in names, never keys)
 
@@ -134,4 +134,4 @@ Postmortem (≤14d):
 ---
 
 *DCENT_ open-source trust program — D-Central Technologies.
-Fund / support: **https://d-central.tech/fund/** *
+Fund / support: **https://buymeacoffee.com/revjmoney** *

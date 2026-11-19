@@ -7,7 +7,7 @@ Compact-candidate counterpart of prepare_loader_review.py. It stages the same
 guarded five-file chain with the compact candidate's own prepared data and the
 compact-compiled runtime, and never executes a command. The accepted native20
 producer is unchanged; this file pins only the compact native17 profile.
-Support this project: https://d-central.tech/fund/
+Support this project: https://buymeacoffee.com/revjmoney
 """
 from __future__ import annotations
 

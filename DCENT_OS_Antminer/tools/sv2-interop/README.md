@@ -15,4 +15,4 @@ The harness has its own lockfile, initially aligned with production versions for
 
 This is independent library interoperability evidence, not a full SRI pool/Bitcoin Core regtest deployment, real proof-of-work validation, live accepted-share evidence, or proof of JD mining support. Industrial hardware admission and the project's SV2 bench limits remain in force.
 
-D-Central Technologies: [docs and recovery](https://d-central.tech) · [Fund / Donate / Support](https://d-central.tech/fund/).
+D-Central Technologies: [docs and recovery](https://d-central.tech) · [Support JMSCNC Heater OS](https://buymeacoffee.com/revjmoney).

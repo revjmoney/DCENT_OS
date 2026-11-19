@@ -6,7 +6,7 @@ meets the share target.  Plus midstate correctness, target decoding, and
 bounded subsampling.
 
 License: GPL-3.0 (DCENT_OS emu-twin).
-Fund: https://d-central.tech/fund/
+Fund: https://buymeacoffee.com/revjmoney
 """
 
 from __future__ import annotations

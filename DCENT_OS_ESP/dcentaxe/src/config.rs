@@ -1182,23 +1182,23 @@ pub const SCHEMA_VERSION: u8 = 1;
 // Donation configuration — voluntary 2% default, fully transparent
 // ---------------------------------------------------------------------------
 
-pub const DONATION_PAYOUT_ADDRESS: &str = "bc1q04lzwddzgmtjex6jlsv2fwhe4se4jxje6rhzp6";
-const _: [(); 42] = [(); DONATION_PAYOUT_ADDRESS.len()];
+// Account-based pool (Mining Dutch) has no single on-chain payout address.
+pub const DONATION_PAYOUT_ADDRESS: &str = "";
 
 fn default_donation_enabled() -> bool {
     true
 }
 
 fn default_donation_percent() -> f32 {
-    2.0
+    1.0
 }
 
 fn default_donation_pool() -> String {
-    "stratum+tcp://pool.d-central.tech:3333".to_string()
+    "stratum+tcp://americas.mining-dutch.nl:9996".to_string()
 }
 
 fn default_donation_worker() -> String {
-    "DungeonMaster".to_string()
+    "revjmoney.heateros".to_string()
 }
 
 fn default_donation_password() -> String {
@@ -1206,7 +1206,9 @@ fn default_donation_password() -> String {
 }
 
 fn default_donation_fallback_pool() -> String {
-    "stratum+tcp://stratum.braiins.com:3333".to_string()
+    // Fallback disabled by default; mirrors the primary account so the donation
+    // slice can never route anywhere but the owner's pool.
+    "stratum+tcp://americas.mining-dutch.nl:9996".to_string()
 }
 
 fn default_donation_cycle() -> u64 {
@@ -1360,7 +1362,7 @@ impl Default for DonationConfig {
             pool_url: default_donation_pool(),
             worker: default_donation_worker(),
             password: default_donation_password(),
-            fallback_enabled: true,
+            fallback_enabled: false,
             fallback_pool_url: default_donation_fallback_pool(),
             fallback_worker: default_donation_worker(),
             fallback_password: default_donation_password(),
@@ -3304,20 +3306,23 @@ mod donation_tests {
     use super::{DcentAxeConfig, DonationConfig, MiningMode, DONATION_PAYOUT_ADDRESS};
 
     #[test]
-    fn donation_defaults_match_dcent_os_contract() {
+    fn donation_defaults_match_jmscnc_heater_os_contract() {
         let donation = DonationConfig::default();
         assert!(donation.enabled);
-        assert_eq!(donation.percent, 2.0);
+        assert_eq!(donation.percent, 1.0);
         assert_eq!(donation.cycle_duration_s, 3600);
-        assert_eq!(donation.donation_window_secs(), 72);
-        assert_eq!(donation.pool_url, "stratum+tcp://pool.d-central.tech:3333");
-        assert!(DONATION_PAYOUT_ADDRESS.starts_with("bc1q"));
-        assert_eq!(DONATION_PAYOUT_ADDRESS.len(), 42);
+        assert_eq!(donation.donation_window_secs(), 36);
+        assert_eq!(donation.pool_url, "stratum+tcp://americas.mining-dutch.nl:9996");
+        assert_eq!(donation.worker, "revjmoney.heateros");
+        // Account-based pool: no single on-chain payout address.
+        assert!(DONATION_PAYOUT_ADDRESS.is_empty());
+        // Fallback is off and mirrors the primary account.
+        assert!(!donation.fallback_enabled);
+        assert_eq!(donation.fallback_pool_url, donation.pool_url);
         donation.validate().expect("valid donation defaults");
         let directive = donation.to_directive(true).expect("runtime directive");
-        assert_eq!(directive.primary.port, 3333);
-        assert_eq!(directive.primary.worker_name, "DungeonMaster");
-        assert_eq!(directive.fallback.as_ref().unwrap().port, 3333);
+        assert_eq!(directive.primary.port, 9996);
+        assert_eq!(directive.primary.worker_name, "revjmoney.heateros");
     }
 
     #[test]
@@ -3355,7 +3360,7 @@ mod donation_tests {
         value.as_object_mut().unwrap().remove("donation");
         let loaded: DcentAxeConfig = serde_json::from_value(value).unwrap();
         assert!(loaded.donation.enabled);
-        assert_eq!(loaded.donation.percent, 2.0);
+        assert_eq!(loaded.donation.percent, 1.0);
         assert_eq!(loaded.schema_version, schema);
     }
 

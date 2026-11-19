@@ -6,7 +6,7 @@ release key, and published with a per-drop manifest that binds every file's
 SHA-256. These three commands turn that architecture into proof on your own
 machine, with no special trust in the download channel.
 
-**Fund / support DCENT_:** https://d-central.tech/fund/
+**Support JMSCNC Heater OS:** https://buymeacoffee.com/revjmoney
 
 ## What you need
 
@@ -97,4 +97,4 @@ your `openssl version`. Never paste private keys — we will never ask for one.
 
 *DCENT_ is D-Central Technologies' open firmware, tooling, and hardware line.
 If this work earns you custody of your own hardware, consider supporting it:
-**https://d-central.tech/fund/** *
+**https://buymeacoffee.com/revjmoney** *

@@ -3,7 +3,7 @@
 **Owner:** WS9 / RE-corpus workstream (DCENT_RE). Campaign:
  (WS9 corpus wave 1, agent I4).
 
-**Fund/support:** https://d-central.tech/fund/
+**Fund/support:** https://buymeacoffee.com/revjmoney
 
 ## What lives here
 

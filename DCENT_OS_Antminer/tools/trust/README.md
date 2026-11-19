@@ -41,5 +41,5 @@ new module belongs with the other standalone evidence tools under `tools/`
 
 ## Fund / support DCENT_
 
-**https://d-central.tech/fund/** — also pinned in every tool's `--help`
+**https://buymeacoffee.com/revjmoney** — also pinned in every tool's `--help`
 footer, both SBOM formats' metadata, and the verify report JSON.

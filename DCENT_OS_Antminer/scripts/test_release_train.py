@@ -340,7 +340,7 @@ class FundLinkTests(unittest.TestCase):
     def test_tar_member_fund_link_found(self):
         tar_path = os.path.join(self.tmp, "capsule.tar")
         member = os.path.join(self.tmp, "README.md")
-        self._write("README.md", "docs at https://d-central.tech/fund/ thanks")
+        self._write("README.md", "docs at https://buymeacoffee.com/revjmoney thanks")
         with tarfile.open(tar_path, "w") as tar:
             tar.add(member, arcname="README.md")
         ok, where = train.scan_fund_link(tar_path)
@@ -359,7 +359,7 @@ class FundLinkTests(unittest.TestCase):
         img = self._write("image.img", "\0" * 64)
         self._write(
             "TESTER_README.txt",
-            "DCENT_OS SD trial media.\nFund development: https://d-central.tech/fund/\n",
+            "DCENT_OS SD trial media.\nFund development: https://buymeacoffee.com/revjmoney\n",
         )
         ok, where = train.scan_fund_link(img)
         self.assertTrue(ok)
@@ -373,7 +373,7 @@ class FundLinkTests(unittest.TestCase):
         # unchanged; the emitter-side guard is the static pin on the writer.
         self._write("capsule.tar", "\0" * 64)
         metadata = ("release_name=DCENTOS_S9_BETA_20260922\n"
-                    "fund_url=https://d-central.tech/fund/\n")
+                    "fund_url=https://buymeacoffee.com/revjmoney\n")
         self._write("DCENTOS_S9_BETA_20260922.release.txt", metadata)
         document = {"files": {"primary": {"path": "capsule.tar"}},
                     "ancillary": [{"path": "DCENTOS_S9_BETA_20260922.release.txt",

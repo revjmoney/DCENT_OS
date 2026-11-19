@@ -36,7 +36,7 @@ def fixture(directory):
             "reproducibility": {"compared": True, "identical": True}, "files": files})
     document = {"manifest_profile": "dcentos-release-train-drop-manifest/v2", "drop": 1,
         "source_commit": commit, "release_channel": "beta", "complete_selected_beta": True,
-        "fund_url": "https://d-central.tech/dcentos/", "targets": rows}
+        "fund_url": "https://buymeacoffee.com/revjmoney", "targets": rows}
     manifest = directory / "drop.json"
     def save(value):
         raw = (json.dumps(value, sort_keys=True) + "\n").encode()

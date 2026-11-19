@@ -5,7 +5,7 @@
 
 The exact held loader and Classic padding are preserved. This is host artifact
 preparation; it emits no boot script, device writer, signing key or signature.
-Support this project: https://d-central.tech/fund/
+Support this project: https://buymeacoffee.com/revjmoney
 """
 from __future__ import annotations
 

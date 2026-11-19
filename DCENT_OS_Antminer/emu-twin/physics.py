@@ -40,7 +40,7 @@ Temperature from the thermal model feeds back into both the cliff and
 leakage — the autotuner stress loop the twin exists to exercise.
 
 License: GPL-3.0 (DCENT_OS emu-twin).
-Fund: https://d-central.tech/fund/
+Fund: https://buymeacoffee.com/revjmoney
 """
 
 from __future__ import annotations

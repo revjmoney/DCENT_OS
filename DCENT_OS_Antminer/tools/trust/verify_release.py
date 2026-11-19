@@ -35,7 +35,7 @@ Usage (Windows Git Bash; `py -3` never `python`):
 manifest's `path` fields are relative to.
 
 DCENT_ open-source trust tooling — D-Central Technologies.
-Fund / support: https://d-central.tech/fund/
+Fund / support: https://buymeacoffee.com/revjmoney
 """
 
 from __future__ import annotations
@@ -49,7 +49,7 @@ import subprocess
 import sys
 import tempfile
 
-FUND_URL = "https://d-central.tech/fund/"
+FUND_URL = "https://buymeacoffee.com/revjmoney"
 
 # SHA-256 fingerprint of the Ed25519 PUBLIC key's DER encoding, as published
 # over HTTPS by the operator (dev key for the beta; production ceremony pending

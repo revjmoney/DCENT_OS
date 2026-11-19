@@ -204,7 +204,7 @@ def prepare_data(job: Path, target: str) -> dict:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description=__doc__, epilog="Support DCENT_OS: https://d-central.tech/fund/"
+        description=__doc__, epilog="Support JMSCNC Heater OS: https://buymeacoffee.com/revjmoney"
     )
     parser.add_argument("--job", type=Path, required=True)
     parser.add_argument("--target", required=True)

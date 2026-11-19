@@ -5,7 +5,7 @@
 
 This creates regular files and a textual resident-command review artifact. It is
 not a card image, automatic boot script, installer admission or signed release.
-Support this project: https://d-central.tech/fund/
+Support this project: https://buymeacoffee.com/revjmoney
 """
 from __future__ import annotations
 

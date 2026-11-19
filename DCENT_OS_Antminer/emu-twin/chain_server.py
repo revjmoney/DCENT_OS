@@ -35,7 +35,7 @@ Run (stdlib only, Python 3.9+):
     py -3 chain_server.py --chips 8 --port 40260 --difficulty 0.001
 
 License: GPL-3.0 (DCENT_OS emu-twin).
-Fund: https://d-central.tech/fund/
+Fund: https://buymeacoffee.com/revjmoney
 """
 
 from __future__ import annotations
@@ -589,7 +589,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             "BM1362 hashboard-chain emulator (emu-twin). Host-side TCP chain "
             "that REALLY mines: real double-SHA256 nonce search, physics-"
             "driven temperature/power, sigmoid HW-error cliff. "
-            "Fund: https://d-central.tech/fund/"
+            "Fund: https://buymeacoffee.com/revjmoney"
         ),
     )
     parser.add_argument("--host", default="127.0.0.1",

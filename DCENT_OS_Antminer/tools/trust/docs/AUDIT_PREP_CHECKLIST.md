@@ -5,7 +5,7 @@
 > surface. Fill in dates/firms; hand the auditor exactly the artifact bundle
 > defined in §3.
 
-**Fund / support DCENT_:** https://d-central.tech/fund/
+**Support JMSCNC Heater OS:** https://buymeacoffee.com/revjmoney
 
 ## 1. Proposed scope (three work packages)
 
@@ -104,4 +104,4 @@ signed with the release key (same lane as drops).
 ---
 
 *DCENT_ open-source trust program — D-Central Technologies.
-Fund / support: **https://d-central.tech/fund/** *
+Fund / support: **https://buymeacoffee.com/revjmoney** *

@@ -399,7 +399,7 @@ def assemble(root: Path, images: Path, board: str, boot_inputs: Path) -> Path:
             "Mining starts disabled; configure the miner and press Start.\n"
             "Boot, rail polarity, thermals and hashrate still require the exact board bench check.\n"
             "Verify the artifact signature and runtime companions before use.\n\n"
-            "Fund DCENT_OS development: https://d-central.tech/fund/\n",
+            "Support JMSCNC Heater OS development: https://buymeacoffee.com/revjmoney\n",
             encoding="utf-8", newline="\n")
     return destination
 

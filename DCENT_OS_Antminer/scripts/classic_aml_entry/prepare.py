@@ -4,7 +4,7 @@
 """Prepare source-bound Classic direct-entry data for local implementation review.
 
 This emits regular data files, not a device command or an executable entry.
-Support this project: https://d-central.tech/fund/
+Support this project: https://buymeacoffee.com/revjmoney
 """
 from __future__ import annotations
 
