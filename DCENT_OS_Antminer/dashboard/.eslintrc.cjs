@@ -75,8 +75,11 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/ban-ts-comment': 'warn',
     '@typescript-eslint/no-inferrable-types': 'off',
-    '@typescript-eslint/no-empty-interface': 'warn',
-    '@typescript-eslint/ban-types': 'warn',   // pre-existing `{}`/`Function` shapes
+    // typescript-eslint v8 split the old no-empty-interface / ban-types rules
+    // into these three; keep them as warnings for pre-existing `{}`/`Function` shapes.
+    '@typescript-eslint/no-empty-object-type': 'warn',
+    '@typescript-eslint/no-unsafe-function-type': 'warn',
+    '@typescript-eslint/no-wrapper-object-types': 'warn',
     'prefer-const': 'warn',                   // one pre-existing `let` never reassigned
   },
 };
