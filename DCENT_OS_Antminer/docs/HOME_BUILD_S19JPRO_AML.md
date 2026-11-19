@@ -5,8 +5,9 @@ Not an official D-Central document. Upstream discussion:
 [DCentralTech/DCENT_OS#6](https://github.com/DCentralTech/DCENT_OS/issues/6) and
 [DCentralTech/DCENT_OS#7](https://github.com/DCentralTech/DCENT_OS/issues/7).
 
-> Status: the `dcentrald` daemon builds. No image has been built, flashed, or run on real
-> hardware from this branch. Flashing the wrong image can brick a control board. Test only on a
+> Status: the `dcentrald` daemon builds, and a lab (unsigned, dev) image for `am3-s19jpro-aml`
+> builds with Buildroot on Ubuntu 24.04. Nothing has been flashed or run on real hardware from
+> this branch. Upstream marks this target as not installable (`update_mechanism: none`). Flashing the wrong image can brick a control board. Test only on a
 > spare control board with a recovery path.
 
 ## What this branch changes
@@ -77,11 +78,47 @@ cargo build --release --target aarch64-unknown-linux-musl
 Result: a static aarch64 ELF at `target/aarch64-unknown-linux-musl/release/dcentrald` (about
 16.7 MB), plus `dcentos-init` and `dcentos-discovery`. A cold release build took about 15 minutes.
 
-## Still missing for a full image
+## Building a lab image (Ubuntu 24.04, no Docker)
 
-- `scripts/build_inputs.manifest` in the public mirror has hash-only lines (no paths), so
-  `scripts/source_closure.py` stops at line 78. See #6.
-- Linaro GCC 7.2.1-2017.11 **aarch64** toolchain: upstream URL is dead. It is GPL; any copy is
-  usable if its sha256 matches a manifest line.
-- Buildroot needs a Linux host.
-- No documented install path for Amlogic boards yet (`docs/INSTALL` covers S9 and S19j Pro Xilinx).
+This skips the release capsule (`scripts/build_in_docker.sh`), which needs D-Central's signing key
+and the full private input bundle. This branch also restores the exec bits and the
+`board_runtime_policy.json` file the public mirror is missing.
+
+1. Build `dcentrald` for `aarch64-unknown-linux-musl` (above) and copy `dcentrald`,
+   `dcentos-init` and `dcentos-discovery` into
+   `DCENT_OS_Antminer/dcentrald/target/aarch64-unknown-linux-musl/release/` on the Linux host.
+   `post-build.sh` installs them from there, so the host needs no Rust.
+2. Fetch Buildroot at the pinned commit `7c8edc1b402efcd7bba2dabfe0b3be877adaed7a` into
+   `DCENT_OS_Antminer/buildroot`.
+3. Toolchain: Linaro's own URL now returns an HTML page. Buildroot's source mirror still has
+   `https://sources.buildroot.net/toolchain-external-linaro-aarch64/gcc-linaro-7.2.1-2017.11-x86_64_aarch64-linux-gnu.tar.xz`
+   (118,688,500 bytes, sha256 `20181f828e1075f1a493947ff91e82dd578ce9f8638fbdfc39e24b62857d8f8d`, which is
+   `TOOLCHAIN_SHA256_AARCH64` in `build_in_docker.sh`). Put it in `buildroot/dl/toolchain-external-custom/`.
+4. Configure:
+   ```sh
+   cd DCENT_OS_Antminer
+   make setup DEFCONFIG=dcentos_am3_s19jpro_aml_defconfig \
+     DEFCONFIG_FRAGMENTS="dcentos-common.fragment dcentos_am3_aml_common.fragment"
+   ```
+5. A dev image ships the defconfig's published root password. Change
+   `BR2_TARGET_GENERIC_ROOT_PASSWD` in `buildroot/.config` to your own value first.
+6. Build:
+   ```sh
+   export TARGET=am3-s19jpro-aml \
+     DCENT_AM3_AML_KERNEL=<donor>/vmlinux.bin \
+     DCENT_AM3_AML_DTB=<donor>/devicetree.dtb \
+     DCENT_AM3_AML_FW_INFO=<donor>/rootfs/etc/fw-info \
+     DCENT_PACKAGE_STATUS=lab_unsigned DCENT_ALLOW_UNSIGNED_SYSUPGRADE=1 DCENT_DEV_IMAGE=1
+   make -C buildroot BR2_EXTERNAL=$PWD/br2_external_dcentos -j$(nproc)
+   ```
+   About 35 minutes on a 4-core i5-2400. Output in `buildroot/output/images/`: `kernel` (raw
+   ARM64 Image), `uImage_rootfs.bin` (u-boot ramdisk), and the unsigned
+   `dcentos-sysupgrade-am3-s19jpro-aml.tar`.
+
+## Still missing
+
+- `scripts/build_inputs.manifest` in the public mirror has hash-only lines (no paths), so the
+  release capsule can't run. See #6.
+- No install path for Amlogic boards, upstream either: `post-image.sh` sets
+  `DCENT_PACKAGE_INSTALLABLE=false`. The safest first test is a RAM-only boot from u-boot over the
+  serial console on a spare control board, with no NAND writes.
