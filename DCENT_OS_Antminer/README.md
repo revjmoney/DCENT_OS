@@ -474,6 +474,15 @@ every layer: mining, tools, hardware, communication.
 
 ---
 
+## ☕ Support JMSCNC Heater OS
+
+- Buy Me a Coffee: https://buymeacoffee.com/revjmoney
+- Website: https://jmscnc.com
+- The track that started this, "Proof of Heat, Whitepaper Foreplay":
+  https://soundcloud.com/revjmoney/proof-of-heat-whitepaper
+
+---
+
 ## 📜 License
 
 DCENT_OS is released under the [**GNU General Public License v3.0**](LICENSE).

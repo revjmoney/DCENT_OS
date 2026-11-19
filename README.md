@@ -174,8 +174,10 @@ layer: mining, tools, hardware, communication.
 
 ## Support
 
-[buymeacoffee.com/revjmoney](https://buymeacoffee.com/revjmoney) · [jmscnc.com](https://jmscnc.com) ·
-and the theme song, [Proof of Heat, Whitepaper Foreplay](https://soundcloud.com/revjmoney/proof-of-heat-whitepaper).
+- Buy Me a Coffee: https://buymeacoffee.com/revjmoney
+- Website: https://jmscnc.com
+- The track that started this, "Proof of Heat, Whitepaper Foreplay":
+  https://soundcloud.com/revjmoney/proof-of-heat-whitepaper
 
 Commercial use is always free under GPL-3.0. Support is a thank-you, not a toll.
 
