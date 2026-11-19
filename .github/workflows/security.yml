@@ -49,8 +49,10 @@ jobs:
       - uses: EmbarkStudios/cargo-deny-action@70f81531115945ba6eb6b941ec9d39d063438eb9 # v2
         with:
           manifest-path: DCENT_OS_Antminer/dcentrald/Cargo.toml
+          # Default features = what the firmware ships. The optional mqtt-tls
+          # feature's rumqttc TLS stack (old rustls-webpki, rustls-pemfile) is
+          # compiled out; upstream reviews it in scripts/daemon_supply_chain.py.
           command: check
-          arguments: --all-features
 
   npm-audit:
     name: npm audit · dashboard

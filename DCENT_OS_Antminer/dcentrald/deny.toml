@@ -20,7 +20,13 @@ version = 2
 yanked = "deny"
 # RUSTSEC-2026-0190 and -0097 exceptions retired 2026-09-07: the locked
 # anyhow 1.0.104 and rand 0.8.6/0.9.4 are above their published fixed floors.
-ignore = []
+ignore = [
+    # basic-toml is unmaintained (no vulnerability). It is only reached through
+    # askama_derive, a compile-time proc-macro that parses the repo's own
+    # askama config; it never handles runtime or network input. Removing it
+    # needs the breaking askama 0.12 -> 0.13+ template migration.
+    { id = "RUSTSEC-2026-0374", reason = "build-time only via askama_derive; askama 0.13+ migration pending" },
+]
 
 [licenses]
 version = 2
