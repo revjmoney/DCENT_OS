@@ -429,8 +429,8 @@ function RebootScheduled({ response, onClose }: { response: RestoreToStockRespon
       <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary, #8b8b9e)', lineHeight: 1.5 }}>
         After the reboot, stock Bitmain comes up. Run the harvest script from your host within
         the 10-minute window (see <code>STOCK_BOOT_HARVEST_PROCEDURE.md</code> §10).{' '}
-        <strong>Manual recovery REQUIRED to return to DCENT_OS.</strong> U-Boot auto_recovery is
-        DEFEATED by S99upgrade in both DCENT_OS and stock Bitmain. From inside booted stock
+        <strong>Manual recovery REQUIRED to return to JMSCNC Heater OS.</strong> U-Boot auto_recovery is
+        DEFEATED by S99upgrade in both JMSCNC Heater OS and stock Bitmain. From inside booted stock
         (default <code>root:admin</code>) run <code>fw_setenv bootslot 1</code> (or whichever the
         prev slot was) THEN power-cycle. If stock won't boot or auth fails, attach a USB-TTL
         serial cable to the S9's UART header and stop U-Boot at the prompt; manually run{' '}

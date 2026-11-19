@@ -105,7 +105,7 @@ export interface PoolTemplate {
 
 export const POOL_TEMPLATES: PoolTemplate[] = [
   // ─── Recommended for home miners ───
-  { name: 'DCENT_Pool', url: 'stratum+tcp://pool.d-central.tech:3333', category: 'pooled', description: 'D-Central\'s Solo/Guild pool — a trustless, MMORPG-style take on solo mining: hunt blocks solo, or join a guild to share the block reward with fellow miners, fully non-custodial. First-class DCENT_OS support.' },
+  { name: 'DCENT_Pool', url: 'stratum+tcp://pool.d-central.tech:3333', category: 'pooled', description: 'D-Central\'s Solo/Guild pool — a trustless, MMORPG-style take on solo mining: hunt blocks solo, or join a guild to share the block reward with fellow miners, fully non-custodial. First-class JMSCNC Heater OS support.' },
   { name: 'Ocean', url: 'stratum+tcp://mine.ocean.xyz:3334', category: 'pooled', highlighted: true, description: 'Non-custodial payouts direct to your wallet — no account needed, transparent block templates' },
   { name: 'Braiins Pool', url: 'stratum+tcp://stratum.braiins.com:3333', category: 'pooled', highlighted: true, description: 'The original Bitcoin mining pool (est. 2010, formerly Slush Pool) — Stratum V2, 0% fee on shared rewards', sv2_url: 'stratum2+tcp://v2.stratum.braiins.com:3336', sv2_supported: true },
   { name: 'DEMAND', url: 'stratum+tcp://mining.dmnd.work:1000', category: 'pooled', description: 'Stratum V2 pool — encrypted connections, miner-built block templates', sv2_url: 'stratum2+tcp://mining.dmnd.work:2000', sv2_supported: true },

@@ -133,7 +133,7 @@ function moodMessage({
   poolStatus: string;
   model: string;
 }) {
-  if (!telemetryRecent) return 'Waiting for miner telemetry. I will wake up when DCENT_OS reports in.';
+  if (!telemetryRecent) return 'Waiting for miner telemetry. I will wake up when JMSCNC Heater OS reports in.';
   if (!ctx.hasStatus) return 'Booting my mining brain. Give me a status packet.';
   if (!ctx.isMining) return 'Resting quietly. Wake me when the room needs heat.';
   if (ctx.maxTempC >= 70) return 'Too hot. Check airflow, fans, and the board path before pushing harder.';

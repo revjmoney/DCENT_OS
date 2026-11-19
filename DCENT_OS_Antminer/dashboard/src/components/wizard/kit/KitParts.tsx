@@ -189,7 +189,7 @@ const REBOOT_PHASES: { id: RebootPhase; l: string; sub: string }[] = [
   { id: 'writing',      l: 'Writing config',      sub: 'Persisting pools, mode, power, security …' },
   { id: 'rebooting',    l: 'Rebooting dcentrald', sub: 'Restarting the mining daemon and HAL.' },
   { id: 'reconnecting', l: 'Reconnecting',        sub: 'Polling for the dashboard to come back online.' },
-  { id: 'done',         l: 'Online',              sub: 'DCENT_OS is up. Returning to your dashboard.' },
+  { id: 'done',         l: 'Online',              sub: 'JMSCNC Heater OS is up. Returning to your dashboard.' },
 ];
 
 export function RebootReconnectOverlay({

@@ -26,7 +26,7 @@ import type { EnvRecipeResponse } from '../../api/types';
 import { InfoDot } from './Tooltip';
 
 const POLL_INTERVAL_MS = 15_000;
-const RUNBOOK_PATH = 'https://github.com/DCentralTech/DCENT_OS';
+const RUNBOOK_PATH = 'https://github.com/DCentralTech/JMSCNC Heater OS';
 
 export function WaveRecipeBanner() {
   const [recipe, setRecipe] = useState<EnvRecipeResponse | null>(null);

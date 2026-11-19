@@ -276,7 +276,7 @@ export function SolarProviderQualityCard({
           <div style={{ fontSize: '0.86rem', color: readiness.tone, fontWeight: 700 }}>{readiness.label}</div>
           <div style={{ marginTop: 6, fontSize: '0.76rem', color: 'var(--text-dim)', lineHeight: 1.5 }}>
             {!meta.providerLiveBackend || meta.stage === 'unsupported'
-              ? 'This provider selection is visible in the dashboard, but DCENT_OS does not currently expose a usable live backend for enforcement.'
+              ? 'This provider selection is visible in the dashboard, but JMSCNC Heater OS does not currently expose a usable live backend for enforcement.'
               : meta.stage === 'live'
               ? 'This provider can be trusted for enforcement only after the rolling history stays healthy on-site.'
               : meta.stage === 'limited'

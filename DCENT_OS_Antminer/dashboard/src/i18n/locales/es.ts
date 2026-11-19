@@ -238,7 +238,7 @@ const es = defineLocale([
   "Claro",
   "Asesor de chips débiles",
   "Telemetría por chip no disponible",
-  "/api/chips no devolvió datos por chip. DCENT_OS solo clasifica evidencia real por chip — no se estima ninguna lista de chips débiles.",
+  "/api/chips no devolvió datos por chip. JMSCNC Heater OS solo clasifica evidencia real por chip — no se estima ninguna lista de chips débiles.",
   "Reintentar",
   "Actualizar",
   "Vista de reparación clasificada basada en evidencia real por chip. Solo asesoría — nada aquí marca un chip como muerto sin una prueba sin conexión.",

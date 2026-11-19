@@ -360,7 +360,7 @@ function PowerSourceGuide() {
     },
     {
       icon: '[SOLAR]', title: 'Solar + Battery',
-      desc: 'Battery-backed solar where DCENT_OS ramps mining up and down against bus voltage to protect the bank.',
+      desc: 'Battery-backed solar where JMSCNC Heater OS ramps mining up and down against bus voltage to protect the bank.',
       who: 'Cabins, sovereignty, remote power',
       config: 'Commission below on this page',
     },
@@ -369,7 +369,7 @@ function PowerSourceGuide() {
   return (
     <div>
       <div style={{ fontSize: '0.85rem', color: 'var(--text-dim)', marginBottom: 16, lineHeight: 1.6 }}>
-        DCENT_OS supports multiple real-world power paths. Direct DC and solar-battery installs now commission from this page instead of requiring hand-edited TOML.
+        JMSCNC Heater OS supports multiple real-world power paths. Direct DC and solar-battery installs now commission from this page instead of requiring hand-edited TOML.
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12 }}>
         {sources.map(source => (
@@ -890,10 +890,10 @@ export function OffGridPage() {
     critical: 'Battery critically low. Mining paused to prevent deep discharge damage. Waiting for recovery voltage.',
     low: 'Battery low. Reducing hashrate to conserve energy. Frequency ramping down.',
     normal: 'Battery healthy. Mining at stable frequency. Supply and demand balanced.',
-    high: 'Voltage is elevated. Surplus energy is available, so DCENT_OS is allowed to ramp up.',
+    high: 'Voltage is elevated. Surplus energy is available, so JMSCNC Heater OS is allowed to ramp up.',
     full: 'Battery is full or the source is comfortably above target. Mining at maximum allowed frequency.',
     pending_restart: 'Configuration is saved, but the running daemon has not restarted into the new off-grid workflow yet.',
-    sensor_fault: status.message || 'The voltage sensor path is unhealthy. DCENT_OS has moved to a safe sensor-fault state.',
+    sensor_fault: status.message || 'The voltage sensor path is unhealthy. JMSCNC Heater OS has moved to a safe sensor-fault state.',
   };
 
   return (
@@ -908,7 +908,7 @@ export function OffGridPage() {
           content={
             <>
               For battery, solar, bench-supply, or generator power instead of a
-              wall outlet. DCENT_OS watches your DC bus voltage and ramps mining
+              wall outlet. JMSCNC Heater OS watches your DC bus voltage and ramps mining
               down (or sleeps it) as the source weakens, then wakes back up when
               it recovers — so it protects your battery bank instead of draining
               it flat. Protection is only as good as the voltage sensor you wire.
@@ -1004,16 +1004,16 @@ function HowItWorks() {
       {open && (
         <div id={contentId} style={{ padding: '0 16px 16px', fontSize: '0.78rem', color: 'var(--text-dim)', lineHeight: 1.7 }}>
           <p style={{ marginBottom: 12 }}>
-            <strong style={{ color: 'var(--text)' }}>The idea is simple:</strong> DCENT_OS watches your DC bus voltage every few seconds. When voltage is healthy, it mines at full speed. When voltage drops, it ramps frequency down. When voltage is critical, it sleeps the miner. When voltage recovers, it wakes conservatively and ramps back up.
+            <strong style={{ color: 'var(--text)' }}>The idea is simple:</strong> JMSCNC Heater OS watches your DC bus voltage every few seconds. When voltage is healthy, it mines at full speed. When voltage drops, it ramps frequency down. When voltage is critical, it sleeps the miner. When voltage recovers, it wakes conservatively and ramps back up.
           </p>
           <p style={{ marginBottom: 12 }}>
-            <strong style={{ color: 'var(--text)' }}>The key deployment rule:</strong> battery protection is only as good as the voltage source you configure. That is why DCENT_OS now requires an explicit ADC backend instead of quietly pretending the bus is healthy.
+            <strong style={{ color: 'var(--text)' }}>The key deployment rule:</strong> battery protection is only as good as the voltage source you configure. That is why JMSCNC Heater OS now requires an explicit ADC backend instead of quietly pretending the bus is healthy.
           </p>
           <p style={{ marginBottom: 12 }}>
             <strong style={{ color: 'var(--text)' }}>Five voltage zones</strong> drive behavior: Critical (sleep), Low (ramp down), Normal (hold), High (ramp up), and Full (max mining).
           </p>
           <p>
-            <strong style={{ color: 'var(--text)' }}>No judgment:</strong> whether you are running a bench supply, a battery bank, a cabin solar rig, or a supercapacitor experiment, DCENT_OS should tell the truth about what it can measure and what it is only estimating.
+            <strong style={{ color: 'var(--text)' }}>No judgment:</strong> whether you are running a bench supply, a battery bank, a cabin solar rig, or a supercapacitor experiment, JMSCNC Heater OS should tell the truth about what it can measure and what it is only estimating.
           </p>
         </div>
       )}

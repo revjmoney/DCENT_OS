@@ -368,7 +368,7 @@ export function LogsPage() {
               <EmptyState
                 illustration={<NoLogsIllustration />}
                 title="No logs to show"
-                hint="No synthetic logs were generated. DCENT_OS will not create status-derived log rows when no log content is available."
+                hint="No synthetic logs were generated. JMSCNC Heater OS will not create status-derived log rows when no log content is available."
                 data-testid="logs-page-empty"
               />
             )}

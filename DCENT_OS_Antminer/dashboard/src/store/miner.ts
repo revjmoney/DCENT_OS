@@ -260,7 +260,7 @@ const ALERT_LEVEL_PRIORITY: Record<Alert['level'], number> = {
 function triggerAlertEffects(alert: Alert, settings: DashboardSettings) {
   if (settings.browserNotifications && alert.level === 'critical') {
     if (Notification.permission === 'granted') {
-      new Notification('DCENT_OS Alert', { body: alert.message, icon: '/favicon.ico' });
+      new Notification('JMSCNC Heater OS Alert', { body: alert.message, icon: '/favicon.ico' });
     }
   }
 

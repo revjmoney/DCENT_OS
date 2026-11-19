@@ -391,7 +391,7 @@ export function SettingsView() {
         <div className="settings-info-grid">
           <div className="settings-info-row">
             <span>Firmware</span>
-            <span>DCENTos v{version}</span>
+            <span>JMSCNC Heater OS v{version}</span>
           </div>
           <div className="settings-info-row">
             <span>Model</span>

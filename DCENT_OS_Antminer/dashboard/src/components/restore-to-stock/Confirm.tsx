@@ -234,7 +234,7 @@ export function Confirm({
 
       <div style={{ fontSize: '0.72rem', color: 'var(--text-dim, #6E6E80)', marginTop: 8, textAlign: 'center', lineHeight: 1.5 }}>
         On success the daemon schedules a reboot in 30s. <strong>Manual recovery REQUIRED</strong> to
-        return to DCENT_OS — U-Boot auto_recovery is DEFEATED by S99upgrade in both DCENT_OS and
+        return to JMSCNC Heater OS — U-Boot auto_recovery is DEFEATED by S99upgrade in both JMSCNC Heater OS and
         stock Bitmain. From inside booted stock (default <code>root:admin</code>) run{' '}
         <code>fw_setenv bootslot 1</code> (or whichever the prev slot was) THEN power-cycle. If
         stock won't boot or auth fails, attach a USB-TTL serial cable to the S9's UART header and

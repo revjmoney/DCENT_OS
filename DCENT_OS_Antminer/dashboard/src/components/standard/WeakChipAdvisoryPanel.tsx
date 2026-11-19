@@ -455,7 +455,7 @@ export function WeakChipAdvisoryPanel() {
           <div style={{ fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>
             {t('weakchip.telemetryUnavailableTitle', 'Per-chip telemetry unavailable')}
           </div>
-          {t('weakchip.telemetryUnavailable', '/api/chips did not return per-chip data. DCENT_OS only ranks real per-chip evidence — no weak-chip list is estimated.')}
+          {t('weakchip.telemetryUnavailable', '/api/chips did not return per-chip data. JMSCNC Heater OS only ranks real per-chip evidence — no weak-chip list is estimated.')}
           <div style={{ marginTop: 8 }}>
             <button type="button" className="btn btn-secondary" onClick={() => void load()}>
               {t('weakchip.retry', 'Retry')}

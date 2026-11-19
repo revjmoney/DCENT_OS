@@ -448,13 +448,13 @@ export function recoveryGuidanceFor(reason: string | undefined | null): Recovery
   if (!r) {
     return {
       severity: 'generic',
-      text: 'See STOCK_BOOT_HARVEST_PROCEDURE.md §10. Active slot was not flipped, so a power-cycle returns to DCENT_OS.',
+      text: 'See STOCK_BOOT_HARVEST_PROCEDURE.md §10. Active slot was not flipped, so a power-cycle returns to JMSCNC Heater OS.',
     };
   }
   if (r.includes('post-write magic readback') || r.includes('readback mismatch') || r.includes('readback')) {
     return {
       severity: 'retry',
-      text: 'Try: SSH to miner, re-run script. Active slot is still bootable; a power-cycle returns to DCENT_OS.',
+      text: 'Try: SSH to miner, re-run script. Active slot is still bootable; a power-cycle returns to JMSCNC Heater OS.',
     };
   }
   if (r.includes('fw_setenv') || r.includes('ubootenv') || r.includes('libubootenv')) {
@@ -466,7 +466,7 @@ export function recoveryGuidanceFor(reason: string | undefined | null): Recovery
   if (r.includes('nandwrite') || r.includes('flash_erase')) {
     return {
       severity: 'retry',
-      text: 'NAND write failed. Active slot is still bootable; power-cycle returns to DCENT_OS, then SSH back in and retry.',
+      text: 'NAND write failed. Active slot is still bootable; power-cycle returns to JMSCNC Heater OS, then SSH back in and retry.',
     };
   }
   if (r.includes('toctou') || r.includes('fingerprint') || r.includes('staged_sha256') || r.includes('drift')) {

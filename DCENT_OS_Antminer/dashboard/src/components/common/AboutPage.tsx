@@ -106,12 +106,12 @@ export function AboutPage() {
           <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>
             Maintained by Rev. J. Money (JMSCNC). JMSCNC Heater OS is a fork of{' '}
             <a
-              href="https://github.com/DCentralTech/DCENT_OS"
+              href="https://github.com/DCentralTech/JMSCNC Heater OS"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: 'var(--accent, #FAA500)' }}
             >
-              DCENT_OS
+              JMSCNC Heater OS
             </a>
             {' '}by D-Central Technologies.
           </div>

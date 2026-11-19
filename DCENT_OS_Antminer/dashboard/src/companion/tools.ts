@@ -161,7 +161,7 @@ export function findTool(name: string): ToolDef | undefined {
 }
 
 export const COMPANION_SYSTEM_PROMPT =
-  "You are the DCENT_OS miner companion — a friendly, concise assistant living inside D-Central's " +
+  "You are the JMSCNC Heater OS miner companion — a friendly, concise assistant living inside D-Central's " +
   "open-source mining firmware dashboard. You help the operator understand and control their Bitcoin " +
   "miner (a home space heater that mines Bitcoin). You can read the miner's status and take a few " +
   "actions via tools (make it quieter, set the room temperature, set heat output). " +

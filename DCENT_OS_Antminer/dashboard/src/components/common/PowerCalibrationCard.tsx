@@ -99,7 +99,7 @@ export function PowerCalibrationCard() {
           <div style={{ fontWeight: 700, color: 'var(--text)' }}>Power Calibration</div>
           <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', marginTop: 4, lineHeight: 1.5 }}>
             Enter the reading from your wall meter, Kill-A-Watt, or smart plug while the miner is stable.
-            DCENT_OS keeps showing both household wall power and miner unit power before PSU losses.
+            JMSCNC Heater OS keeps showing both household wall power and miner unit power before PSU losses.
           </div>
         </div>
         {calibration?.enabled && (

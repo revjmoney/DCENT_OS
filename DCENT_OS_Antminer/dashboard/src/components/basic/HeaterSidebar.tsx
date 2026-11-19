@@ -77,7 +77,7 @@ export function HeaterSidebar() {
       <div className="basic-sidebar-brand">
         <DcentOsIcon size={28} />
         <div className="basic-sidebar-brand-text">
-          <span className="basic-sidebar-brand-name">DCENT_OS</span>
+          <span className="basic-sidebar-brand-name">JMSCNC Heater OS</span>
           <span className="basic-sidebar-brand-tag">Heating</span>
         </div>
       </div>

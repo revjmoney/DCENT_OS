@@ -554,7 +554,7 @@ export const FIXTURES: Record<string, unknown> = {
     "surfaces": [
       {
         "id": "rest",
-        "label": "DCENT_OS REST API",
+        "label": "JMSCNC Heater OS REST API",
         "protocol": "http",
         "default_port": 8080,
         "default_bind": "0.0.0.0",
@@ -2572,7 +2572,7 @@ export const FIXTURES: Record<string, unknown> = {
   "/api/profiles/silicon": [
     {
       "id": "s9-bm1387-baked",
-      "miner_model": "Antminer S9",
+      "miner_model": "Antminer S19j Pro",
       "hashboard": "BHB42601",
       "chip": "bm1387",
       "source_class": "baked",

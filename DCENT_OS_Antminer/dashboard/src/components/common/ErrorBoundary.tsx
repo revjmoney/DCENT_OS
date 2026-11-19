@@ -69,7 +69,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             color: 'var(--accent, #FAA500)',
             marginBottom: 16,
           }}>
-            DCENT_OS
+            JMSCNC Heater OS
           </div>
           <div style={{
             fontSize: '1.2rem',

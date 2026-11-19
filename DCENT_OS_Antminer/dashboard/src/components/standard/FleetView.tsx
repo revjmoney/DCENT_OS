@@ -552,7 +552,7 @@ export function FleetView() {
             <div className="state-panel-copy">
               <div className="state-panel-title">Local network snapshot</div>
               <div className="state-panel-message">
-                Local network snapshot — discovered on your LAN + manually added IPs. DCENT_OS has no cloud.
+                Local network snapshot — discovered on your LAN + manually added IPs. JMSCNC Heater OS has no cloud.
               </div>
             </div>
           </div>

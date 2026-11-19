@@ -141,7 +141,7 @@ network) or a cloud provider — and just ask. *"My miner is noisy, what can we 
 live state and offers to act, with your confirmation. Off by default, local-first, and your API key
 never leaves the browser.
 
-![DCENT_OS companion chat — ask "my miner is noisy" and it offers to enable quiet mode](docs/media/companion-chat.png)
+![JMSCNC Heater OS companion chat — ask "my miner is noisy" and it offers to enable quiet mode](docs/media/companion-chat.png)
 
 ### 🎚️ Honest tuning — "Tune by Priority"
 
@@ -150,7 +150,7 @@ max hashrate, or best efficiency — and the autotuner converges per-chain frequ
 envelope. Every before→after number is labelled a **predicted estimate from your setpoints, not
 measured telemetry** — DCENT_OS never shows you a number it didn't actually measure.
 
-![DCENT_OS autotuner — Tune by Priority with an honest before→after predicted estimate](docs/media/autotuner-tune-by-priority.png)
+![JMSCNC Heater OS autotuner — Tune by Priority with an honest before→after predicted estimate](docs/media/autotuner-tune-by-priority.png)
 
 > 📸 More screenshots and a live walkthrough GIF are in [`docs/media/`](docs/media/).
 

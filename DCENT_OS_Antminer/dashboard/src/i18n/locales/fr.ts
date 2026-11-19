@@ -238,7 +238,7 @@ const fr = defineLocale([
   "Clair",
   "Conseil puces faibles",
   "Télémétrie par puce indisponible",
-  "/api/chips n'a renvoyé aucune donnée par puce. DCENT_OS ne classe que des preuves réelles par puce — aucune liste de puces faibles n'est estimée.",
+  "/api/chips n'a renvoyé aucune donnée par puce. JMSCNC Heater OS ne classe que des preuves réelles par puce — aucune liste de puces faibles n'est estimée.",
   "Réessayer",
   "Actualiser",
   "Vue de réparation classée fondée sur des preuves réelles par puce. À titre consultatif uniquement — rien ici ne déclare une puce morte sans un test hors ligne.",

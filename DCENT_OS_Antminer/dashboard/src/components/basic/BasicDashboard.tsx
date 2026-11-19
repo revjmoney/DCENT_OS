@@ -186,7 +186,7 @@ export function BasicDashboard() {
         <div className="nest-brand">
           <div className="logo nest-brand-text">
             <DcentOsIcon size={26} />
-            <span>DCENT_OS</span>
+            <span>JMSCNC Heater OS</span>
           </div>
           <div className="device-name nest-brand-tag">{settings.minerName} · {model}</div>
           <div className="basic-page-copy">{pageMeta.description}</div>

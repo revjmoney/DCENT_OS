@@ -80,8 +80,8 @@ export function deriveSetupReadinessTaskSeeds({
       detail: powerUndeclared
         ? 'Quick Start deferred power-source and circuit details. Declare them before trusting power limits or unattended operation.'
         : dcCommissioning
-          ? 'This install still needs battery/DC commissioning so DCENT_OS can protect your source and wiring before mining.'
-          : 'DCENT_OS still needs circuit or power-budget confirmation so it can operate safely on your installation.',
+          ? 'This install still needs battery/DC commissioning so JMSCNC Heater OS can protect your source and wiring before mining.'
+          : 'JMSCNC Heater OS still needs circuit or power-budget confirmation so it can operate safely on your installation.',
       actionLabel: powerUndeclared
         ? 'Open Power Setup'
         : dcCommissioning ? 'Open Off-Grid Setup' : 'Open Circuit Check',
@@ -117,7 +117,7 @@ export function deriveSetupReadinessTaskSeeds({
       label: 'Finish solar provider commissioning',
       detail: setupStatus.commissioning?.solar_provider_saved
         ? 'The solar provider config is saved, but the running daemon has not adopted it yet. Restart and validate the provider before trusting solar+battery automation.'
-        : 'Solar+battery installs also need a separate solar-provider commissioning step. Configure Green Mining so DCENT_OS can tell the truth about the solar side of the system.',
+        : 'Solar+battery installs also need a separate solar-provider commissioning step. Configure Green Mining so JMSCNC Heater OS can tell the truth about the solar side of the system.',
       actionLabel: 'Open Green Mining',
       page: 'energy/green',
     });
@@ -139,7 +139,7 @@ export function deriveSetupReadinessTaskSeeds({
     tasks.push({
       id: 'verify',
       label: 'Verify live mining readiness',
-      detail: 'Setup is saved, but DCENT_OS is still waiting on live mining conditions like pool connectivity or share flow.',
+      detail: 'Setup is saved, but JMSCNC Heater OS is still waiting on live mining conditions like pool connectivity or share flow.',
       actionLabel: 'Open Pools',
       page: 'pools',
     });

@@ -77,7 +77,7 @@ export function HomeComfortStep({ value, defaultRate = 0.12, alreadyCalibrated, 
     <div className="wiz-step-body wizard-step-pane">
       <h2 className="wiz-h2">Home comfort & costs</h2>
       <p className="wiz-lede">
-        Optional. Tell DCENT_OS your power price so cost and earnings figures are
+        Optional. Tell JMSCNC Heater OS your power price so cost and earnings figures are
         honest, and set quiet hours so the heater stays calm overnight. Both are
         skippable — leave the rate blank to keep the default and we'll keep
         labelling earnings an uncalibrated estimate.

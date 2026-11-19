@@ -310,7 +310,7 @@ export function SystemDebug() {
           <div className="register-inspector sd-block">
             <Section title="System Information" collapsible defaultOpen={false}>
               <div className="adv-mono-block sd-info-block">
-                <div>Firmware:  <span style={{ color: 'var(--text)' }}>{systemInfo?.firmware ?? 'DCENT_OS'}</span></div>
+                <div>Firmware:  <span style={{ color: 'var(--text)' }}>{systemInfo?.firmware ?? 'JMSCNC Heater OS'}</span></div>
                 <div>Version:   <span style={{ color: 'var(--text)' }}>{systemInfo?.version ?? '---'}</span></div>
                 <div>Model:     <span style={{ color: 'var(--text)' }}>{systemInfo?.model ?? '---'}</span></div>
                 <div>Board:     <span style={{ color: 'var(--text)' }}>{systemInfo?.board ?? 'am1-s9'}</span></div>

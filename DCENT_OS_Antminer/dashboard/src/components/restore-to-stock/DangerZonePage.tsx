@@ -40,15 +40,15 @@ export function DangerZonePage() {
         <InfoDot term="brick_anxiety" placement="bottom" label="Why these operations are gated" />
       </div>
       <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary, #8b8b9e)', maxWidth: 720, marginBottom: 16 }}>
-        Read the scope of each operation before confirming. Settings reset clears your DCENT_OS
+        Read the scope of each operation before confirming. Settings reset clears your JMSCNC Heater OS
         preferences and credentials. Flashing stock firmware has a separate preflight and confirmation.
       </div>
 
       <HarvestModeBanner />
 
-      <section className="section" aria-label="Reset DCENT_OS settings">
-        <h3>Reset DCENT_OS settings</h3>
-        <p>Stops mining through the checked shutdown owner, clears DCENT_OS configuration,
+      <section className="section" aria-label="Reset JMSCNC Heater OS settings">
+        <h3>Reset JMSCNC Heater OS settings</h3>
+        <p>Stops mining through the checked shutdown owner, clears JMSCNC Heater OS configuration,
           dashboard credentials, uploaded SSH keys and saved profiles, then reboots with mining disabled.
           Vendor partitions and hardware safety records are preserved. A failed shutdown prevents reset.</p>
         <label htmlFor="reset-settings-confirmation">Type RESET DCENT_OS SETTINGS</label>
@@ -56,7 +56,7 @@ export function DangerZonePage() {
           disabled={resetBusy || Boolean(resetMessage)} onChange={event => setConfirmation(event.target.value)} />
         <button type="button" className="btn-danger" onClick={() => void resetSettings()}
           disabled={resetBusy || Boolean(resetMessage) || confirmation !== 'RESET DCENT_OS SETTINGS'}>
-          {resetBusy ? 'Scheduling reset…' : 'Reset DCENT_OS settings'}
+          {resetBusy ? 'Scheduling reset…' : 'Reset JMSCNC Heater OS settings'}
         </button>
         {resetMessage && <p role="status">{resetMessage}</p>}
         {resetError && <p role="alert">{resetError}</p>}
@@ -81,9 +81,9 @@ export function DangerZonePage() {
               <InfoDot term="slot_removed_warning" size={12} label="What this keeps and what it clears" />
             </h3>
             <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary, #8b8b9e)', marginTop: 6, lineHeight: 1.5 }}>
-              <strong>This removes DCENT_OS</strong> and writes stock Bitmain firmware to the
+              <strong>This removes JMSCNC Heater OS</strong> and writes stock Bitmain firmware to the
               inactive NAND slot so you can capture vendor telemetry for RE / harvest workflows.
-              Any tuning, autotuner profiles, or operator config baked into DCENT_OS will not
+              Any tuning, autotuner profiles, or operator config baked into JMSCNC Heater OS will not
               follow you to stock. Safety preflight refuses tainted firmware (SECURE_BOOT_SET,
               daemons:22322 listener, Hashcore root hash). NAND backup is mandatory.{' '}
               <strong>Manual recovery REQUIRED</strong> — full procedure is shown inside the

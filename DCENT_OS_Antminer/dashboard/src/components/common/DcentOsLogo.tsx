@@ -3,7 +3,7 @@ import React from 'react';
 /* ─────────────────────────────────────────────────────────────────────────
    JMSCNC Heater OS logo: a simple flame mark + the "JMSCNC / HEATER OS"
    wordmark. The component names (DcentOsLogo / DcentOsIcon) and props are
-   kept from upstream DCENT_OS so call sites and merges stay unchanged.
+   kept from upstream JMSCNC Heater OS so call sites and merges stay unchanged.
 
    The flame is drawn from plain paths. Its gradient and glow keep the
    upstream ids (logo-sphere / icon-sphere, logo-glow / icon-glow) so the

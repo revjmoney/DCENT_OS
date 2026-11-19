@@ -257,7 +257,7 @@ function getStateDetail(health: SystemHealthResponse, state: HonestModeState): s
 
   switch (state) {
     case 'native':
-      return 'DCENT_OS owns the chain driver. Hashrate shown elsewhere is native daemon telemetry.';
+      return 'JMSCNC Heater OS owns the chain driver. Hashrate shown elsewhere is native daemon telemetry.';
     case 'proxy_alive':
       return 'dcentrald is routing Stratum only. Hardware ownership stays with bosminer; any miner stats are bosminer/cgminer telemetry, not native chain takeover.';
     case 'proxy_degraded':
@@ -265,7 +265,7 @@ function getStateDetail(health: SystemHealthResponse, state: HonestModeState): s
     case 'hardware_blocked':
       return 'Native chain takeover is blocked by the current rail/UART or bosminer failure state. No hashrate is claimed until recovery clears the blocker.';
     case 'handoff_mining':
-      return 'Handoff path: bosminer pre-engaged the PSU/dsPIC/Loki spoof on cold-boot, then DCENT_OS took over the chain driver and is currently dispatching work. This mining session survives daemon uptime but does NOT survive a reboot — re-running the recipe requires an AC power cycle. See the documentation.';
+      return 'Handoff path: bosminer pre-engaged the PSU/dsPIC/Loki spoof on cold-boot, then JMSCNC Heater OS took over the chain driver and is currently dispatching work. This mining session survives daemon uptime but does NOT survive a reboot — re-running the recipe requires an AC power cycle. See the documentation.';
     default:
       return 'System health endpoint has not reported a mining source yet.';
   }

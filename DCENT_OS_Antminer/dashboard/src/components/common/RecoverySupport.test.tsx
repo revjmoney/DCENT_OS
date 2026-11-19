@@ -65,7 +65,7 @@ it('keeps a failed support request visible without producing another toast', asy
 it('requires exact reset confirmation and reports scheduling rather than completion', async () => {
   mockApi.resetSettings.mockResolvedValue({ status: 'scheduled', detail: 'Waiting for checked shutdown.' });
   render(<DangerZonePage />);
-  const button = screen.getByRole('button', { name: 'Reset DCENT_OS settings' }) as HTMLButtonElement;
+  const button = screen.getByRole('button', { name: 'Reset JMSCNC Heater OS settings' }) as HTMLButtonElement;
   expect(button.disabled).toBe(true);
   fireEvent.change(screen.getByLabelText('Type RESET DCENT_OS SETTINGS'), { target: { value: 'RESET DCENT_OS SETTINGS' } });
   fireEvent.click(button);

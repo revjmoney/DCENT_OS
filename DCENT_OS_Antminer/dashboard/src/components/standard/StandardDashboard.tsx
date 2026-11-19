@@ -163,7 +163,7 @@ const PAGE_META: Record<string, { title: string; description: string; infoKey: G
   offgrid: {
     title: 'Off-Grid',
     infoKey: 'power_budget',
-    description: 'Solar, battery, intermittent power — DCENT_OS for unstable grids.',
+    description: 'Solar, battery, intermittent power — JMSCNC Heater OS for unstable grids.',
   },
   profiles: {
     title: 'Silicon Profiles',

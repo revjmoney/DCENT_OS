@@ -302,7 +302,7 @@ export function BackupTab() {
           <InfoDot term="ota_uploaded" label="Upload is not flash — the proof ladder" />
         </div>
         <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginBottom: 12 }}>
-          Upload a signed DCENT_OS sysupgrade `.tar` package. The backend verifies the package signature, runs target preflight, then schedules inactive-slot flashing only after explicit confirmation.
+          Upload a signed JMSCNC Heater OS sysupgrade `.tar` package. The backend verifies the package signature, runs target preflight, then schedules inactive-slot flashing only after explicit confirmation.
         </div>
         <UpgradeStatusPanel />
         <div

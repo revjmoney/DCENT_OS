@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   DCENT_OS — light/dark appearance pre-paint applier (UINAV-7)
+   JMSCNC Heater OS — light/dark appearance pre-paint applier (UINAV-7)
 
    Mirrors theme/accent.ts: a synchronous module side-effect (imported in
    main.tsx ahead of ReactDOM.createRoot().render) so the stored light/dark

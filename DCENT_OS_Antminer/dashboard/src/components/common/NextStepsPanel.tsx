@@ -19,7 +19,7 @@ export function NextStepsPanel({ mode }: { mode: 'heater' | 'standard' }) {
           </div>
           <div className="cp-nextsteps-summary">{summary}</div>
           <div className="cp-nextsteps-sub">
-            The dashboard is ready, but DCENT_OS still sees setup work left before the miner is fully mining-ready.
+            The dashboard is ready, but JMSCNC Heater OS still sees setup work left before the miner is fully mining-ready.
           </div>
         </div>
         <div className="cp-nextsteps-count">

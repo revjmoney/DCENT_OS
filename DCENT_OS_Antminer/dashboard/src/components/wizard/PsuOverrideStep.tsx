@@ -66,7 +66,7 @@ const PSU_OPTIONS: PsuOption[] = [
     l: 'Loki spoof board attached',
     sub: 'Test / bench unit',
     detail:
-      'APW3 with a small daughter-board on i2c-0 @ 0x10 that spoofs the smart-APW12 SMBus handshake. DCENT_OS feeds the spoof watchdog at 1 Hz so the rail stays up. Chip-side voltage is identical to bare APW3.',
+      'APW3 with a small daughter-board on i2c-0 @ 0x10 that spoofs the smart-APW12 SMBus handshake. JMSCNC Heater OS feeds the spoof watchdog at 1 Hz so the rail stays up. Chip-side voltage is identical to bare APW3.',
   },
   {
     id: 'bare-apw3',
@@ -111,14 +111,14 @@ export function PsuOverrideStep({ value, onChange }: PsuOverrideStepProps) {
     <div className="wiz-step-body wizard-step-pane">
       <h2 className="wiz-h2">PSU Override</h2>
       <p className="wiz-lede">
-        Tell DCENT_OS which PSU hardware you fitted to this miner. Both the
+        Tell JMSCNC Heater OS which PSU hardware you fitted to this miner. Both the
         Loki-attached and bare-APW3 paths run the same firmware configuration —
         this declaration records which variant is on the unit for fleet
         inventory and surfaces it in <code>/api/status</code>.
       </p>
 
       <InfoBanner tone="warn">
-        Loki = APW3 + spoof board that talks SMBus to DCENT_OS. Bare APW3 = no
+        Loki = APW3 + spoof board that talks SMBus to JMSCNC Heater OS. Bare APW3 = no
         spoof board; the daemon&apos;s lenient probe falls through silently in
         ~200 ms and proceeds in PWR_CONTROL-only mode. Stock APW12 = the
         original Bitmain smart PSU; daemon uses the canonical smart-APW12

@@ -25,7 +25,7 @@
       "per_fan": []
     },
     "pool": {
-      "url": "stratum+tcp://pool.d-central.tech:3333",
+      "url": "stratum+tcp://americas.mining-dutch.nl:9996",
       "status": "connected",
       "difficulty": 131072,
       "last_share_at": 0,
@@ -37,8 +37,8 @@
   "systemInfoBody": {
     "firmware": "dcentos",
     "version": "0.5.0",
-    "model": "Antminer S9",
-    "hostname": "s9-cypress",
+    "model": "Antminer S19j Pro",
+    "hostname": "heater-s19j",
     "mac": "00:11:22:33:44:55",
     "uptime_s": 3600,
     "chip_type": "bm1387",
@@ -47,14 +47,14 @@
     "mode": "standard",
     "hashrate_ghs": 12000,
     "api_version": "2.0",
-    "board": "BHB42601",
+    "board": "BHB42621",
     "soc": "zynq",
     "hardware": {
-      "miner_serial": "S9-CYPRESS",
-      "control_board": "s9",
-      "hb_type": "BHB42601",
+      "miner_serial": "HEATER-S19J-0001",
+      "control_board": "amlogic",
+      "hb_type": "BHB42621",
       "chip_type": "bm1387",
-      "psu_model": "APW3"
+      "psu_model": "APW12"
     }
   },
   "thermalPostureBody": {
@@ -173,7 +173,7 @@
     "fetched_at_ms": 1778784859505,
     "pool": {
       "available": true,
-      "url": "stratum+tcp://pool.d-central.tech:3333",
+      "url": "stratum+tcp://americas.mining-dutch.nl:9996",
       "status": "connected",
       "active": true,
       "protocol": "sv1",
@@ -355,7 +355,7 @@
         "btu_h": 2457,
         "noise_db": null,
         "estimated_noise_db_s9": 32,
-        "noise_note": "S9 estimate only; live S19j Pro noise requires fan RPM feedback",
+        "noise_note": "Estimate only; live S19j Pro noise requires fan RPM feedback",
         "hashrate_ths": 6.5,
         "description": "Low power with the home fan cap requested. Verify noise from live RPM."
       },
@@ -367,7 +367,7 @@
         "btu_h": 4436,
         "noise_db": null,
         "estimated_noise_db_s9": 38,
-        "noise_note": "S9 estimate only; live S19j Pro noise requires fan RPM feedback",
+        "noise_note": "Estimate only; live S19j Pro noise requires fan RPM feedback",
         "hashrate_ths": 12.0,
         "description": "Best mix of heat output and efficiency; acoustic result needs live RPM."
       },
@@ -379,7 +379,7 @@
         "btu_h": 6995,
         "noise_db": null,
         "estimated_noise_db_s9": 46,
-        "noise_note": "S9 estimate only; live S19j Pro noise requires fan RPM feedback",
+        "noise_note": "Estimate only; live S19j Pro noise requires fan RPM feedback",
         "hashrate_ths": 18.5,
         "description": "Maximum heat for cold rooms. Higher fan noise; best for garages and workshops."
       }
@@ -1100,7 +1100,7 @@
     "chain_count": 3,
     "control_board": "AM335x BeagleBone Black",
     "soc": "am335x",
-    "hashboard": "BHB42601",
+    "hashboard": "BHB42621",
     "mac": "aa:bb:cc:dd:ee:ff",
     "hostname": "dcentos-preview",
     "firmware": "DCENT_OS",
@@ -1118,7 +1118,7 @@
     "sku_asics_per_chain": 126
   },
   "pvtTableBody": {
-    "sku": "BHB42601",
+    "sku": "BHB42621",
     "grade": "standard",
     "voltage_fixed": false,
     "mix_levels": false,

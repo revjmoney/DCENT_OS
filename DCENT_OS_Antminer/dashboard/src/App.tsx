@@ -121,7 +121,7 @@ export default function App() {
        halo breathe, dual-ring spinner). Styled by §F1-SPLASH in
        design-system.css. JSX limited to this block per F1 ownership. */
     return (
-      <div className="ds-splash" role="status" aria-live="polite" aria-label="Loading DCENT_OS">
+      <div className="ds-splash" role="status" aria-live="polite" aria-label="Loading JMSCNC Heater OS">
         <div className="ds-splash__logo">
           <DcentOsLogo width={240} />
         </div>

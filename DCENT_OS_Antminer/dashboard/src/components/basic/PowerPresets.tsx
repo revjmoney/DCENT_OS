@@ -129,7 +129,7 @@ export function PowerPresets() {
         className="presets-quiet-note"
         data-tooltip={glossaryText('cut_hash_before_noise')}
       >
-        Higher presets run warmer. DCENT_OS cuts hash power before raising fan
+        Higher presets run warmer. JMSCNC Heater OS cuts hash power before raising fan
         noise. Acoustic claims require fan RPM feedback.
       </div>
     </div>

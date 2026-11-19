@@ -1088,7 +1088,7 @@ export function SetupWizard({ onComplete, setupStatus }: SetupWizardProps) {
       todo.push('Open Pool Setup in Mining mode and add your payout worker.');
     }
     if ((state.powerSource === 'grid' || state.powerSource === 'hybrid') && (!state.circuitVoltage || !state.circuitAmperage)) {
-      todo.push('Review Circuit Check so DCENT_OS has a safe power ceiling for this install.');
+      todo.push('Review Circuit Check so JMSCNC Heater OS has a safe power ceiling for this install.');
     }
     return (
       <div className="wiz-shell mode-standard wizard-shell">

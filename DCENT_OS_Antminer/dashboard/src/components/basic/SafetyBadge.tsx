@@ -72,8 +72,8 @@ export function SafetyBadge() {
     level === 'normal'
       ? glossaryText('cut_hash_before_noise')
       : level === 'warm'
-        ? 'The chips are a little warm. DCENT_OS is designed to ease power down before asking for more fan. Noise still needs tach/RPM proof.'
-        : 'The chips are running hot. DCENT_OS is designed to cut hash power before raising fan noise, and auto-shutoff is always active — keep an eye on temperatures.';
+        ? 'The chips are a little warm. JMSCNC Heater OS is designed to ease power down before asking for more fan. Noise still needs tach/RPM proof.'
+        : 'The chips are running hot. JMSCNC Heater OS is designed to cut hash power before raising fan noise, and auto-shutoff is always active — keep an eye on temperatures.';
 
   return (
     <div

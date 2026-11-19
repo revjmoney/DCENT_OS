@@ -55,7 +55,7 @@ export function RestoreStatus({
 
       <div style={summaryGrid}>
         <Stat label="Model" value={model} />
-        <Stat label="DCENT_OS version" value={`v${version}`} />
+        <Stat label="JMSCNC Heater OS version" value={`v${version}`} />
         <Stat label="Serial / hostname" value={serial} mono />
         <Stat label="Detected hashboards" value={`${detectedHashboardCount}`} />
         {status?.hashrate_ghs != null && (
@@ -92,16 +92,16 @@ export function RestoreStatus({
       <div style={warningBox}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, color: 'var(--red, #EF4444)', fontSize: '0.95rem', marginBottom: 8 }}>
           <span aria-hidden>⚠</span>
-          <span>This flash <u>removes DCENT_OS</u> from the inactive NAND slot and replaces it with stock Bitmain firmware.</span>
+          <span>This flash <u>removes JMSCNC Heater OS</u> from the inactive NAND slot and replaces it with stock Bitmain firmware.</span>
           <InfoDot term="slot_removed_warning" placement="bottom" label="Which NAND slot is removed" />
         </div>
         <ul style={{ margin: '0 0 8px 18px', padding: 0, fontSize: '0.82rem', color: 'var(--text)' }}>
-          <li><strong>Breaker risk.</strong> Stock Bitmain runs at full PSU power — much harder on house breakers than DCENT_OS quiet-home defaults.</li>
+          <li><strong>Breaker risk.</strong> Stock Bitmain runs at full PSU power — much harder on house breakers than JMSCNC Heater OS quiet-home defaults.</li>
           <li><strong>Noise.</strong> Stock fans run at 100% during early boot; expect a noticeable spike.</li>
           <li><strong>10-minute capture window.</strong> Once stock boots, you have ~10 minutes to run the harvest script before the watchdog cycles.</li>
           <li>
             <strong>Manual recovery REQUIRED.</strong> U-Boot auto_recovery is DEFEATED by S99upgrade in
-            both DCENT_OS and stock Bitmain. To return to DCENT_OS, you must run{' '}
+            both JMSCNC Heater OS and stock Bitmain. To return to JMSCNC Heater OS, you must run{' '}
             <code>fw_setenv bootslot 1</code> (or whichever the prev slot was) from inside booted
             stock Bitmain (default <code>root:admin</code>), THEN power-cycle. If stock won't boot
             or auth fails, attach a USB-TTL serial cable to the S9's UART header and stop U-Boot at

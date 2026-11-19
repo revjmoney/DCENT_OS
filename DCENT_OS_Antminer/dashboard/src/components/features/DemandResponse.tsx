@@ -189,7 +189,7 @@ export function DemandResponse() {
               <div>
                 <span className="feat-toggle-label" id={negativePriceLabelId}>{t('demand.negativePriceMining')}</span>
                 <div className="feat-hint">
-                  Planning flag only. DCENT_OS is not fetching grid prices or changing power from this page.
+                  Planning flag only. JMSCNC Heater OS is not fetching grid prices or changing power from this page.
                 </div>
               </div>
               <button

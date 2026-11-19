@@ -80,7 +80,7 @@ export const GLOSSARY = {
     term: 'Proxied hashrate (via bosminer)',
     body:
       'This figure is being read through a proxy to the stock/Braiins mining ' +
-      'process — it is not produced by the native DCENT_OS chain driver. ' +
+      'process — it is not produced by the native JMSCNC Heater OS chain driver. ' +
       'It is labelled "proxied / via bosminer" so you always know the source.',
     note:
       'Proxied telemetry is real but indirect. The distinction is kept on ' +
@@ -91,7 +91,7 @@ export const GLOSSARY = {
     body:
       'Joules of electricity spent per trillion hashes — watts ÷ ' +
       'TH/s. Lower is better. A modern S19-class board lands roughly in the ' +
-      '20–35 J/TH range depending on tune; the DCENT_OS efficiency ' +
+      '20–35 J/TH range depending on tune; the JMSCNC Heater OS efficiency ' +
       'sweet-spot target is around 27.6 J/TH.',
     note:
       'Lower J/TH = more Bitcoin work per kWh. The autotuner’s ' +
@@ -282,13 +282,13 @@ export const GLOSSARY = {
     term: 'Quiet-boot expectation',
     body:
       'A brief loud fan burst at power-on is a hardware behaviour of the ' +
-      'control board before software takes over. Once DCENT_OS is running ' +
+      'control board before software takes over. Once JMSCNC Heater OS is running ' +
       'it requests the home fan cap and reports RPM for proof.',
   },
   cut_hash_before_noise: {
     term: 'Cut hash before noise',
     body:
-      'The home-safety posture: when the unit runs warm, DCENT_OS reduces ' +
+      'The home-safety posture: when the unit runs warm, JMSCNC Heater OS reduces ' +
       'hash power FIRST. Fan noise is raised only for genuine thermal need, ' +
       'and acoustic claims require RPM-backed evidence.',
   },
@@ -343,7 +343,7 @@ export const GLOSSARY = {
     body:
       'Restoring stock firmware overwrites a NAND slot. The warning names ' +
       'exactly what will be removed up front — this is irreversible ' +
-      'without re-flashing DCENT_OS.',
+      'without re-flashing JMSCNC Heater OS.',
   },
   brick_anxiety: {
     term: 'Why the don’t-interrupt warning',
@@ -640,7 +640,7 @@ export const GLOSSARY = {
   psu_override: {
     term: 'PSU Override',
     body:
-      'Tells DCENT_OS that you have a non-smart PSU (an APW3 modded to a ' +
+      'Tells JMSCNC Heater OS that you have a non-smart PSU (an APW3 modded to a ' +
       'fixed voltage rail), bypassing the smart-APW12 SMBus voltage-program ' +
       'path. Mining proceeds via PWR_CONTROL GPIO assertion instead. ' +
       'Required for any S19j Pro XIL on a modded APW3.',
@@ -653,7 +653,7 @@ export const GLOSSARY = {
     term: 'Loki spoof board',
     body:
       'A small daughter-board on i2c-0 @ 0x10 that electrically spoofs the ' +
-      'APW12 SMBus protocol on a modded APW3. Lets DCENT_OS or BraiinsOS ' +
+      'APW12 SMBus protocol on a modded APW3. Lets JMSCNC Heater OS or BraiinsOS ' +
       'complete their smart-APW12 handshake even though the APW3 has no ' +
       'SMBus device. The rail stays at 12.8 V regardless — Loki is a ' +
       'protocol courtesy, not a regulator.',
@@ -662,7 +662,7 @@ export const GLOSSARY = {
     term: 'Bare APW3 (no Loki)',
     body:
       'Modded APW3 without the Loki daughter-board. Recommended for new ' +
-      'fleet builds. DCENT_OS detects the silent i2c-0 @ 0x10 bus, falls ' +
+      'fleet builds. JMSCNC Heater OS detects the silent i2c-0 @ 0x10 bus, falls ' +
       'through the smart-APW12 lenient probe in ~200 ms, and proceeds in ' +
       'PWR_CONTROL-only mode. Rail stays at 12.8 V — identical to the ' +
       'Loki-attached case at the chip side.',
@@ -672,7 +672,7 @@ export const GLOSSARY = {
     body:
       'The original Bitmain smart PSU. Speaks SMBus on i2c-0 @ 0x10 and ' +
       'accepts SetVoltage / Watchdog commands. With this hardware variant, ' +
-      'DCENT_OS uses the canonical smart-APW12 handshake; psu_override is ' +
+      'JMSCNC Heater OS uses the canonical smart-APW12 handshake; psu_override is ' +
       'disabled entirely. No Loki spoof or PWR_CONTROL bypass.',
     note: 'This is the default for unmodified Antminer S19j Pro units.',
   },
@@ -684,16 +684,16 @@ export const GLOSSARY = {
   wave54_handoff_caveat: {
     term: 'Handoff mining (bosminer pre-engaged)',
     body:
-      'First DCENT_OS mining on the XIL S19j Pro (2026-05-24) — 12 ' +
+      'First JMSCNC Heater OS mining on the XIL S19j Pro (2026-05-24) — 12 ' +
       'shares accepted by public-pool.io in 165 s. The path requires a 5-step ' +
       'bosminer-handoff procedure: AC-cycle the unit, boot the BraiinsOS slot, ' +
       'wait ~75 s for bosminer to pre-engage the PSU/dsPIC/Loki spoof, then ' +
-      'kill bosminer and launch the DCENT_OS daemon under the BraiinsOS rootfs ' +
+      'kill bosminer and launch the JMSCNC Heater OS daemon under the BraiinsOS rootfs ' +
       'with the proven 13-env-var recipe.',
     note:
       'The mining session survives daemon uptime but NOT a reboot. ' +
       'Re-running the recipe requires another AC power cycle. ' +
-      'Standalone DCENT_OS bring-up (no bosminer dependency) is Phase 2 work. ' +
+      'Standalone JMSCNC Heater OS bring-up (no bosminer dependency) is Phase 2 work. ' +
       'See the documentation.',
   },
   chip_enum_handoff_caveat: {
@@ -1003,7 +1003,7 @@ export const GLOSSARY = {
     term: 'Per-chip telemetry unavailable',
     body:
       'The daemon did not return per-chip data from /api/chips for this chain. ' +
-      'DCENT_OS only shows real per-chip values — it will not estimate or ' +
+      'JMSCNC Heater OS only shows real per-chip values — it will not estimate or ' +
       'fabricate a heatmap. Per-chip detail appears when the daemon publishes ' +
       'live or saved chip-health for this chain.',
     tag: 'shared',
@@ -1041,7 +1041,7 @@ export const GLOSSARY = {
   swarm_os_fleet: {
     term: 'Swarm (fleet)',
     body:
-      'On DCENT_OS, "Swarm" means fleet control — discovery and coordinated ' +
+      'On JMSCNC Heater OS, "Swarm" means fleet control — discovery and coordinated ' +
       'management of many miners (FleetView). This is the OS-scoped meaning. ' +
       'On DCENT_axe the same word means single-device local consensus + Queen ' +
       'election; the two are deliberately NOT the same feature.',
@@ -1050,7 +1050,7 @@ export const GLOSSARY = {
   advanced_os_tier: {
     term: 'Advanced (Hacker tier)',
     body:
-      'On DCENT_OS, "Advanced" is the Hacker tool-tier — raw FPGA/register/I²C ' +
+      'On JMSCNC Heater OS, "Advanced" is the Hacker tool-tier — raw FPGA/register/I²C ' +
       'access and per-chip control. This is the OS-scoped meaning. On ' +
       'DCENT_axe "Advanced" is just an inline disclosure; the two are not the ' +
       'same surface and must not be merged.',
@@ -1181,7 +1181,7 @@ export const GLOSSARY = {
     term: 'USD value is an estimate',
     body:
       'The USD figure is an estimate that converts the sats projection using a ' +
-      'manual BTC price. DCENT_OS is local-first and does not fetch a live ' +
+      'manual BTC price. JMSCNC Heater OS is local-first and does not fetch a live ' +
       'price, so when no price has been set it falls back to a built-in ' +
       'default. Set your BTC price in Settings for an accurate conversion.',
     note:

@@ -238,7 +238,7 @@ const en = defineLocale([
   "Light",
   "Weak-Chip Advisory",
   "Per-chip telemetry unavailable",
-  "/api/chips did not return per-chip data. DCENT_OS only ranks real per-chip evidence — no weak-chip list is estimated.",
+  "/api/chips did not return per-chip data. JMSCNC Heater OS only ranks real per-chip evidence — no weak-chip list is estimated.",
   "Retry",
   "Refresh",
   "Ranked repair view built from real per-chip evidence. Advisory only — nothing here marks a chip dead without an offline test.",

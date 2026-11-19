@@ -138,7 +138,7 @@ export function FleetDiscovery() {
             ? data.hostname
             : typeof data.miner_name === 'string' ? data.miner_name : ip,
           model: typeof data.model === 'string' ? data.model : 'Unknown',
-          firmware: data.firmware_version ? `DCENTos v${data.firmware_version}` : 'Unknown',
+          firmware: data.firmware_version ? `JMSCNC Heater OS v${data.firmware_version}` : 'Unknown',
           hashrateThs: hashrateGhs / 1000,
           powerWatts,
           status: hashrateGhs > 0 ? 'online' : 'sleeping',

@@ -425,7 +425,7 @@ export function ChipFreqMap() {
             {glossary('telemetry_per_chip_unavailable').term}
           </div>
           <div className="adv-hint is-xs">
-            The daemon did not return per-chip data from <code>/api/chips</code>. DCENT_OS
+            The daemon did not return per-chip data from <code>/api/chips</code>. JMSCNC Heater OS
             only shows real per-chip values — it will not estimate or fabricate a map.
             Per-chip detail appears when the daemon publishes live or saved chip-health.
           </div>

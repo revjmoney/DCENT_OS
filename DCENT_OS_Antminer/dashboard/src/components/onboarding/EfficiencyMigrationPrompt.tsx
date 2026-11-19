@@ -207,7 +207,7 @@ export function EfficiencyMigrationPrompt() {
           <InfoDot term="tuner_mode_efficiency" label="What efficiency-first tuning means" />
         </h2>
         <p className="efficiency-migration-lead">
-          DCENT_OS now defaults to maximum efficiency for home miners.
+          JMSCNC Heater OS now defaults to maximum efficiency for home miners.
           Instead of chasing raw TH/s, the autotuner minimizes
           <strong> J/TH</strong> — the watts you pay for per terahash.
         </p>

@@ -740,7 +740,7 @@ function SharesPageInner() {
             <EmptyState
               illustration={<NoSharesIllustration />}
               title="No shares yet"
-                hint="No recent share events reported by /api/history/shares. DCENT_OS will not infer per-share rows from counters or hashrate."
+                hint="No recent share events reported by /api/history/shares. JMSCNC Heater OS will not infer per-share rows from counters or hashrate."
               data-testid="shares-page-history-empty"
             />
           ) : (

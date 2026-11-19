@@ -106,7 +106,7 @@ export function DataExport() {
     setGeneratingTax(true);
     addAlert(
       'warning',
-      'Tax report is unavailable until DCENT_OS exposes real share/revenue history. No estimated BTC or default power values were generated.',
+      'Tax report is unavailable until JMSCNC Heater OS exposes real share/revenue history. No estimated BTC or default power values were generated.',
     );
     setGeneratingTax(false);
   }, [addAlert]);
@@ -209,7 +209,7 @@ export function DataExport() {
         </div>
 
         <div style={{ marginTop: 12, color: 'var(--text-dim)', fontSize: '0.85rem' }}>
-          Tax export requires real share/revenue history. DCENT_OS will not generate estimated BTC,
+          Tax export requires real share/revenue history. JMSCNC Heater OS will not generate estimated BTC,
           default-wattage, or placeholder tax values.
         </div>
       </div>

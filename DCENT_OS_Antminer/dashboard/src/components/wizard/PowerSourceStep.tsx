@@ -122,7 +122,7 @@ export function PowerSourceStep({
               Circuit declaration
             </div>
             <p className="wiz-fld-hint" style={{ marginTop: 0 }}>
-              Tell DCENT_OS what wall circuit this miner will share so residential
+              Tell JMSCNC Heater OS what wall circuit this miner will share so residential
               limits can be applied more safely.
             </p>
           </div>

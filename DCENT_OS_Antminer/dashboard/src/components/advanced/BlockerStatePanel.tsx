@@ -13,7 +13,7 @@ export function BlockerStatePanel() {
             label: 'NO DATA',
             tone: 'neutral',
             note:
-              "Blocker-state telemetry isn't available from this miner — the overlay health endpoint is only served when DCENT_OS runs in a gated proxy/overlay mode. Nothing to report.",
+              "Blocker-state telemetry isn't available from this miner — the overlay health endpoint is only served when JMSCNC Heater OS runs in a gated proxy/overlay mode. Nothing to report.",
           }
         : state === 'native'
           ? {
@@ -31,7 +31,7 @@ export function BlockerStatePanel() {
         <header className="hacker-inspector-header">
           <div className="hacker-inspector-title-group">
             <div className="hacker-inspector-eyebrow">// overlay blocker state</div>
-            <h2 className="hacker-inspector-title">DCENT_OS Blocker Trace</h2>
+            <h2 className="hacker-inspector-title">JMSCNC Heater OS Blocker Trace</h2>
           </div>
           <div className="hacker-inspector-actions">
             <span className={`hacker-inspector-status ${empty.tone}`}>{empty.label}</span>
@@ -74,7 +74,7 @@ export function BlockerStatePanel() {
       <header className="hacker-inspector-header">
         <div className="hacker-inspector-title-group">
           <div className="hacker-inspector-eyebrow">// overlay blocker state</div>
-          <h2 className="hacker-inspector-title">DCENT_OS Blocker Trace</h2>
+          <h2 className="hacker-inspector-title">JMSCNC Heater OS Blocker Trace</h2>
         </div>
         <div className="hacker-inspector-actions">
           <span className={`hacker-inspector-status ${tone}`}>{String(state).toUpperCase()}</span>

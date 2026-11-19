@@ -92,7 +92,7 @@ DRY_RUN=1 ./scripts/wave8_stock_harvest.sh <miner-ip>   # preview
 DRY_RUN=0 ./scripts/wave8_stock_harvest.sh <miner-ip>   # capture`}
         </pre>
         <div style={{ fontSize: '0.7rem', color: 'var(--text-dim, #6E6E80)', marginTop: 6 }}>
-          When finished, return to DCENT_OS by running <code>fw_setenv bootslot &lt;prev&gt;</code> from
+          When finished, return to JMSCNC Heater OS by running <code>fw_setenv bootslot &lt;prev&gt;</code> from
           inside stock OR via U-Boot serial console. S99upgrade defeats U-Boot auto_recovery — a plain
           power cycle stays on stock.
         </div>

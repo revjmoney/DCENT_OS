@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   DCENT_OS — runtime accent-color theme engine
+   JMSCNC Heater OS — runtime accent-color theme engine
 
    Ports the design-handoff `window.dcpTheme` engine (design-handoff bundle
    `polish.js`) into the production React app.

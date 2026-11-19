@@ -199,7 +199,7 @@ export function TouScheduler() {
             content={
               <>
                 Paint a weekly grid of when your electricity is cheap (off-peak),
-                medium (mid-peak), or expensive (on-peak). DCENT_OS then mines
+                medium (mid-peak), or expensive (on-peak). JMSCNC Heater OS then mines
                 full-speed on cheap power and backs off or sleeps during pricey
                 hours — so the heater earns most when power is cheapest. Drag to
                 paint blocks with the selected rate tier.

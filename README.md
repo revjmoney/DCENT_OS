@@ -52,24 +52,24 @@ control — the miner.
 honest "earning sats while heating" ledger. Quiet-first: DCENT_OS cuts hash power before it ever
 raises fan noise.
 
-![DCENT_OS Space Heater mode — thermostat-style Bitcoin mining space heater dashboard](DCENT_OS_Antminer/docs/media/dashboard-heater.png)
+![JMSCNC Heater OS — Space Heater mode — thermostat-style Bitcoin mining space heater dashboard](DCENT_OS_Antminer/docs/media/dashboard-heater.png)
 
 **Mining mode** — live hashrate, silicon telemetry down to individual chips, current-block hero,
 share quality, and pool state. Every number is evidence-gated: *connected ≠ mining, scheduled ≠
 flashed, upload ≠ mined*.
 
-![DCENT_OS Mining mode — Antminer S9 hashrate and silicon telemetry dashboard](DCENT_OS_Antminer/docs/media/dashboard-standard.png)
+![JMSCNC Heater OS — Mining mode — Antminer S19j Pro hashrate and silicon telemetry dashboard](DCENT_OS_Antminer/docs/media/dashboard-standard.png)
 
 **The Companion** — one of the first miner firmwares with an AI-native control surface. Point it at
 a local LLM (LM Studio / Ollama — your model, your machine, no cloud), ask *"my miner is noisy,
 what can we do?"*, and it proposes a guarded action you explicitly approve:
 
-<p align="center"><img src="DCENT_OS_Antminer/docs/media/companion-chat.png" alt="DCENT_OS Companion chat — local-LLM AI assistant proposing a quiet-mode action with explicit consent" width="560"></p>
+<p align="center"><img src="DCENT_OS_Antminer/docs/media/companion-chat.png" alt="JMSCNC Heater OS Companion chat — local-LLM AI assistant proposing a quiet-mode action with explicit consent" width="560"></p>
 
 **The autotuner** — tune by what you actually care about: power, hashrate, fan noise, heat output,
 or efficiency (J/TH), with an honest before → after prediction and hard safety clamps.
 
-![DCENT_OS autotuner — tune by priority with honest predicted estimates](DCENT_OS_Antminer/docs/media/autotuner-tune-by-priority.png)
+![JMSCNC Heater OS autotuner — tune by priority with honest predicted estimates](DCENT_OS_Antminer/docs/media/autotuner-tune-by-priority.png)
 
 ## One firmware family, many miners
 

@@ -166,7 +166,7 @@ export function ApiExplorer() {
             API EXPLORER
           </div>
           <div className="advanced-page-copy">
-            Call DCENT_OS endpoints directly, inspect raw responses, and validate request bodies without leaving the dashboard.
+            Call JMSCNC Heater OS endpoints directly, inspect raw responses, and validate request bodies without leaving the dashboard.
           </div>
         </div>
       </div>

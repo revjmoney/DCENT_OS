@@ -155,7 +155,7 @@ const PAGE_META: Record<string, { title: string; description: string }> = {
   },
   api: {
     title: 'API Explorer',
-    description: 'Hit any DCENT_OS REST endpoint, see the raw JSON, copy the curl.',
+    description: 'Hit any JMSCNC Heater OS REST endpoint, see the raw JSON, copy the curl.',
   },
   diagnostics: {
     title: 'Diagnostics',
@@ -935,7 +935,7 @@ function AdvancedDashboardInner() {
               <>
                 <div className="hacker-sidebar-brand-row">
                   <DcentOsIcon size={22} />
-                  <h1>DCENT_OS</h1>
+                  <h1>JMSCNC Heater OS</h1>
                 </div>
                 <div className="version">
                   <span className="hacker-sidebar-prompt">root@dcentos:~#</span>

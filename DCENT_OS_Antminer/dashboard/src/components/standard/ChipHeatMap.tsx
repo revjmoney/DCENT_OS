@@ -272,7 +272,7 @@ export function ChipHeatMap({ chainIndex, chainId }: ChipHeatMapProps) {
             {glossary('telemetry_per_chip_unavailable').term}
           </div>
           Chain {chainId} did not return per-chip data from <code>/api/chips</code>.
-          DCENT_OS only shows real per-chip values — it will not estimate or
+          JMSCNC Heater OS only shows real per-chip values — it will not estimate or
           fabricate a heatmap. Per-chip detail appears when the daemon publishes
           live or saved chip-health for this chain.
         </div>

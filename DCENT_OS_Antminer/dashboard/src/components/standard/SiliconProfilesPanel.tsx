@@ -140,7 +140,7 @@ export function SiliconProfilesPanel() {
         frequency_mhz: p.frequency_mhz,
         voltage_mv: p.voltage_mv,
         fan_mode: p.fan_mode,
-        _exported_from: 'DCENT_OS',
+        _exported_from: 'JMSCNC Heater OS',
         _exported_at: new Date().toISOString(),
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });

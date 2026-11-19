@@ -187,9 +187,9 @@ const INVERTER_OPTIONS: ProviderOption[] = [
     stage: 'live',
     transport: 'manual',
     trustBoundaryLabel: 'Operator-entered snapshot',
-    trustBoundaryDetail: 'DCENT_OS only sees what an operator typed. It cannot prove freshness, detect drift, or distinguish a stale guess from a real site event.',
+    trustBoundaryDetail: 'JMSCNC Heater OS only sees what an operator typed. It cannot prove freshness, detect drift, or distinguish a stale guess from a real site event.',
     failSafeExpectation: 'Manual mode should shape commissioning decisions only. Unattended protection still needs a real Off-Grid voltage path, and preferably a live provider before solar policy is trusted.',
-    help: 'Live now. Enter estimated production/load numbers manually and let DCENT_OS combine them with miner wall-power telemetry.',
+    help: 'Live now. Enter estimated production/load numbers manually and let JMSCNC Heater OS combine them with miner wall-power telemetry.',
   },
   {
     value: 'victron',
@@ -210,7 +210,7 @@ const INVERTER_OPTIONS: ProviderOption[] = [
     stage: 'live',
     transport: 'http-json',
     trustBoundaryLabel: 'Normalized bridge contract',
-    trustBoundaryDetail: 'DCENT_OS trusts the bridge to translate upstream telemetry correctly. The trust boundary is the bridge itself: field names, sign conventions, timestamps, and battery meaning must all stay consistent.',
+    trustBoundaryDetail: 'JMSCNC Heater OS trusts the bridge to translate upstream telemetry correctly. The trust boundary is the bridge itself: field names, sign conventions, timestamps, and battery meaning must all stay consistent.',
     failSafeExpectation: 'Treat bridge freshness and contract tests as mandatory. If the bridge goes stale or drifts, Green Mining should stop enforcing while Off-Grid keeps hard battery/DC protection.',
     placeholder: 'http://bridge.local/api/v1/victron',
     endpointLabel: 'Bridge Base URL',
@@ -223,12 +223,12 @@ const INVERTER_OPTIONS: ProviderOption[] = [
     stage: 'limited',
     transport: 'ecoflow-http-bridge',
     trustBoundaryLabel: 'Narrow EcoFlow bridge contract',
-    trustBoundaryDetail: 'DCENT_OS trusts only the specific EcoFlow bridge contract it already understands. Anything outside that contract is outside the trust boundary, even if the source is still EcoFlow.',
+    trustBoundaryDetail: 'JMSCNC Heater OS trusts only the specific EcoFlow bridge contract it already understands. Anything outside that contract is outside the trust boundary, even if the source is still EcoFlow.',
     failSafeExpectation: 'Use this only after repeated contract validation. If field coverage or freshness slips, fall back to observe-only policy and keep Off-Grid protection authoritative.',
     placeholder: 'mqtt://ecoflow-bridge.local:1883/dcentos/ecoflow',
     endpointLabel: 'EcoFlow Bridge Endpoint',
     keyLabel: 'Access Token / Secret',
-    help: 'Limited live path. DCENT_OS can enforce against an EcoFlow-specific bridge contract over HTTP JSON or MQTT/WS JSON, but it does not claim broad direct EcoFlow auth/protocol coverage yet.',
+    help: 'Limited live path. JMSCNC Heater OS can enforce against an EcoFlow-specific bridge contract over HTTP JSON or MQTT/WS JSON, but it does not claim broad direct EcoFlow auth/protocol coverage yet.',
   },
   {
     value: 'tesla',
@@ -467,7 +467,7 @@ export function SolarConfig() {
           label="What solar integration does"
           content={
             <>
-              Connects DCENT_OS to your solar inverter or battery system so it
+              Connects JMSCNC Heater OS to your solar inverter or battery system so it
               can mine harder when you have surplus sun and back off to protect
               the battery when you don't. This page only shapes policy from
               provider telemetry — the Off-Grid page owns the hard
@@ -760,7 +760,7 @@ export function SolarConfig() {
       </div>
 
       <div style={{ marginTop: 10, fontSize: '0.72rem', color: 'var(--text-dim)', lineHeight: 1.5 }}>
-        Freshness timeout applies when a provider reports <code>sampleAgeMs</code> or <code>timestampMs</code>. Set it to <code>0</code> to stop aging out those samples. Failure hysteresis controls how many consecutive provider errors DCENT_OS tolerates before fail-closed sleep on solar-only or battery-backed profiles.
+        Freshness timeout applies when a provider reports <code>sampleAgeMs</code> or <code>timestampMs</code>. Set it to <code>0</code> to stop aging out those samples. Failure hysteresis controls how many consecutive provider errors JMSCNC Heater OS tolerates before fail-closed sleep on solar-only or battery-backed profiles.
       </div>
 
       <div style={{

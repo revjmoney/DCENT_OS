@@ -73,7 +73,7 @@ export function NetworkStep({ value, onChange }: NetworkStepProps) {
     <div className="wiz-step-body wizard-step-pane">
       <h2 className="wiz-h2">Network</h2>
       <p className="wiz-lede">
-        How is this miner online? This step is informational — DCENT_OS detects the
+        How is this miner online? This step is informational — JMSCNC Heater OS detects the
         connection automatically, so you can skip it.
       </p>
 
@@ -101,7 +101,7 @@ export function NetworkStep({ value, onChange }: NetworkStepProps) {
       </div>
 
       <div className="wiz-info">
-        <strong>Local-first.</strong> DCENT_OS doesn&apos;t phone home. Your network
+        <strong>Local-first.</strong> JMSCNC Heater OS doesn&apos;t phone home. Your network
         choice stays on this device — it isn&apos;t sent anywhere and isn&apos;t
         required to finish setup.
       </div>

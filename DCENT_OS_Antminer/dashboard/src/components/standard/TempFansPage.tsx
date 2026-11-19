@@ -383,7 +383,7 @@ export function TempFansPage() {
               <StatePanel
                 title={chains.length === 0 ? 'Waiting for chain telemetry' : 'Boards detected, but temperatures are not ready yet'}
                 message={chains.length === 0
-                  ? 'DCENT_OS has not received chain temperature data yet. Control-board telemetry may be live before hash boards finish reporting.'
+                  ? 'JMSCNC Heater OS has not received chain temperature data yet. Control-board telemetry may be live before hash boards finish reporting.'
                   : 'Hash boards are visible, but chip temperatures are still zero. Check board power, cold-boot state, and sensor readiness.'}
                 tone={chains.length === 0 ? 'info' : 'warning'}
                 compact
