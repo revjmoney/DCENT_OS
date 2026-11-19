@@ -42,11 +42,21 @@ dcent_require_exact_amlogic_build_inputs() {
     # Reset per-call so a prior arm's donor generation cannot leak into a
     # later invocation within the same shell.
     unset dcent_expected_build_name dcent_expected_fw_version
+    unset dcent_alt_fw_info_sha256 dcent_alt_fw_info_size dcent_alt_build_name dcent_alt_fw_version
     case "$dcent_build_target" in
         am3-s19jpro-aml)
             dcent_expected_model=s19jpro
             dcent_expected_fw_info_sha256=f1c495fb5d70e619602eefc1764aface200fd53c29e92f4b23ffd4b003eb018e
             dcent_expected_fw_info_size=278
+            # LOCAL: also admit the public VNish 1.2.6 S19j Pro AML NAND donor
+            # (vnish-s19jpro-aml-nand-v1.2.6-install.tar.gz from vnish.group).
+            # Its vmlinux.bin and devicetree.dtb are byte-identical to the pinned
+            # kernel/DTB below (verified 2026-11-18); only the fw-info label differs.
+            # This exact fw-info is pinned by digest, so no other identity is admitted.
+            dcent_alt_fw_info_sha256=2fe5f1330c4da9f7a0dde7d76376f08944b085fdaed0af9ae89bcb6301bbf30f
+            dcent_alt_fw_info_size=299
+            dcent_alt_build_name=vnishgroup
+            dcent_alt_fw_version=1.2.6
             ;;
         am3-s19jproa)
             dcent_expected_model=s19jpro-a
@@ -125,9 +135,18 @@ dcent_require_exact_amlogic_build_inputs() {
         "$DCENT_AM3_AML_DTB" 20945 \
         540c1770543d9620e106ea4287c2a534f5efd85c912e97d6be6295930506b257 \
         "Amlogic DTB input" || return 1
-    dcent_amlogic_require_digest \
-        "$DCENT_AM3_AML_FW_INFO" "$dcent_expected_fw_info_size" \
-        "$dcent_expected_fw_info_sha256" "Amlogic fw-info identity input" || return 1
+    if [ -n "${dcent_alt_fw_info_sha256:-}" ] &&
+        [ "$(sha256sum "$DCENT_AM3_AML_FW_INFO" | awk '{print $1}')" = "$dcent_alt_fw_info_sha256" ]; then
+        dcent_amlogic_require_digest \
+            "$DCENT_AM3_AML_FW_INFO" "$dcent_alt_fw_info_size" \
+            "$dcent_alt_fw_info_sha256" "Amlogic fw-info identity input" || return 1
+        dcent_expected_build_name=$dcent_alt_build_name
+        dcent_expected_fw_version=$dcent_alt_fw_version
+    else
+        dcent_amlogic_require_digest \
+            "$DCENT_AM3_AML_FW_INFO" "$dcent_expected_fw_info_size" \
+            "$dcent_expected_fw_info_sha256" "Amlogic fw-info identity input" || return 1
+    fi
 
     # Arms may pin a distinct donor generation; the retained vnishfarm
     # 1.2.6-rc5 identity stays the default so earlier arms are unchanged.

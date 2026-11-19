@@ -1784,6 +1784,12 @@ fi
 if [ "$TARGET" = am3-s19kpro-nopic ]; then
     AMLOGIC_EXACT_CONTAINER_ROOT="/dcent-inputs/files/knowledge-base/extractions/re-armada/vnish-1.2.7-s19kpro-aml-nand-v1.2.7-install"
 fi
+# LOCAL: am3-s19jpro-aml may use the public VNish 1.2.6 donor instead of the
+# vnishfarm 1.2.6-rc5 one. Its fw-info is still digest-gated in
+# require-exact-build-inputs.sh, so this only changes where the files are read.
+if [ "$TARGET" = am3-s19jpro-aml ] && [ "${DCENT_AM3_S19JPRO_PUBLIC_DONOR:-}" = 1 ]; then
+    AMLOGIC_EXACT_CONTAINER_ROOT="/dcent-inputs/files/knowledge-base/extractions/vnish-group/s19jpro/vnish-1.2.6-aml-nand-install"
+fi
 # Pinned mkimage for the native AM2 fabric FIT pin (drop1-20260919-4f5h9mgl
 # latent): the pin bytes were built by u-boot 2026.04 commit 5a998ab00758
 # (staged 2026-04-14). The capsule container's apt u-boot-tools (2022.01)
