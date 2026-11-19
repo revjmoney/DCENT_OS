@@ -157,19 +157,19 @@ export function KitTopBar(props: KitTopBarProps) {
         </button>
         {/* Kit TopBar.jsx right cluster: Help desk + Documentation links,
             then a divider, the UTC clock, refresh, and config. The links
-            point at the real DCENT_OS docs (open in a new tab). */}
+            point at JMSCNC (help) and the project source (open in a new tab). */}
         <a
           className="topbar-link"
-          href="https://d-central.tech/contact/"
+          href="https://jmscnc.com"
           target="_blank"
           rel="noopener noreferrer"
-          data-tip="Open the D-Central help desk in a new tab."
+          data-tip="Open jmscnc.com in a new tab."
         >
           Help desk
         </a>
         <a
           className="topbar-link"
-          href="https://github.com/d-central-tech/dcentos"
+          href="https://github.com/revjmoney/DCENT_OS"
           target="_blank"
           rel="noopener noreferrer"
           data-tip="Firmware reference, troubleshooting, install paths."
@@ -181,9 +181,9 @@ export function KitTopBar(props: KitTopBarProps) {
           href={fundContributeUrl('topbar')}
           target="_blank"
           rel="noopener noreferrer"
-          data-tip="Keep this open firmware alive — Bitcoin or card."
+          data-tip="Buy Me a Coffee: support JMSCNC Heater OS."
         >
-          Fund
+          Support
         </a>
         <span className="topbar-divider" aria-hidden="true" />
         <span className="topbar-refresh" aria-label="Live telemetry">

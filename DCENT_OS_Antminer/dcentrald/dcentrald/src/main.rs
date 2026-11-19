@@ -567,7 +567,7 @@ fn cli_help_text() -> String {
          \x20 RUST_LOG              full tracing filter when DCENTRALD_LOG is unset\n\
          \n\
          Docs + recovery: https://d-central.tech  |  config: /data/dcentrald.toml\n\
-         Fund / Donate / Support: https://d-central.tech/fund/\n",
+         Support JMSCNC Heater OS: https://buymeacoffee.com/revjmoney\n",
         ver = env!("CARGO_PKG_VERSION"),
         cap = dcentrald_hal::fan::PWM_SAFETY_MAX,
         lab = if cfg!(feature = "lab") {
@@ -6865,19 +6865,18 @@ mod tests {
         );
     }
 
-    /// HARD RULE: every DCENT_ open-source surface must point operators at
-    /// https://d-central.tech/fund/ (Stripe + BTCPay). `dcentrald --help`
-    /// is the CLI footer; do not drop the canonical URL from this string.
+    /// JMSCNC Heater OS: `dcentrald --help` is the CLI footer and must point
+    /// operators at the canonical support URL; do not drop it from this string.
     #[test]
     fn cli_help_text_includes_canonical_fund_url() {
         let help = crate::cli_help_text();
         assert!(
-            help.contains("https://d-central.tech/fund/"),
-            "dcentrald --help must include the canonical Fund URL; got:\n{help}"
+            help.contains("https://buymeacoffee.com/revjmoney"),
+            "dcentrald --help must include the canonical support URL; got:\n{help}"
         );
         assert!(
-            help.contains("Fund / Donate / Support"),
-            "dcentrald --help footer must label the Fund/Donate/Support affordance; got:\n{help}"
+            help.contains("Support JMSCNC Heater OS"),
+            "dcentrald --help footer must label the support affordance; got:\n{help}"
         );
     }
 
@@ -6989,7 +6988,7 @@ mod tests {
         assert!(authority < serial);
         assert!(constructor.contains("explicit_loud_fan_authority,"));
         assert!(crate::cli_help_text().contains("S19k Track-1 PWM"));
-        assert!(crate::cli_help_text().contains("https://d-central.tech/fund/"));
+        assert!(crate::cli_help_text().contains("https://buymeacoffee.com/revjmoney"));
     }
 
     #[test]

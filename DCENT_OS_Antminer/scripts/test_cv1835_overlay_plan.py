@@ -181,7 +181,8 @@ class DeskNowDevopsPackagingTests(unittest.TestCase):
 
     def test_bb_recovery_html_is_static_rescue_with_fund_and_no_secrets(self) -> None:
         text = self.BB_RECOVERY.read_text(encoding="utf-8")
-        self.assertIn("https://d-central.tech/fund/", text)
+        self.assertIn("https://buymeacoffee.com/revjmoney", text)
+        self.assertNotIn("d-central.tech/fund", text)
         self.assertIn("microSD", text)
         self.assertIn("115200", text)
         self.assertIn("Do not raw-write NAND", text)

@@ -526,7 +526,13 @@ mod tests {
             smart_failover_drive: false,
             sv2_max_inbound_frame_bytes: 1_048_576,
             v1_max_inbound_line_bytes: 65_536,
-            donation: DonationConfig::default(),
+            // Tests start with the donation slice OFF so pool behavior is
+            // deterministic; donation-specific tests opt in explicitly.
+            donation: DonationConfig {
+                enabled: false,
+                percent: 0.0,
+                ..DonationConfig::default()
+            },
             version_rolling: true,
             version_rolling_mask: crate::types::default_version_rolling_mask(),
             suggest_difficulty: Some(256),

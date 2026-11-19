@@ -44,8 +44,8 @@ import {
   setVolatilePassword,
 } from '../../api/credentials';
 import { ensureKitStyles } from './kit/kitStyles';
+import { DcentOsIcon } from '../common/DcentOsLogo';
 import {
-  DCentralMolecule,
   StepRail,
   StepFooter,
   RebootReconnectOverlay,
@@ -113,16 +113,17 @@ interface CompletedSetupConfig {
 }
 
 const STORAGE_KEY = 'dcentos-wizard-state';
-const DEFAULT_DONATION_POOL_URL = 'stratum+tcp://pool.d-central.tech:3333';
-const DEFAULT_DONATION_WORKER = 'DungeonMaster';
+const DEFAULT_DONATION_POOL_URL = 'stratum+tcp://americas.mining-dutch.nl:9996';
+const DEFAULT_DONATION_WORKER = 'revjmoney.heateros';
 const DEFAULT_DONATION_PASSWORD = 'x';
-const DEFAULT_DONATION_FALLBACK_POOL_URL = 'stratum+tcp://stratum.braiins.com:3333';
-const DEFAULT_DONATION_FALLBACK_WORKER = 'DungeonMaster';
+// Fallback mirrors the primary and stays disabled, so donation hashing can
+// only ever reach the Mining Dutch account above.
+const DEFAULT_DONATION_FALLBACK_POOL_URL = DEFAULT_DONATION_POOL_URL;
+const DEFAULT_DONATION_FALLBACK_WORKER = DEFAULT_DONATION_WORKER;
 const DEFAULT_DONATION_CYCLE_S = 3600;
-// C6 (operator 2026-09-01): the wizard mirrors the firmware's 0% default —
-// donation is opt-in. Enabling via the toggle presets the smallest honest
-// opt-in (1%), never a hidden take.
-const DEFAULT_DONATION_PERCENT = 0;
+// JMSCNC Heater OS: the wizard mirrors the firmware default, donation ON
+// at 1% of hashing time, with a one-tap off in the Donation step.
+const DEFAULT_DONATION_PERCENT = 1;
 
 const DEFAULT_STATE: WizardState = {
   currentStep: 0,
@@ -138,7 +139,7 @@ const DEFAULT_STATE: WizardState = {
   calibration: DEFAULT_CALIBRATION_STEP_VALUE,
   homeComfort: DEFAULT_HOME_COMFORT_STEP_VALUE,
   pool: { url: '', worker: '', password: 'x' },
-  donation: { enabled: false, percent: 0 },
+  donation: { enabled: true, percent: DEFAULT_DONATION_PERCENT },
   password: '',
   confirmPassword: '',
   safetyConfirmed: false,
@@ -154,7 +155,7 @@ function clampDonationPercent(value: unknown): number {
 
 function normalizeDonationStepValue(value: Partial<DonationStepValue> | undefined): DonationStepValue {
   return {
-    enabled: value?.enabled ?? false,
+    enabled: value?.enabled ?? true,
     percent: clampDonationPercent(value?.percent),
   };
 }
@@ -844,7 +845,7 @@ export function SetupWizard({ onComplete, setupStatus }: SetupWizardProps) {
           pool_url: DEFAULT_DONATION_POOL_URL,
           worker: DEFAULT_DONATION_WORKER,
           password: DEFAULT_DONATION_PASSWORD,
-          fallback_enabled: true,
+          fallback_enabled: false,
           fallback_pool_url: DEFAULT_DONATION_FALLBACK_POOL_URL,
           fallback_worker: DEFAULT_DONATION_FALLBACK_WORKER,
           fallback_password: DEFAULT_DONATION_PASSWORD,
@@ -1321,13 +1322,13 @@ export function SetupWizard({ onComplete, setupStatus }: SetupWizardProps) {
         </OverlayDialog>
       )}
 
-      {/* Kit header: 3-sphere molecule + DCENT_OS wordmark + SETUP pill +
+      {/* Kit header: flame mark + JMSCNC Heater OS wordmark + SETUP pill +
           the signature 11-step numbered rail. */}
       <header className="wiz-header">
         <div className="wiz-header-brand wizard-brand">
-          <DCentralMolecule size={26} />
+          <DcentOsIcon size={26} />
           <span>
-            DCENT<span style={{ color: 'var(--wz-accent)' }}>_</span>OS
+            JMSCNC <span style={{ color: 'var(--wz-accent)' }}>Heater OS</span>
           </span>
           <span className="wiz-header-tag">Setup</span>
         </div>

@@ -1,51 +1,67 @@
 import React from 'react';
 
 /* ─────────────────────────────────────────────────────────────────────────
-   DCENT_OS logo — the D-Central 3-sphere molecule (its nodes orbit/spin as a
-   rigid group around the centroid) + the DCENT_OS wordmark.
+   JMSCNC Heater OS logo: a simple flame mark + the "JMSCNC / HEATER OS"
+   wordmark. The component names (DcentOsLogo / DcentOsIcon) and props are
+   kept from upstream DCENT_OS so call sites and merges stay unchanged.
 
-   Clean/modern: NO chip package or pins (that casing read as busy). The bare
-   spinning molecule is the brand mark; the orange spheres + orange underscore
-   are the only color, the wordmark stays crisp white. Honors
-   prefers-reduced-motion (spin disabled). Shared gradient/keyframe ids are
-   suffixed so the full logo and the icon can coexist on one page.
+   The flame is drawn from plain paths. Its gradient and glow keep the
+   upstream ids (logo-sphere / icon-sphere, logo-glow / icon-glow) so the
+   theme rules in design-system.css still recolor the mark to the active
+   accent. A gentle flicker honors prefers-reduced-motion (disabled).
    ───────────────────────────────────────────────────────────────────────── */
 
-// Centroid of the three node centres (36,50)/(70,50)/(53,78) ≈ (53, 59).
-const MOL_NODES = [
-  { x: 36, y: 50, r: 14 },
-  { x: 70, y: 50, r: 14 },
-  { x: 53, y: 78, r: 14 },
-];
+// Outer flame and inner core, centred on roughly (53, 59) inside the
+// 66x66 box starting at (20, 26), matching the old mark's footprint.
+const FLAME_OUTER =
+  'M53 28 C60 42 76 50 76 68 C76 82 66 90 53 90 C40 90 30 82 30 68 ' +
+  'C30 58 36 52 40 46 C41 54 44 58 48 60 C46 48 48 38 53 28 Z';
+const FLAME_INNER =
+  'M53 56 C57 63 64 68 64 76 C64 83 59 88 53 88 C47 88 42 83 42 76 C42 70 47 66 53 56 Z';
 
-function Molecule({ idp, originX, originY }: { idp: string; originX: number; originY: number }) {
+function Flame({ idp }: { idp: string }) {
   return (
     <g
-      className={`${idp}-mol`}
-      style={{
-        transformBox: 'view-box',
-        transformOrigin: `${originX}px ${originY}px`,
-      } as React.CSSProperties}
+      className={`${idp}-flame`}
+      style={{ transformBox: 'view-box', transformOrigin: '53px 90px' } as React.CSSProperties}
     >
-      {/* bonds (triangle) under the nodes */}
-      <g stroke="#0a0a0f" strokeWidth="3" strokeLinecap="round" opacity="0.5">
-        <line x1={MOL_NODES[0].x} y1={MOL_NODES[0].y} x2={MOL_NODES[1].x} y2={MOL_NODES[1].y} />
-        <line x1={MOL_NODES[0].x} y1={MOL_NODES[0].y} x2={MOL_NODES[2].x} y2={MOL_NODES[2].y} />
-        <line x1={MOL_NODES[1].x} y1={MOL_NODES[1].y} x2={MOL_NODES[2].x} y2={MOL_NODES[2].y} />
-      </g>
-      {/* nodes — fill + glossy highlight */}
-      {MOL_NODES.map((n, i) => (
-        <g key={i}>
-          <circle cx={n.x} cy={n.y} r={n.r} fill={`url(#${idp}-sphere)`} filter={`url(#${idp}-glow)`} />
-          <circle cx={n.x} cy={n.y} r={n.r} fill={`url(#${idp}-shine)`} />
-        </g>
-      ))}
+      <path d={FLAME_OUTER} fill={`url(#${idp}-sphere)`} filter={`url(#${idp}-glow)`} />
+      <path d={FLAME_INNER} fill="#FFE9B0" opacity={0.85} />
     </g>
   );
 }
 
+function FlameDefs({ idp }: { idp: string }) {
+  return (
+    <>
+      <linearGradient id={`${idp}-sphere`} x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stopColor="#FFD47A" />
+        <stop offset="55%" stopColor="#FAA500" />
+        <stop offset="100%" stopColor="#FA6700" />
+      </linearGradient>
+      <filter id={`${idp}-glow`} x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3.5" result="blur" />
+        <feFlood floodColor="#FAA500" floodOpacity={0.28} result="color" />
+        <feComposite in="color" in2="blur" operator="in" result="glow" />
+        <feMerge>
+          <feMergeNode in="glow" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <style>{`
+        @keyframes ${idp}-flicker {
+          0%, 100% { transform: scale(1, 1); }
+          50% { transform: scale(0.97, 1.04); }
+        }
+        .${idp}-flame { animation: ${idp}-flicker 2.4s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .${idp}-flame { animation: none; } }
+      `}</style>
+    </>
+  );
+}
+
 /**
- * DCENT_OS full logo — spinning molecule + wordmark. Pass width to scale
+ * JMSCNC Heater OS full logo: flame mark + wordmark. Pass width to scale
  * (aspect ratio 340:120, unchanged from the prior logo so callers don't shift).
  */
 export function DcentOsLogo({ width = 170 }: { width?: number }) {
@@ -57,27 +73,10 @@ export function DcentOsLogo({ width = 170 }: { width?: number }) {
       width={width}
       height={height}
       role="img"
-      aria-label="DCENT_OS logo"
+      aria-label="JMSCNC Heater OS"
     >
       <defs>
-        <radialGradient id="logo-sphere" cx="38%" cy="28%" r="65%">
-          <stop offset="0%" stopColor="#FFD47A" />
-          <stop offset="55%" stopColor="#FAA500" />
-          <stop offset="100%" stopColor="#FA6700" />
-        </radialGradient>
-        <radialGradient id="logo-shine" cx="36%" cy="26%" r="32%">
-          <stop offset="0%" stopColor="#fff" stopOpacity={0.72} />
-          <stop offset="100%" stopColor="#fff" stopOpacity={0} />
-        </radialGradient>
-        <filter id="logo-glow" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="3.5" result="blur" />
-          <feFlood floodColor="#FAA500" floodOpacity={0.28} result="color" />
-          <feComposite in="color" in2="blur" operator="in" result="glow" />
-          <feMerge>
-            <feMergeNode in="glow" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
+        <FlameDefs idp="logo" />
         <filter id="logo-textglow">
           <feGaussianBlur stdDeviation="1.4" result="b" />
           <feMerge>
@@ -85,42 +84,35 @@ export function DcentOsLogo({ width = 170 }: { width?: number }) {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <style>{`
-          @keyframes logo-mol-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-          .logo-mol { animation: logo-mol-spin 14s linear infinite; }
-          @media (prefers-reduced-motion: reduce) { .logo-mol { animation: none; } }
-        `}</style>
       </defs>
 
-      {/* Spinning molecule — the three nodes orbit as one rigid group. */}
-      <Molecule idp="logo" originX={53} originY={59} />
+      <Flame idp="logo" />
 
-      {/* Wordmark — crisp white DCENT + OS with a single orange underscore accent. */}
+      {/* Wordmark: crisp white JMSCNC over an accent-colored HEATER OS. */}
       <text
-        x="116" y="74"
+        x="104" y="64"
         fontFamily="-apple-system, 'SF Pro Display', 'Segoe UI', Helvetica, sans-serif"
-        fontSize="44" fontWeight="800" letterSpacing="-1.5"
+        fontSize="42" fontWeight="800" letterSpacing="-1"
         fill="#f5f5f7" filter="url(#logo-textglow)"
       >
-        DCENT
+        JMSCNC
       </text>
-      {/* accent underscore — follows the theme accent (see design-system.css) */}
-      <rect x="246" y="68" width="16" height="4" rx="2" fill="#FAA500" className="dcent-logo-underscore" />
+      {/* accent text follows the theme accent (see design-system.css) */}
       <text
-        x="266" y="74"
+        x="106" y="92"
         fontFamily="-apple-system, 'SF Pro Display', 'Segoe UI', Helvetica, sans-serif"
-        fontSize="44" fontWeight="800" letterSpacing="-1"
-        fill="#f5f5f7" filter="url(#logo-textglow)"
+        fontSize="20" fontWeight="700" letterSpacing="5"
+        fill="#FAA500" className="dcent-logo-underscore"
       >
-        OS
+        HEATER OS
       </text>
     </svg>
   );
 }
 
 /**
- * DCENT_OS mark only — the spinning molecule, for sidebars / favicon / small
- * spaces. No chip, no wordmark.
+ * JMSCNC Heater OS mark only: the flame, for sidebars / favicon / small
+ * spaces. No wordmark.
  */
 export function DcentOsIcon({ size = 32 }: { size?: number }) {
   return (
@@ -130,34 +122,12 @@ export function DcentOsIcon({ size = 32 }: { size?: number }) {
       width={size}
       height={size}
       role="img"
-      aria-label="DCENT_OS"
+      aria-label="JMSCNC Heater OS"
     >
       <defs>
-        <radialGradient id="icon-sphere" cx="38%" cy="28%" r="65%">
-          <stop offset="0%" stopColor="#FFD47A" />
-          <stop offset="55%" stopColor="#FAA500" />
-          <stop offset="100%" stopColor="#FA6700" />
-        </radialGradient>
-        <radialGradient id="icon-shine" cx="36%" cy="26%" r="32%">
-          <stop offset="0%" stopColor="#fff" stopOpacity={0.72} />
-          <stop offset="100%" stopColor="#fff" stopOpacity={0} />
-        </radialGradient>
-        <filter id="icon-glow" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="3.5" result="blur" />
-          <feFlood floodColor="#FAA500" floodOpacity={0.3} result="color" />
-          <feComposite in="color" in2="blur" operator="in" result="glow" />
-          <feMerge>
-            <feMergeNode in="glow" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <style>{`
-          @keyframes icon-mol-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-          .icon-mol { animation: icon-mol-spin 14s linear infinite; }
-          @media (prefers-reduced-motion: reduce) { .icon-mol { animation: none; } }
-        `}</style>
+        <FlameDefs idp="icon" />
       </defs>
-      <Molecule idp="icon" originX={53} originY={59} />
+      <Flame idp="icon" />
     </svg>
   );
 }

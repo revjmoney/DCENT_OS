@@ -17,14 +17,15 @@ url      = "stratum+tcp://your.pool:3333"
 worker   = "your-btc-address-or-account"
 password = "x"
 
-[donation]               # 0% default — opt-in, transparent, fully disableable
-enabled       = false    # DCENT_OS ships with ZERO mandatory fee
-percent       = 0.0      # opt in at 1.0–5.0; set 0 or enabled=false to turn it off
-pool_url      = "stratum+tcp://pool.d-central.tech:3333"   # DCENT_Pool (Solo/Guild)
-worker        = "DungeonMaster"
-fallback_pool_url = "stratum+tcp://stratum.braiins.com:3333"  # used only if the primary is down
-fallback_worker   = "DungeonMaster"
-cycle_duration_s  = 3600 # at an opted-in 2%, that's ~72s of donation per hour
+[donation]               # 1% default, transparent, fully disableable
+enabled       = true     # set false to turn the dev-support slice off
+percent       = 1.0      # 0.0 to 5.0; set 0 or enabled=false to turn it off
+pool_url      = "stratum+tcp://americas.mining-dutch.nl:9996"   # Mining Dutch (account-based)
+worker        = "revjmoney.heateros"
+fallback_enabled  = false  # off by default
+fallback_pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"  # same account as the primary
+fallback_worker   = "revjmoney.heateros"
+cycle_duration_s  = 3600 # at the default 1%, that's ~36s of donation per hour
 
 [thermal]
 fan_max_pwm = 30         # home/quiet cap; the daemon cuts hash before exceeding this
@@ -37,13 +38,14 @@ voltage_v = 12.8
 
 ## Donation
 
-DCENT_OS ships with the donation **off — 0% by default, no mandatory fee, ever**. The donation is
-a voluntary, opt-in, transparent slice of hashtime — never a hidden dev fee. It routes to
-**DCENT_Pool**, D-Central's [Solo/Guild pool](FAQ.md#what-is-dcent_pool), and shows a live
-"DONATING" indicator on the dashboard whenever it's active. Set `percent = 0` or `enabled = false`
-to disable it entirely. If the primary donation endpoint is temporarily unreachable, a visible
-backup route keeps the (still-bounded) donation slice flowing — it never extends your configured
-percentage and is never part of your own pool's failover.
+JMSCNC Heater OS sends **1% of hashing time to support development by default**. You can lower it
+or turn it off at any time (Settings, the setup wizard, or `enabled = false` / `percent = 0`). It is
+a transparent, time-sliced share of hashtime, never a hidden dev fee. It mines to the Mining Dutch
+account `revjmoney` (worker `revjmoney.heateros`). Mining Dutch is an account-based pool, so there
+is no single on-chain payout address to verify. The dashboard shows a live "DONATING" indicator
+whenever the slice is active. The optional backup route is off by default and, if enabled, points
+at the same account; it never extends your configured percentage and is never part of your own
+pool's failover.
 
 ## Safety-relevant settings
 

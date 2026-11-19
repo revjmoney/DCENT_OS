@@ -19,11 +19,11 @@ leading Bitcoin mining technology company since 2016.
 ![Language: Rust](https://img.shields.io/badge/daemon-Rust-FAA500)
 ![Antminer: select targets](https://img.shields.io/badge/Antminer-select%20targets-FAA500)
 ![Bitaxe-class: release gated](https://img.shields.io/badge/Bitaxe--class-release%20gated-FAA500)
-![Dev fee: 0%](https://img.shields.io/badge/mandatory%20dev%20fee-0%25-22C55E)
+![Dev support: 1% default, one tap off](https://img.shields.io/badge/dev%20support-1%25%20default%2C%20one%20tap%20off-22C55E)
 
-[![Fund the Sovereign Stack](https://img.shields.io/badge/Fund%20the%20Sovereign%20Stack-%E2%9A%A1%20Bitcoin%20%7C%20Card-F7931A)](https://d-central.tech/fund/go?source=dcent_os&placement=release_notes)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-revjmoney-F7931A)](https://buymeacoffee.com/revjmoney)
 
-_D-Central gives this away under GPL-3.0. If it helps you, [keep it alive](https://d-central.tech/fund/) — in Bitcoin or by card. Not a licence; commercial use is always free._
+_JMSCNC Heater OS is a GPL-3.0 fork of DCENT_OS by D-Central Technologies. If it helps you, [buy me a coffee](https://buymeacoffee.com/revjmoney). Not a licence; commercial use is always free._
 
 </div>
 
@@ -78,7 +78,7 @@ fixes each one:
 
 | The home-miner problem | DCENT_OS |
 | --- | --- |
-| **Mandatory dev fees** — 1.5–2.8% of your hashrate skimmed forever, no opt-out | **No mandatory fee — 0% by default.** The optional donation is off until you turn it on (1–5%), fully visible, and one tap off. |
+| **Mandatory dev fees** — 1.5–2.8% of your hashrate skimmed forever, no opt-out | **1% dev support by default, one tap off.** The transparent donation slice is fully visible, adjustable (0 to 5%), and can be turned off at any time. |
 | **Loud by default** — fans pinned at 100% from boot | **Quiet by design.** Low-PWM boot, PID thermal control, and a policy that cuts hash before raising noise. |
 | **PSU whitelists** — refuses unrecognized or "non-smart" PSUs | **PSU bypass.** No Loki board or smart-PSU requirement on proven lanes; PSU paths stay per-platform/live-gated. |
 | **Closed firmware** — no source, no audit trail, no way to fix a bug | **Open source (GPL-3.0).** Read every line, build it yourself, fork it. |
@@ -114,10 +114,11 @@ is D-Central's own, under GPL-3.0.
   supervision with graded throttling, and a teardown that cuts hash power before fan noise.
 - **Open APIs** — REST + WebSocket, plus a CGMiner-compatible API on port 4028, so `pyasic` and
   the rest of the ecosystem work out of the box.
-- **Donation, not dev fee** — **off by default (0%, no mandatory fee, ever)**. Opt in at 1–5%
-  and it stays transparent and always visible on the dashboard while active. Routes to
-  **DCENT_Pool**, D-Central's [Solo/Guild pool](#-dcent_pool--the-sologuild-pool); or support the
-  project directly at [d-central.tech/fund](https://d-central.tech/fund/).
+- **Donation, not a hidden dev fee**: **1% of hashing time by default** to support JMSCNC Heater OS
+  development. Lower it or turn it off at any time; it stays transparent and always visible on the
+  dashboard while active. It mines to the Mining Dutch account `revjmoney` (account-based pool, so
+  there is no single on-chain payout address). Or support the project directly at
+  [buymeacoffee.com/revjmoney](https://buymeacoffee.com/revjmoney).
 
 ---
 
@@ -346,7 +347,7 @@ miner.
 
 ## 🎮 DCENT_Pool — the Solo/Guild pool
 
-DCENT_OS's default donation route and recommended pool is **DCENT_Pool**, D-Central's own pool —
+Upstream DCENT_OS recommends **DCENT_Pool**, D-Central's own pool,
 and it's not a normal pool. It's a **Solo/Guild pool**: a trustless, MMORPG-style take on solo
 mining.
 
@@ -364,7 +365,7 @@ any pool you like; DCENT_OS has zero lock-in. DCENT_Pool is simply the home team
 | | **DCENT_OS** | Braiins OS+ | LuxOS | VNish |
 | --- | --- | --- | --- | --- |
 | Open source | ✅ GPL-3.0 | ⚠️ partial | ❌ closed | ❌ closed |
-| Mandatory dev/pool fee | ✅ **0% by default** (opt-in donation, 1–5%) | ⚠️ 2–2.5% or paid 0% license | ⚠️ ~2.8% hidden | ⚠️ 2–2.8% mandatory |
+| Mandatory dev/pool fee | ✅ **none** (1% dev-support donation by default, 0 to 5%, one tap off) | ⚠️ 2–2.5% or paid 0% license | ⚠️ ~2.8% hidden | ⚠️ 2–2.8% mandatory |
 | License server / lock-in | ✅ none | ⚠️ | ⚠️ | ⚠️ |
 | Hash-board auto-detect (ChipID) | ✅ **lab-validated for mixed rigs** | ❌ | ❌ | ❌ |
 | PSU bypass | ✅ 3 modes, per-platform live-gated | ⚠️ limited | ❌ | ❌ |
@@ -381,11 +382,10 @@ For a deeper feature-by-feature breakdown see [`docs/COMPARISON.md`](docs/COMPAR
 
 ## ❓ FAQ
 
-**Is DCENT_OS really free, with no dev fee?**
-Yes. DCENT_OS ships with the donation **off — 0% by default, no mandatory fee, ever**, and no
-license server. Nothing is taken from your hashrate unless you opt in to the *optional*,
-fully-visible donation (1–5%). D-Central earns its living repairing and selling mining
-hardware — not by skimming your hashrate.
+**Does JMSCNC Heater OS take a dev fee?**
+It sends **1% of hashing time to support development by default**, and you can lower it or turn it
+off at any time. It is fully visible on the dashboard while active, and there is no license
+server.
 
 **How is it different from Braiins / LuxOS / VNish?**
 It's fully open source (GPL-3.0), has no mandatory fee, avoids smart-PSU lock-in on supported lanes,

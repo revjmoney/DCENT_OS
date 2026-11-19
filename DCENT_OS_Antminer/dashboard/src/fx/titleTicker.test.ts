@@ -21,7 +21,7 @@ describe('titleTicker', () => {
       enabled: true,
       now: 10_000,
     });
-    expect(document.title).toBe('DCENT_OS - 1.05 TH/s');
+    expect(document.title).toBe('JMSCNC Heater OS - 1.05 TH/s');
 
     updateTitleTicker({
       hashrateGhs: 2050,
@@ -29,7 +29,7 @@ describe('titleTicker', () => {
       enabled: true,
       now: 15_000,
     });
-    expect(document.title).toBe('DCENT_OS - 1.05 TH/s');
+    expect(document.title).toBe('JMSCNC Heater OS - 1.05 TH/s');
 
     updateTitleTicker({
       hashrateGhs: 2050,
@@ -37,7 +37,7 @@ describe('titleTicker', () => {
       enabled: true,
       now: 21_000,
     });
-    expect(document.title).toBe('DCENT_OS - 2.05 TH/s');
+    expect(document.title).toBe('JMSCNC Heater OS - 2.05 TH/s');
 
     updateTitleTicker({
       hashrateGhs: 2050,
@@ -45,7 +45,7 @@ describe('titleTicker', () => {
       enabled: true,
       now: 22_000,
     });
-    expect(document.title).toBe('DCENT_OS');
+    expect(document.title).toBe('JMSCNC Heater OS');
   });
 
   it('lets critical alerts override telemetry and then restores the base title', () => {
@@ -57,9 +57,9 @@ describe('titleTicker', () => {
     });
 
     flashAlert('Thermal trip', 1000);
-    expect(document.title).toBe('[!] Thermal trip - DCENT_OS');
+    expect(document.title).toBe('[!] Thermal trip - JMSCNC Heater OS');
 
     vi.advanceTimersByTime(1000);
-    expect(document.title).toBe('DCENT_OS - 1.05 TH/s');
+    expect(document.title).toBe('JMSCNC Heater OS - 1.05 TH/s');
   });
 });

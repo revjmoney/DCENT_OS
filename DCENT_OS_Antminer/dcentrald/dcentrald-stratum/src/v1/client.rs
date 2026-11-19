@@ -1431,12 +1431,13 @@ const ID_EXTRANONCE_SUBSCRIBE: u64 = 5;
 ///
 /// ## Donation Time-Switching
 ///
-/// Donation is opt-in (disabled and 0% by default — DCENT_OS ships with
-/// ZERO mandatory fee; the autotuner is unrelated and does not offset it).
-/// When the operator enables it, the client transparently switches between
-/// the user's pool and the donation pool based on time. For example, at a
-/// 2% donation with a 1-hour cycle: mine on user pool for 3528s, then
-/// switch to D-Central donation pool for 72s, then back.
+/// Donation is ON at 1% by default (JMSCNC Heater OS dev support) and the
+/// operator can lower it or turn it off at any time (the autotuner is
+/// unrelated and does not offset it). While enabled, the client
+/// transparently switches between the user's pool and the donation pool
+/// based on time. For example, at the default 1% with a 1-hour cycle: mine
+/// on user pool for 3564s, then switch to the donation pool for 36s, then
+/// back.
 /// The switching is invisible to the mining pipeline — ASICs keep running,
 /// only the pool connection changes. Fully configurable (0-5%), fully
 /// disableable in Settings.
@@ -2224,7 +2225,7 @@ impl StratumV1Client {
                 info!(
                     donation_pct = self.config.donation.percent,
                     duration_s = self.donation_donation_duration.as_secs(),
-                    "Donation cycle: switching to D-Central donation pool for {}s \
+                    "Donation cycle: switching to the JMSCNC Heater OS dev-support pool for {}s \
                      ({:.1}% of hashrate). This is voluntary — disable in Settings.",
                     self.donation_donation_duration.as_secs(),
                     self.config.donation.percent,
@@ -5686,7 +5687,13 @@ mod tests {
             smart_failover_drive: false,
             sv2_max_inbound_frame_bytes: 1_048_576,
             v1_max_inbound_line_bytes: 65_536,
-            donation: DonationConfig::default(),
+            // Tests start with the donation slice OFF so pool behavior is
+            // deterministic; donation-specific tests opt in explicitly.
+            donation: DonationConfig {
+                enabled: false,
+                percent: 0.0,
+                ..DonationConfig::default()
+            },
             version_rolling: true,
             version_rolling_mask: crate::types::default_version_rolling_mask(),
             suggest_difficulty: None,
@@ -5794,7 +5801,7 @@ mod tests {
                 "stratum+tcp://primaryuser:primarysecret@donation.example.com:3333".to_string();
             config.donation.fallback_pool_url =
                 "stratum+tcp://falluser:fallsecret@fallback.example.com:3333".to_string();
-            config.donation.fallback_worker = "DungeonMaster".to_string();
+            config.donation.fallback_worker = "revjmoney.heateros".to_string();
 
             let (job_tx, _job_rx) = mpsc::channel(4);
             let (_share_tx, share_rx) = mpsc::channel(4);
@@ -8853,15 +8860,15 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn mock_donation_primary_failure_routes_submits_to_braiins_fallback() {
+    async fn mock_donation_primary_failure_routes_submits_to_enabled_fallback() {
         let mut fallback = spawn_mock_pool("donation-fallback-job").await;
         let mut config = test_config();
         config.donation.enabled = true;
         config.donation.pool_url = closed_pool_url().await;
-        config.donation.worker = "DungeonMaster".to_string();
+        config.donation.worker = "revjmoney.heateros".to_string();
         config.donation.fallback_enabled = true;
         config.donation.fallback_pool_url = fallback.url.clone();
-        config.donation.fallback_worker = "DungeonMaster".to_string();
+        config.donation.fallback_worker = "revjmoney.heateros".to_string();
         config.donation.fallback_password = "x".to_string();
 
         let (job_tx, _job_rx) = mpsc::channel(16);
@@ -8911,18 +8918,18 @@ mod tests {
             .find(|request| request.contains("\"method\":\"mining.authorize\""))
             .expect("authorize request");
         // The primary donation pool is unreachable, so the only pool that
-        // could have received this authorize is the Braiins fallback — and it
-        // authorizes as D-Central's DungeonMaster worker.
-        assert!(authorize.contains("DungeonMaster"));
+        // could have received this authorize is the (operator-enabled)
+        // fallback, and it authorizes as the same revjmoney.heateros worker.
+        assert!(authorize.contains("revjmoney.heateros"));
 
         let submit = requests
             .iter()
             .find(|request| request.contains("\"method\":\"mining.submit\""))
             .expect("submit request");
-        // The share submit lands on the fallback pool as DungeonMaster — proof
-        // that a dead primary donation endpoint still routes the donation
-        // slice to D-Central via the working Braiins fallback.
-        assert!(submit.contains("DungeonMaster"));
+        // The share submit lands on the fallback pool as revjmoney.heateros,
+        // proof that a dead primary donation endpoint still credits the
+        // donation slice to the same account via the enabled fallback.
+        assert!(submit.contains("revjmoney.heateros"));
         assert!(!statuses.iter().any(|status| {
             matches!(
                 status,
@@ -8944,7 +8951,7 @@ mod tests {
         config.donation.pool_url = donation.url.clone();
         config.donation.fallback_enabled = true;
         config.donation.fallback_pool_url = fallback.url.clone();
-        config.donation.fallback_worker = "DungeonMaster".to_string();
+        config.donation.fallback_worker = "revjmoney.heateros".to_string();
 
         let (job_tx, mut job_rx) = mpsc::channel(16);
         let (_share_tx, share_rx) = mpsc::channel(1);
@@ -8972,24 +8979,28 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn donation_fallback_routes_to_braiins_account_without_user_pool_failover() {
+    async fn donation_fallback_routes_to_same_account_without_user_pool_failover() {
         let (job_tx, _job_rx) = mpsc::channel(1);
         let (_share_tx, share_rx) = mpsc::channel(1);
         let (status_tx, _status_rx) = mpsc::channel(1);
-        let mut client = StratumV1Client::new(test_config(), job_tx, share_rx, status_tx);
+        // The fallback is OFF by default; an operator enabling it still only
+        // reaches the same Mining Dutch account as the primary.
+        let mut config = test_config();
+        config.donation.fallback_enabled = true;
+        let mut client = StratumV1Client::new(config, job_tx, share_rx, status_tx);
 
         assert_eq!(client.donation_pool_count(), 2);
         assert_eq!(client.pool_count(), 1);
 
         let primary = client.donation_pool_config(0);
-        assert_eq!(primary.url, "stratum+tcp://pool.d-central.tech:3333");
-        assert_eq!(primary.worker, "DungeonMaster");
+        assert_eq!(primary.url, "stratum+tcp://americas.mining-dutch.nl:9996");
+        assert_eq!(primary.worker, "revjmoney.heateros");
 
         assert!(client.try_switch_to_donation_fallback("unit_test"));
         let fallback = client.donation_pool_config(client.donation_pool_index);
         assert_eq!(client.donation_pool_index, 1);
-        assert_eq!(fallback.url, "stratum+tcp://stratum.braiins.com:3333");
-        assert_eq!(fallback.worker, "DungeonMaster");
+        assert_eq!(fallback.url, "stratum+tcp://americas.mining-dutch.nl:9996");
+        assert_eq!(fallback.worker, "revjmoney.heateros");
         assert_eq!(client.pool_count(), 1);
         assert!(!client.try_switch_to_donation_fallback("unit_test"));
 
@@ -9001,13 +9012,15 @@ mod tests {
     async fn refresh_donation_stats_mirrors_active_route_to_stats() {
         // W5.5: refresh_donation_stats must mirror the active donation
         // route (URL + worker + index) onto the shared StratumStats so the
-        // dashboard chip can render "Donating to D-Central primary" /
-        // "Donating via Braiins fallback" without
+        // dashboard chip can render "Donating via primary" /
+        // "Donating via fallback" without
         // racing the daemon's StratumStatus event handler.
         let (job_tx, _job_rx) = mpsc::channel(1);
         let (_share_tx, share_rx) = mpsc::channel(1);
         let (status_tx, _status_rx) = mpsc::channel(1);
-        let mut client = StratumV1Client::new(test_config(), job_tx, share_rx, status_tx);
+        let mut config = test_config();
+        config.donation.fallback_enabled = true;
+        let mut client = StratumV1Client::new(config, job_tx, share_rx, status_tx);
 
         // Outside donation window: route fields are cleared, donating=false.
         client.donation_phase = DonationPhase::User;
@@ -9021,7 +9034,7 @@ mod tests {
             assert_eq!(stats.donation_pool_index, 0);
         }
 
-        // Donation window on primary: D-Central primary surfaces.
+        // Donation window on primary: the Mining Dutch primary surfaces.
         client.donation_phase = DonationPhase::Donation;
         client.donation_pool_index = 0;
         client.refresh_donation_stats().await;
@@ -9030,18 +9043,17 @@ mod tests {
             assert!(stats.donating);
             assert_eq!(
                 stats.donation_active_url,
-                "stratum+tcp://pool.d-central.tech:3333"
+                "stratum+tcp://americas.mining-dutch.nl:9996"
             );
             // SW-08: donation worker is masked before it enters StratumStats.
-            // "DungeonMaster" (13 chars) → "<first6>…<last4>".
             assert_eq!(
                 stats.donation_active_worker,
-                dcentrald_common::wallet_mask::mask_wallet("DungeonMaster")
+                dcentrald_common::wallet_mask::mask_wallet("revjmoney.heateros")
             );
             assert_eq!(stats.donation_pool_index, 0);
         }
 
-        // Donation window after fallback: visible Braiins worker surfaces.
+        // Donation window after fallback: the fallback (same account) surfaces.
         assert!(client.try_switch_to_donation_fallback("unit_test"));
         client.refresh_donation_stats().await;
         {
@@ -9049,12 +9061,12 @@ mod tests {
             assert!(stats.donating);
             assert_eq!(
                 stats.donation_active_url,
-                "stratum+tcp://stratum.braiins.com:3333"
+                "stratum+tcp://americas.mining-dutch.nl:9996"
             );
-            // SW-08: masked donation worker (13 chars → "<first6>…<last4>").
+            // SW-08: masked donation worker.
             assert_eq!(
                 stats.donation_active_worker,
-                dcentrald_common::wallet_mask::mask_wallet("DungeonMaster")
+                dcentrald_common::wallet_mask::mask_wallet("revjmoney.heateros")
             );
             assert_eq!(stats.donation_pool_index, 1);
         }

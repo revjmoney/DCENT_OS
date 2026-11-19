@@ -129,7 +129,7 @@ export function EarningsPage() {
         if (!cancelled) setDonationPercent(donationTakePercent(cfg));
       })
       .catch(() => {
-        // Unknown config → the firmware's shared 0% opt-in default — never
+        // Unknown config → the firmware's shared 1% default — never
         // an invented take-rate, and never a silent nonzero one either.
         if (!cancelled) setDonationPercent(DEFAULT_DONATION_PERCENT);
       });
@@ -821,7 +821,7 @@ export function EarningsPage() {
                 readOnly
                 value={donationPercent}
                 aria-label="Donation percent used in net earnings (firmware setting)"
-                title="Firmware donation percent. Default is 2% and disableable in Settings — not a 0% default."
+                title="Firmware donation percent. Default is 1% and you can lower it or turn it off in Settings."
               />
             </div>
             <div>

@@ -69,8 +69,8 @@ export function AboutPage() {
       {/* Firmware Info */}
       <AboutCard title="Firmware">
         <InfoRow label="Version" value={`dcentrald v${version}`} accent />
-        <InfoRow label="Distribution" value="DCENT_OS" />
-        <InfoRow label="License" value="GPL-3.0 -- 100% Open Source" />
+        <InfoRow label="Distribution" value="JMSCNC Heater OS" />
+        <InfoRow label="License" value="GPL-3.0, 100% Open Source" />
         {hostname && <InfoRow label="Hostname" value={hostname} />}
         {mac && <InfoRow label="MAC" value={mac} mono />}
       </AboutCard>
@@ -102,10 +102,18 @@ export function AboutPage() {
       {/* Developer */}
       <AboutCard title="Developer">
         <div style={{ fontSize: '0.9rem', color: 'var(--text, #E8E8E8)', lineHeight: 1.8 }}>
-          <div><strong style={{ color: 'var(--accent, #FAA500)' }}>D-Central Technologies</strong></div>
+          <div><strong style={{ color: 'var(--accent, #FAA500)' }}>JMSCNC Heater OS</strong></div>
           <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>
-            Canada's leading Bitcoin mining technology company.
-            Founded 2016, Laval QC. Self-described "Mining Hackers."
+            Maintained by Rev. J. Money (JMSCNC). JMSCNC Heater OS is a fork of{' '}
+            <a
+              href="https://github.com/DCentralTech/DCENT_OS"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--accent, #FAA500)' }}
+            >
+              DCENT_OS
+            </a>
+            {' '}by D-Central Technologies.
           </div>
         </div>
       </AboutCard>
@@ -115,37 +123,24 @@ export function AboutPage() {
         <DonationFeeCard variant="compact" />
       </AboutCard>
 
-      {/* W9.7 (Wave-4 honest-claims revision; C6 2026-09-01 0%-default
-          update): "Coming from VNish?" copy. The public CHANGELOG asks the
-          firmware to make the competitor devfee contrast explicit, but it
-          must stay factual and non-disparaging. VNish builds carry a
-          binary-baked developer fee (~2-3% per D-Central's
-          reverse-engineering); DCENT_OS ships 0% — the optional donation is
-          off by default, 0-5% when opted in, clearly labelled as a donation,
-          and fully disableable. Every claim here is verifiable from public
-          RE docs and the donation route
-          contract (/api/donation/info). */}
+      {/* W9.7 "Coming from VNish?" copy, revised for JMSCNC Heater OS: the
+          donation is ON at 1% by default, visible, 0-5%, and fully
+          disableable. It must stay factual and non-disparaging. The donation
+          destination is disclosed at /api/donation/info. */}
       <AboutCard title="Coming from VNish?">
         <div style={{ fontSize: '0.85rem', color: 'var(--text, #E8E8E8)', lineHeight: 1.7 }}>
           VNish builds carry a{' '}
           <strong style={{ color: 'var(--accent, #FAA500)' }}>
             binary-baked developer fee (~2-3%)
           </strong>
-          , per D-Central&rsquo;s reverse-engineering. DCENT_OS ships{' '}
-          <strong>0% by default — no mandatory fee, ever</strong>. The optional
-          donation is off until you turn it on (1-5%), clearly labelled as a
-          donation rather than a fee, and fully disableable.
+          , per public reverse-engineering. JMSCNC Heater OS sends{' '}
+          <strong>1% of hashing time</strong> to support development by
+          default, clearly labelled and shown whenever it runs. You can lower
+          it or turn it off at any time.
         </div>
         <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', marginTop: 10, lineHeight: 1.65 }}>
-          The donation pool URL and on-chain payout address are publicly
-          disclosed at <code style={{ fontFamily: "'JetBrains Mono', monospace" }}>/api/donation/info</code>
-          {' '}so you can independently verify on-chain (mempool.space, etc.)
-          that the donation slice flows where the firmware claims.
-        </div>
-        <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', marginTop: 10, lineHeight: 1.65, fontStyle: 'italic' }}>
-          Last 12 months saved D-Central donors: published in the public pool payout history
-          on the block explorer linked from the donation card. We don't keep a private
-          tally — the chain is the tally.
+          The donation pool and worker are disclosed at{' '}
+          <code style={{ fontFamily: "'JetBrains Mono', monospace" }}>/api/donation/info</code>.
         </div>
       </AboutCard>
 
@@ -153,24 +148,24 @@ export function AboutPage() {
       <AboutCard title="Links">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <AboutLink
-            href="https://d-central.tech/"
-            label="D-Central Technologies"
-            description="Official website"
-          />
-          <AboutLink
-            href={DCENT_DOCS_URL}
-            label="DCENT_OS Help"
-            description="Quickstart, installation and troubleshooting, available on this miner"
-          />
-          <AboutLink
-            href="https://d-central.tech/support/"
-            label="Support"
-            description="Help, documentation, contact"
+            href="https://jmscnc.com"
+            label="JMSCNC"
+            description="jmscnc.com"
           />
           <AboutLink
             href={fundContributeUrl('settings')}
-            label="Fund the Sovereign Stack"
-            description="Keep this open firmware alive — Bitcoin or card"
+            label="Buy Me a Coffee"
+            description="Support JMSCNC Heater OS"
+          />
+          <AboutLink
+            href="https://soundcloud.com/revjmoney/proof-of-heat-whitepaper"
+            label="Proof of Heat, Whitepaper Foreplay"
+            description="Rev. J. Money on SoundCloud"
+          />
+          <AboutLink
+            href={DCENT_DOCS_URL}
+            label="Help"
+            description="Quickstart, installation and troubleshooting, available on this miner"
           />
         </div>
       </AboutCard>
@@ -178,14 +173,14 @@ export function AboutPage() {
       {/* License */}
       <AboutCard title="License">
         <div style={{ fontSize: '0.85rem', color: 'var(--text, #E8E8E8)', lineHeight: 1.6 }}>
-          DCENT_OS is free and open-source software licensed under the
+          JMSCNC Heater OS (a fork of DCENT_OS) is free and open-source software licensed under the
           {' '}<strong>GNU General Public License v3.0</strong> (GPL-3.0).
         </div>
         <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginTop: 8 }}>
           You are free to use, modify, and distribute this firmware.
           Source code is available on{' '}
           <a
-            href="https://github.com/d-central-tech/dcentos"
+            href="https://github.com/revjmoney/DCENT_OS"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: 'var(--accent, #FAA500)' }}
@@ -221,9 +216,9 @@ export function AboutPage() {
           rel="noopener noreferrer"
           style={{ color: 'var(--accent, #FAA500)', fontWeight: 600 }}
         >
-          Fund the Sovereign Stack
+          Buy Me a Coffee
         </a>
-        {' '}— Bitcoin or card
+        {' '}to support JMSCNC Heater OS
       </footer>
     </div>
   );

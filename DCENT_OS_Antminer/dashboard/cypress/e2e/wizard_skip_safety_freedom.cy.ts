@@ -179,7 +179,7 @@ describe('First-boot wizard — full-skip freedom (no password AND no circuit ch
     });
 
     // The wizard must NOT be shown (onboarding complete via both opt-outs).
-    cy.contains('DCENT_OS Setup').should('not.exist');
+    cy.get('.wiz-header').should('not.exist');
     // The Logs view's read-only metadata manifest is reachable.
     cy.wait('@logManifest');
     cy.contains('Log Sources').should('be.visible');

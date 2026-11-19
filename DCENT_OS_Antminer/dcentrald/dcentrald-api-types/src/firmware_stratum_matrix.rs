@@ -237,12 +237,11 @@ pub const FIRMWARE_CAPABILITIES: &[FirmwareCapabilities] = &[
         version_rolling_mask: 0x1FFF_E000,
         suggest_difficulty: StratumSupport::Default,
         dev_fee_in_factory: false,
-        // Donation is strictly opt-in: DISABLED and 0 % by default
-        // (operator decision 2026-09-01). We keep
-        // `dev_fee_runtime = true` because the binary does carry the
-        // (dormant, opt-in-only) donation routing path, but unlike every
-        // fee-bearing competitor row nothing is taken unless the operator
-        // explicitly turns it on (1-5 %, always visible, one tap off).
+        // JMSCNC Heater OS ships the transparent donation slice ON at 1 %
+        // by default (dev support). `dev_fee_runtime = true` because the
+        // binary carries the donation routing path; the lower bound stays
+        // 0 % because the operator can turn it off at any time (always
+        // visible, one tap off, 0-5 % configurable).
         dev_fee_runtime: true,
         dev_fee_runtime_pct_low: 0.0,
         dev_fee_runtime_pct_high: 5.0,

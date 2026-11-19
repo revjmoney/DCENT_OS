@@ -1,21 +1,24 @@
 <div align="center">
 
-# DCENT_OS — Open-Source Bitcoin Mining Firmware for Antminer & Bitaxe-Class Miners
+# JMSCNC Heater OS
 
-**Turn an industrial Antminer or a desktop Bitaxe into a quiet, efficient, fully-owned Bitcoin
-mining space heater — no cloud account, no telemetry, no license server, no mandatory dev fee.**
+**Open-source Bitcoin mining firmware that turns an Antminer into a quiet, fully-owned space heater.
+No cloud account, no telemetry, no license server.**
 
-Rust mining daemon · Buildroot Linux & ESP32-S3 · local web dashboard · AI-native (built-in MCP server) · GPL-3.0
+A [JMSCNC](https://jmscnc.com) fork of [D-Central's DCENT_OS](https://github.com/DCentralTech/DCENT_OS) ·
+Rust mining daemon · Buildroot Linux · local web dashboard · GPL-3.0
 
-[![CI](https://github.com/DCentralTech/DCENT_OS/actions/workflows/ci.yml/badge.svg)](https://github.com/DCentralTech/DCENT_OS/actions/workflows/ci.yml)
+[![CI](https://github.com/revjmoney/DCENT_OS/actions/workflows/ci.yml/badge.svg?branch=amlogic-s19jpro-home-build)](https://github.com/revjmoney/DCENT_OS/actions/workflows/ci.yml)
+[![Security](https://github.com/revjmoney/DCENT_OS/actions/workflows/security.yml/badge.svg?branch=amlogic-s19jpro-home-build)](https://github.com/revjmoney/DCENT_OS/actions/workflows/security.yml)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
-![Language: Rust](https://img.shields.io/badge/daemon-Rust-FAA500)
-![Mandatory dev fee: 0%](https://img.shields.io/badge/mandatory%20dev%20fee-0%25-22C55E)
-[![Security policy](https://img.shields.io/badge/security-disclosure%20policy-informational)](SECURITY.md)
+![Dev support: 1% default, opt-out](https://img.shields.io/badge/dev%20support-1%25%20default%2C%20opt--out-F7931A)
 
-[![Fund the Sovereign Stack](https://img.shields.io/badge/Fund%20the%20Sovereign%20Stack-%E2%9A%A1%20Bitcoin%20%7C%20Card-F7931A)](https://d-central.tech/fund/)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-revjmoney-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/revjmoney)
+[![Proof of Heat](https://img.shields.io/badge/listen-Proof%20of%20Heat%2C%20Whitepaper%20Foreplay-FF5500?logo=soundcloud&logoColor=white)](https://soundcloud.com/revjmoney/proof-of-heat-whitepaper)
 
-_D-Central gives this away under GPL-3.0. If it helps you, [keep it alive](https://d-central.tech/fund/) — in Bitcoin or by card. Not a licence; commercial use is always free._
+> **Status:** home builds for the Antminer S19j Pro on an Amlogic control board compile and pass
+> CI, but nothing has been run on real hardware yet. See
+> [`docs/HOME_BUILD_S19JPRO_AML.md`](DCENT_OS_Antminer/docs/HOME_BUILD_S19JPRO_AML.md).
 
 [Quick start](#quick-start) ·
 [Screenshots](#see-it-running) ·
@@ -28,12 +31,13 @@ _D-Central gives this away under GPL-3.0. If it helps you, [keep it alive](https
 
 ---
 
-Built by the **Mining Hackers** at [D-Central Technologies](https://d-central.tech/) — Canada's leading
-Bitcoin mining technology company since 2016, based in Laval, Québec. 2,500+ miners repaired,
-400+ products shipped. This is the firmware we run ourselves, released so every operator can own, repair,
-and understand their own hardware.
+**JMSCNC Heater OS** is maintained by Rev. J. Money ([JMSCNC](https://jmscnc.com)), who heats a home
+with Antminers every winter. It is a fork of **DCENT_OS**, built by the **Mining Hackers** at
+[D-Central Technologies](https://d-central.tech/) in Laval, Québec. Nearly all of the code below is
+theirs; this fork adds home-build fixes for the public mirror, CI and security scanning, and the
+S19j Pro Amlogic home build. Upstream: [DCentralTech/DCENT_OS](https://github.com/DCentralTech/DCENT_OS).
 
-**DCENT_OS** is home-mining firmware for two hardware classes: selected industrial **Bitmain
+The underlying **DCENT_OS** is home-mining firmware for two hardware classes: selected industrial **Bitmain
 Antminers** (S9 → S21 era, Zynq / Amlogic / BeagleBone control boards) and **ESP32-S3 Bitaxe-class**
 desk miners (BM1397 / BM1366 / BM1368 / BM1370). It replaces stock firmware with a modern **Rust
 mining daemon**, a **local-first three-mode dashboard**, a **per-chip autotuner**, **Stratum V1 + V2**,
@@ -113,9 +117,11 @@ Pick your platform and follow its guide:
 
 ## What makes DCENT_OS different
 
-- **0% fee by default — no mandatory dev fee, ever.** The optional donation is off until you
-  turn it on (1–5%), fully visible on the dashboard while active, and one tap off — versus the
-  industry's forced 1.5–2.8% or paid 0% licenses.
+- **Dev support: 1% by default, and you can turn it off.** In JMSCNC Heater OS the donation
+  slice is **on at 1%** out of the box (upstream DCENT_OS ships it off). It is shown in setup and on
+  the dashboard while active, adjustable from 0 to 5%, and one tap turns it off. The 1% time-slice
+  mines to the Mining Dutch account `revjmoney` (`stratum+tcp://americas.mining-dutch.nl:9996`), an
+  account-based pool, so there is no single on-chain payout address to verify.
 - **Quiet by default.** Low-PWM boot, PID thermal control, and a hard policy that **cuts hash power
   before raising fan noise** — firmware designed for the room you live in, not a warehouse.
 - **Original open code.** GPL-3.0, no forked proprietary code. Every ASIC constant is documented
@@ -166,12 +172,12 @@ layer: mining, tools, hardware, communication.
   (Solo / Quad / Hex) with integrated LoRa mesh.
 - **[DCENT_Raven](https://github.com/DCentralTech/DCENT_Raven)** — LoRa-mesh accessory for any Bitaxe.
 
-## Support / Fund D-Central
+## Support
 
-DCENT_OS and the whole ecosystem are free and open under GPL-3.0 — no license server, no mandatory
-dev fee. If it helps you, help keep the lights on: **[d-central.tech/fund](https://d-central.tech/fund/)**
-(Bitcoin ⚡ or card). Funding pays for the reverse engineering, firmware, and open-hardware work that
-makes the sovereign mining stack possible. Commercial use is always free — this is a thank-you, not a toll.
+[buymeacoffee.com/revjmoney](https://buymeacoffee.com/revjmoney) · [jmscnc.com](https://jmscnc.com) ·
+and the theme song, [Proof of Heat, Whitepaper Foreplay](https://soundcloud.com/revjmoney/proof-of-heat-whitepaper).
+
+Commercial use is always free under GPL-3.0. Support is a thank-you, not a toll.
 
 ## License, security & governance
 
@@ -179,5 +185,7 @@ GPL-3.0 — the [`LICENSE`](LICENSE) file is the verbatim license text; copyrigh
 attribution live in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). Vulnerabilities: see
 [`SECURITY.md`](SECURITY.md) (coordinated disclosure, safe harbor). Contributions welcome — see
 [`CONTRIBUTING.md`](CONTRIBUTING.md), [`GOVERNANCE.md`](GOVERNANCE.md), and
-[`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). DCENT_OS is steered by D-Central Technologies and built
-in the open for the whole mining community.
+[`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). Upstream DCENT_OS is steered by D-Central Technologies and
+built in the open for the whole mining community. JMSCNC Heater OS is an independent fork and is not
+endorsed by D-Central; report fork-specific problems at
+[revjmoney/DCENT_OS](https://github.com/revjmoney/DCENT_OS).

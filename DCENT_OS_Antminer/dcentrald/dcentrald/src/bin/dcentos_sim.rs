@@ -23,7 +23,7 @@ Default: an isolated loopback pool; configured pool credentials are not sent.\n\
 --probe-pool: explicitly connects to the configured primary Stratum V1 pool and\n\
 checks authorization plus its first valid job. No shares are submitted.\n\
 This does not test PSU, hashboard initialization, electrical safety, or real hashing.\n\
-Support development: https://d-central.tech/fund/";
+Support development: https://buymeacoffee.com/revjmoney";
 
 struct Options {
     config_path: String,

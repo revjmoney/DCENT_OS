@@ -423,9 +423,11 @@ export interface DonationConfigResponse {
  * so operators can independently verify on-chain that the donation
  * slice flows where the firmware claims (trust-but-verify).
  *
- * `payout_address` is the on-chain Bitcoin address that
- * `pool.d-central.tech` pays out to. `explorer_url` is a pre-built
- * mempool.space link to that address's payout history.
+ * `payout_address` is the on-chain Bitcoin address the donation pool pays
+ * out to, and `explorer_url` a pre-built block-explorer link to it. Both
+ * are EMPTY STRINGS for an account-based donation pool (the JMSCNC Heater OS
+ * default, Mining Dutch), which has no single on-chain address; the
+ * dashboard then shows `disclosure` with no explorer link.
  */
 export interface DonationInfoResponse {
   pool_url: string;
@@ -2089,16 +2091,16 @@ export interface PoolsDonationStatus {
   /**
    * Human-readable route label.
    *  - `user_pool` — donation slice is NOT active (user pool is mining).
-   *  - `donation_primary` — primary D-Central donation pool is in use.
-   *  - `donation_fallback` — visible Braiins fallback worker is in use
-   *    (typically `DungeonMaster`).
+   *  - `donation_primary` — primary donation pool is in use.
+   *  - `donation_fallback` — the configured donation fallback is in use
+   *    (disabled by default in JMSCNC Heater OS).
    */
   route: 'user_pool' | 'donation_primary' | 'donation_fallback';
   /** URL of the active donation pool, password-stripped. Empty when inactive. */
   active_url: string;
   /** Worker name authenticated with the active donation pool. Empty when inactive. */
   active_worker: string;
-  /** 0 = primary D-Central donation, 1 = visible Braiins fallback worker. */
+  /** 0 = primary donation pool, 1 = configured donation fallback. */
   pool_index: number;
 }
 

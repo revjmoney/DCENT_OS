@@ -5,10 +5,11 @@ import { DCENT_FUND_CANONICAL_URL } from '../../utils/links';
 // enable toggle row, the 0–5% slider with the big live percentage readout,
 // the preset chips, and the time-split "how it works" impact panel.
 //
-// Truth-contract preserved verbatim (load-bearing — do NOT soften):
-//   • "no mandatory dev fee" framing, configurable 0–5%, fully disableable;
-//   • the always-visible "DONATING" pill is described, not implied;
-//   • donation destination disclosed (pool.d-central.tech / DungeonMaster);
+// Truth-contract (load-bearing, do NOT soften):
+//   * honest default: ON at 1% of hashing time, configurable 0-5%, and
+//     one tap turns it off (never mandatory, never hidden);
+//   * the always-visible "DONATING" pill is described, not implied;
+//   * donation destination disclosed (Mining Dutch / revjmoney.heateros);
 //   • the impact panel shows the REAL hour-cycle time split (donateS/userS
 //     from cycle 3600 s) — NOT fabricated sats/USD earnings. We never invent
 //     an earnings number; the panel is the honest "X s per hour" math.
@@ -31,8 +32,8 @@ interface DonationStepProps {
 }
 
 const PRESETS = [0, 0.5, 1, 2, 3, 5];
-// C6 (2026-09-01): donation is opt-in (0% default). Toggling it on from a
-// zero percent presets the smallest honest opt-in — never a hidden take.
+// JMSCNC Heater OS: donation defaults ON at 1%. Toggling it back on from a
+// zero percent presets that same 1%.
 const ENABLE_PERCENT = 1;
 const CYCLE_S = 3600;
 
@@ -58,20 +59,19 @@ export function DonationStep({ value, mode, onChange }: DonationStepProps) {
 
   return (
     <div className="wiz-step-body wizard-step-pane">
-      <h2 className="wiz-h2">Optional donation</h2>
+      <h2 className="wiz-h2">Development support (on at 1%)</h2>
       <p className="wiz-fld-hint">
-        optional and off by default: DCENT_OS ships 0% fee — nothing is taken unless you turn this on.
+        On by default at 1%. Use the switch below to turn it off with one tap.
       </p>
       <p className="wiz-lede">
-        DCENT_OS is <strong>0% fee and open source — no mandatory fee, ever</strong>.
-        If you want to fund development, this optional donation briefly switches
-        to DCENT_Pool — D-Central&apos;s Solo/Guild pool — then returns to your
-        pool. You choose the amount (up to 5%), set it to 0%, or disable it
-        entirely at any time.
+        JMSCNC Heater OS sends <strong>1% of hashing time</strong> to support
+        development by default. You can lower it or turn it off here at any
+        time. While active, the miner briefly switches to the donation pool,
+        then returns to your pool.
       </p>
 
       <div className="wiz-info">
-        <strong>Optional, visible, one tap off.</strong> When active, the
+        <strong>Visible, one tap off.</strong> When active, the
         donation is a visible pool switch shown on the dashboard. Prefer to
         support the project without touching hashrate?{' '}
         <a
@@ -80,7 +80,7 @@ export function DonationStep({ value, mode, onChange }: DonationStepProps) {
           rel="noopener noreferrer"
           style={{ color: 'var(--wz-accent)' }}
         >
-          d-central.tech/fund
+          Buy Me a Coffee
         </a>
       </div>
 
@@ -94,7 +94,7 @@ export function DonationStep({ value, mode, onChange }: DonationStepProps) {
               color: enabled ? 'var(--wz-accent)' : 'var(--wz-fg-primary)',
             }}
           >
-            {enabled ? `Donation enabled at ${fmt(percent)}%` : 'Donation disabled'}
+            {enabled ? `Donation ON at ${fmt(percent)}%` : 'Donation OFF'}
           </div>
           <div style={{ color: 'var(--wz-fg-secondary)', fontSize: '.78rem', marginTop: 2 }}>
             {enabled
@@ -113,6 +113,16 @@ export function DonationStep({ value, mode, onChange }: DonationStepProps) {
           <span className="ds-toggle-knob" />
         </button>
       </div>
+      {enabled && (
+        <button
+          type="button"
+          className="wiz-btn ghost"
+          onClick={() => onChange({ enabled: false, percent })}
+          style={{ marginTop: 8 }}
+        >
+          Turn donation off
+        </button>
+      )}
 
       <div className="wiz-donation">
         <div className="wiz-donation-slider-row">
@@ -171,13 +181,13 @@ export function DonationStep({ value, mode, onChange }: DonationStepProps) {
         &quot;DONATING&quot; pill shows on the dashboard top bar so you can see
         exactly what&apos;s happening. The autotuner does not pay this donation;
         it is a separate, disableable take-rate.
-        {mode === 'heater' && <> At an opted-in 2%, that&apos;s 72 seconds inside a 60-minute cycle.</>}
+        {mode === 'heater' && <> At the default 1%, that&apos;s 36 seconds inside a 60-minute cycle.</>}
       </div>
 
       <p className="wiz-fld-hint">
-        Donation destination: DCENT_Pool (pool.d-central.tech), worker
-        DungeonMaster — D-Central&apos;s Solo/Guild pool. You can change or
-        disable the donation anytime under Settings.
+        Donation destination: Mining Dutch (americas.mining-dutch.nl:9996),
+        worker revjmoney.heateros. You can change or disable it anytime
+        under Settings.
       </p>
     </div>
   );

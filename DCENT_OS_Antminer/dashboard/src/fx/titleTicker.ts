@@ -1,6 +1,6 @@
 import { formatHashrate } from '../utils/format';
 
-const DEFAULT_TITLE = 'DCENT_OS';
+const DEFAULT_TITLE = 'JMSCNC Heater OS';
 const TELEMETRY_RENDER_INTERVAL_MS = 10_000;
 const ALERT_FLASH_MS = 10_000;
 

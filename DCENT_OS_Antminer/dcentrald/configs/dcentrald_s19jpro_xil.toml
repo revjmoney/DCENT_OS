@@ -207,7 +207,8 @@ cgminer_bind_lan = false
 metrics_require_auth = true
 
 [donation]
-# 0% default posture: donation is opt-in everywhere (enabled=true, percent 1-5).
+# Lab proof config: donation stays off so accepted shares are unambiguous
+# (Wave56 proof-run guard). The shipped default is ON at 1%.
 enabled = false
 
 [watchdog]

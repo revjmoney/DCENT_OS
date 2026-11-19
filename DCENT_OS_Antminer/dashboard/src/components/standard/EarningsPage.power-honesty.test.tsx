@@ -14,7 +14,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 // EarningsPage polls /api/perf/efficiency and (via useNetworkContext)
 // /api/network/block. Both are wrapped in try/catch, so rejecting keeps the
 // component on its null-telemetry render path — exactly the state under test.
-// Donation fetch is resolved at the firmware 0% opt-in default (C6, 2026-09-01).
+// Donation fetch is resolved with the operator turning donation off (0%).
 vi.mock('../../api/client', () => ({
   api: {
     getPerfEfficiency: vi.fn().mockRejectedValue(new Error('no perf endpoint')),
@@ -145,15 +145,15 @@ describe('EarningsPage — STD-A-09 Power Draw honesty', () => {
 });
 
 describe('EarningsPage — donation + pool fee net vs gross', () => {
-  // RE-ANCHORED 2026-09-01 (C6): the firmware default flipped from 2% to the
-  // 0% opt-in posture (operator decision). The honesty invariant inverts
-  // symmetrically: unknown config must resolve to the SHARED 0% default
+  // RE-ANCHORED for JMSCNC Heater OS: the firmware default is enabled at 1%.
+  // Unknown config must resolve to the SHARED 1% default
   // (never an invented take-rate), and an OPTED-IN donation must never be
   // silently zeroed by the earnings math. Both directions are pinned.
-  it('defaults unknown donation to the firmware 0% opt-in default and never zeroes an opted-in take', () => {
-    expect(DEFAULT_DONATION_PERCENT).toBe(0);
-    expect(donationTakePercent(null)).toBe(0);
-    expect(donationTakePercent(undefined)).toBe(0);
+  it('defaults unknown donation to the firmware 1% default and never zeroes an opted-in take', () => {
+    // JMSCNC Heater OS: the firmware default is enabled at 1%.
+    expect(DEFAULT_DONATION_PERCENT).toBe(1);
+    expect(donationTakePercent(null)).toBe(1);
+    expect(donationTakePercent(undefined)).toBe(1);
     expect(donationTakePercent({ enabled: false, percent: 2 })).toBe(0);
     expect(donationTakePercent({ enabled: true, percent: 2 })).toBe(2);
     expect(donationTakePercent({ enabled: true, percent: 3 })).toBe(3);

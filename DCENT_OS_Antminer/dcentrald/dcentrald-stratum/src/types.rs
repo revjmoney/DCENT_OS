@@ -418,18 +418,17 @@ pub struct HashrateSplitStatus {
 
 /// Donation configuration — voluntary, transparent, disableable.
 ///
-/// DCENT_OS ships with ZERO mandatory fee: donation is DISABLED and 0% by
-/// default (operator decision 2026-09-01). Operators who want to fund
-/// development opt in with a transparent, time-sliced donation (1-5%,
-/// always visible, one tap off). Unlike the industry-standard 2-3%
-/// mandatory dev fee, nothing is ever taken without an explicit opt-in.
+/// JMSCNC Heater OS ships with a transparent, time-sliced 1% dev-support
+/// donation ENABLED by default, mining to the Mining Dutch account
+/// `revjmoney`. It is always visible and the operator can lower it (0-5%)
+/// or turn it off at any time.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DonationConfig {
-    /// Whether donation is enabled. Default: false (0% fee posture).
-    #[serde(default)]
+    /// Whether donation is enabled. Default: true (1% dev support, opt-out).
+    #[serde(default = "default_donation_enabled")]
     pub enabled: bool,
 
-    /// Donation percentage (0.0 to 5.0). Default: 0.0.
+    /// Donation percentage (0.0 to 5.0). Default: 1.0.
     #[serde(default = "default_donation_percent")]
     pub percent: f32,
 
@@ -446,8 +445,8 @@ pub struct DonationConfig {
     pub password: String,
 
     /// Whether to use a visible backup donation route if the primary donation
-    /// pool is unreachable during the donation window.
-    #[serde(default = "default_true")]
+    /// pool is unreachable during the donation window. Default: false.
+    #[serde(default = "default_donation_fallback_enabled")]
     pub fallback_enabled: bool,
 
     /// Backup donation pool URL. This is only used for donation windows and
@@ -464,26 +463,34 @@ pub struct DonationConfig {
     pub fallback_password: String,
 
     /// Total cycle duration in seconds. Default: 3600 (1 hour).
-    /// At 2% donation with 3600s cycle: mine user pool for 3528s,
-    /// then donation pool for 72s. (Only applies when opted in.)
+    /// At the default 1% donation with 3600s cycle: mine user pool for
+    /// 3564s, then donation pool for 36s. (Only applies when enabled.)
     #[serde(default = "default_donation_cycle")]
     pub cycle_duration_s: u64,
 }
 
+fn default_donation_enabled() -> bool {
+    true
+}
 fn default_donation_percent() -> f32 {
-    0.0
+    1.0
 }
 fn default_donation_pool_url() -> String {
-    "stratum+tcp://pool.d-central.tech:3333".into()
+    "stratum+tcp://americas.mining-dutch.nl:9996".into()
 }
 fn default_donation_worker() -> String {
-    "DungeonMaster".into()
+    "revjmoney.heateros".into()
 }
+fn default_donation_fallback_enabled() -> bool {
+    false
+}
+// The fallback route mirrors the primary so donation hashing can never be
+// routed to any other account, even if an operator enables the fallback.
 fn default_donation_fallback_pool_url() -> String {
-    "stratum+tcp://stratum.braiins.com:3333".into()
+    default_donation_pool_url()
 }
 fn default_donation_fallback_worker() -> String {
-    "DungeonMaster".into()
+    default_donation_worker()
 }
 fn default_donation_password() -> String {
     "x".into()
@@ -495,12 +502,12 @@ fn default_donation_cycle() -> u64 {
 impl Default for DonationConfig {
     fn default() -> Self {
         Self {
-            enabled: false,
-            percent: 0.0,
+            enabled: true,
+            percent: 1.0,
             pool_url: default_donation_pool_url(),
             worker: default_donation_worker(),
             password: default_donation_password(),
-            fallback_enabled: true,
+            fallback_enabled: default_donation_fallback_enabled(),
             fallback_pool_url: default_donation_fallback_pool_url(),
             fallback_worker: default_donation_fallback_worker(),
             fallback_password: default_donation_password(),
@@ -1076,15 +1083,15 @@ pub enum StratumStatus {
         cycle_remaining_s: u64,
         /// W5.5: URL of the active donation pool when `active == true`.
         /// Empty when `active == false`. Lets the dashboard render the route
-        /// the donation slice is currently flowing through (primary D-Central
-        /// vs visible Braiins fallback) without needing to read shared stats.
+        /// the donation slice is currently flowing through (primary donation pool
+        /// vs visible fallback) without needing to read shared stats.
         active_url: String,
         /// W5.5: Worker name authenticated with the active donation pool.
         /// Empty when `active == false`.
         active_worker: String,
-        /// W5.5: Zero-based donation route index. 0 = primary D-Central
-        /// donation pool, 1 = visible Braiins Pool fallback
-        /// (`DungeonMaster`).
+        /// W5.5: Zero-based donation route index. 0 = primary
+        /// donation pool, 1 = visible donation fallback (off by default and
+        /// mirrors the primary Mining Dutch route).
         pool_index: usize,
     },
 
@@ -1180,22 +1187,22 @@ pub struct StratumStats {
     /// W5.5: URL of the active donation pool when `donating == true`. Empty
     /// otherwise. This lets the dashboard render "Donating to <pool>" instead
     /// of a bare "DONATING" chip — operators want to see whether the primary
-    /// donation endpoint is up or whether the visible Braiins Pool fallback
-    /// (DungeonMaster) is currently carrying the donation slice.
+    /// donation endpoint is up or whether the visible donation fallback
+    /// is currently carrying the donation slice.
     /// Passwords are never included in pool URLs; this is safe to expose.
     #[serde(default)]
     pub donation_active_url: String,
 
     /// W5.5: Worker name authenticated with the active donation pool. Empty
     /// when not in a donation window. Reveals whether donation is currently
-    /// going through the primary D-Central route or the visible Braiins Pool
-    /// fallback (DungeonMaster).
+    /// going through the primary donation route or the visible donation
+    /// fallback.
     #[serde(default)]
     pub donation_active_worker: String,
 
     /// W5.5: Zero-based index of the active donation route. 0 = primary
-    /// donation pool (`pool.d-central.tech`), 1 = visible Braiins Pool
-    /// fallback (`DungeonMaster`). Stays at 0 outside the donation
+    /// donation pool (Mining Dutch), 1 = visible donation
+    /// fallback. Stays at 0 outside the donation
     /// window, so consumers should pair it with the `donating` flag.
     #[serde(default)]
     pub donation_pool_index: usize,
@@ -1800,61 +1807,56 @@ mod tests {
     // these without explicit operator coordination would silently
     // redirect donations to a different recipient. Pin every field.
     //
-    // RE-ANCHORED 2026-09-01 (C6, operator decision): DCENT_OS ships with
-    // ZERO mandatory fee — donation is DISABLED and 0% by default. The
-    // opt-in route still targets D-Central's pool/worker below. The prior
-    // pins (enabled=true @ 2.0%) described the old default-on posture and
-    // were flipped as part of that decision, not silently weakened: the
-    // opt-in recipient pins are preserved unchanged.
+    // RE-ANCHORED 2026-11-19 (JMSCNC Heater OS): donation is ENABLED at 1%
+    // by default and mines to the Mining Dutch account `revjmoney`
+    // (worker `revjmoney.heateros`). The fallback is OFF by default and
+    // mirrors the primary route so donation hashing can never be credited
+    // to any other account. The operator can still turn it off.
     // -----------------------------------------------------------------------
 
     #[test]
-    fn donation_default_is_zero_fee_and_opt_in() {
+    fn donation_default_is_one_percent_to_mining_dutch() {
         let donation = DonationConfig::default();
 
-        // Disabled by default — donations are strictly opt-in. This is the
-        // 0%-fee posture: nothing is ever taken without an explicit opt-in.
         assert!(
-            !donation.enabled,
-            "donation must default to disabled (0% mandatory-fee posture)"
+            donation.enabled,
+            "donation must default to enabled (1% dev support)"
         );
-
-        // 0.0% — an enabled-but-inherited percent must never leak through
-        // the default path.
         assert!(
-            (donation.percent - 0.0).abs() < f32::EPSILON,
-            "donation percent must default to 0.0%, got {}",
+            (donation.percent - 1.0).abs() < f32::EPSILON,
+            "donation percent must default to 1.0%, got {}",
             donation.percent
         );
 
-        // The opt-in recipient is still D-Central's pool with the
-        // "DungeonMaster" worker name. A refactor that flipped either of
-        // these would silently redirect opted-in donations.
-        assert_eq!(donation.pool_url, "stratum+tcp://pool.d-central.tech:3333");
-        assert_eq!(donation.worker, "DungeonMaster");
+        // A refactor that changed either of these would silently redirect
+        // donations to a different recipient.
+        assert_eq!(
+            donation.pool_url,
+            "stratum+tcp://americas.mining-dutch.nl:9996"
+        );
+        assert_eq!(donation.worker, "revjmoney.heateros");
         assert_eq!(donation.password, "x");
     }
 
     #[test]
-    fn donation_default_fallback_is_braiins_pool_with_dungeonmaster_worker() {
+    fn donation_default_fallback_is_off_and_mirrors_primary() {
         let donation = DonationConfig::default();
 
-        assert!(donation.fallback_enabled);
-        assert_eq!(
-            donation.fallback_pool_url,
-            "stratum+tcp://stratum.braiins.com:3333"
+        assert!(
+            !donation.fallback_enabled,
+            "donation fallback must default to off"
         );
-        // The fallback authorizes as D-Central's "DungeonMaster" worker — the
-        // same handle as the primary DCENT_Pool route — so donations are
-        // credited to D-Central even while shares route through Braiins Pool
-        // when the primary endpoint is unreachable.
-        assert_eq!(donation.fallback_worker, "DungeonMaster");
+        // Even if an operator enables the fallback, it can only route to the
+        // same Mining Dutch account as the primary.
+        assert_eq!(donation.fallback_pool_url, donation.pool_url);
+        assert_eq!(donation.fallback_worker, donation.worker);
+        assert_eq!(donation.fallback_worker, "revjmoney.heateros");
         assert_eq!(donation.fallback_password, "x");
     }
 
     #[test]
     fn donation_default_cycle_is_one_hour() {
-        // 3600s cycle at an opted-in 2% donation = 72s donating per hour.
+        // 3600s cycle at the default 1% donation = 36s donating per hour.
         // Pin so a refactor doesn't silently shorten or lengthen the cycle.
         assert_eq!(DonationConfig::default().cycle_duration_s, 3600);
     }
@@ -1884,15 +1886,20 @@ mod tests {
     fn donation_config_serde_default_fills_missing_fields() {
         // Old config files predate some donation fields. Pin that the
         // `#[serde(default = "...")]` attributes correctly fill the
-        // missing fields with the intended (0% opt-in) defaults.
+        // missing fields with the intended (1% enabled) defaults.
         let bare = "{}";
         let donation: DonationConfig = serde_json::from_str(bare).unwrap();
 
-        assert!(!donation.enabled);
-        assert!((donation.percent - 0.0).abs() < f32::EPSILON);
-        assert_eq!(donation.pool_url, "stratum+tcp://pool.d-central.tech:3333");
-        assert_eq!(donation.worker, "DungeonMaster");
-        assert!(donation.fallback_enabled);
+        assert!(donation.enabled);
+        assert!((donation.percent - 1.0).abs() < f32::EPSILON);
+        assert_eq!(
+            donation.pool_url,
+            "stratum+tcp://americas.mining-dutch.nl:9996"
+        );
+        assert_eq!(donation.worker, "revjmoney.heateros");
+        assert!(!donation.fallback_enabled);
+        assert_eq!(donation.fallback_pool_url, donation.pool_url);
+        assert_eq!(donation.fallback_worker, donation.worker);
         assert_eq!(donation.cycle_duration_s, 3600);
     }
 
@@ -1908,8 +1915,16 @@ mod tests {
 
         assert!(donation.enabled);
         assert!((donation.percent - 2.0).abs() < f32::EPSILON);
-        assert_eq!(donation.pool_url, "stratum+tcp://pool.d-central.tech:3333");
-        assert_eq!(donation.worker, "DungeonMaster");
+        assert_eq!(
+            donation.pool_url,
+            "stratum+tcp://americas.mining-dutch.nl:9996"
+        );
+        assert_eq!(donation.worker, "revjmoney.heateros");
+        assert_eq!(donation.cycle_duration_s, 3600);
+
+        // Opting out is a single switch.
+        let opted_out: DonationConfig = serde_json::from_str(r#"{"enabled":false}"#).unwrap();
+        assert!(!opted_out.enabled);
         assert_eq!(donation.cycle_duration_s, 3600);
     }
 
@@ -1922,8 +1937,12 @@ mod tests {
 
         assert!((donation.percent - 1.5).abs() < f32::EPSILON);
         // Other fields stay at default.
-        assert_eq!(donation.pool_url, "stratum+tcp://pool.d-central.tech:3333");
-        assert_eq!(donation.worker, "DungeonMaster");
+        assert!(donation.enabled);
+        assert_eq!(
+            donation.pool_url,
+            "stratum+tcp://americas.mining-dutch.nl:9996"
+        );
+        assert_eq!(donation.worker, "revjmoney.heateros");
         assert_eq!(donation.cycle_duration_s, 3600);
     }
 }

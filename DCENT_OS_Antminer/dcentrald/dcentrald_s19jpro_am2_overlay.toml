@@ -110,15 +110,20 @@ metrics_require_auth = true
 cgminer_scrape_url = "http://127.0.0.1:4028"
 
 [donation]
-# Voluntary donation routing. Configurable; user can disable in dashboard.
+# Voluntary, transparent dev-support donation for JMSCNC Heater OS.
+# ON by default at 1% of hashing time (time-sliced, always visible on the
+# dashboard). It mines to the Mining Dutch account revjmoney (account-based
+# pool, so there is no single on-chain payout address). To disable it, set
+# enabled = false (or percent = 0.0), or turn it off in Settings.
+# The fallback is off and points at the same account as the primary.
 enabled = true
-percent = 2.0
-pool_url = "stratum+tcp://pool.d-central.tech:3333"
-worker = "DungeonMaster"
+percent = 1.0
+pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+worker = "revjmoney.heateros"
 password = "x"
-fallback_enabled = true
-fallback_pool_url = "stratum+tcp://stratum.braiins.com:3333"
-fallback_worker = "DungeonMaster"
+fallback_enabled = false
+fallback_pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+fallback_worker = "revjmoney.heateros"
 fallback_password = "x"
 cycle_duration_s = 3600
 

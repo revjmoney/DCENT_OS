@@ -3321,11 +3321,11 @@ fn competitive_decentralization_gate() -> serde_json::Value {
         "mandatory_fee": false,
         "fee_route": "transparent_donation",
         "donation": {
-            // 0% default posture (operator decision 2026-09-01): donation
-            // is opt-in. Static contract mirrors DonationConfig::default().
-            "default_enabled": false,
+            // 1% default (JMSCNC Heater OS dev support), disableable at any
+            // time. Static contract mirrors DonationConfig::default().
+            "default_enabled": DEFAULT_DONATION_ENABLED,
             "current_enabled": null,
-            "default_percent": 0.0,
+            "default_percent": DEFAULT_DONATION_PERCENT,
             "current_percent": null,
             "cycle_duration_s_default": 3600,
             "current_cycle_duration_s": null,
@@ -6880,11 +6880,10 @@ pub fn build_router() -> Router<Arc<AppState>> {
         // W5.2 — SV2 Job Declaration endpoints (status, config,
         // test-connection). See routes/jd.rs.
         .merge(crate::routes::jd::router())
-        // W9.5 — DungeonMaster donation pool public-info endpoint.
-        // Read-only, intentionally public disclosure of the donation
-        // pool URL + payout address + block-explorer link so operators
-        // can independently verify on-chain payout history. See
-        // routes/donation.rs. Per swarm review: trust-but-verify.
+        // W9.5: donation pool public-info endpoint. Read-only, intentionally
+        // public disclosure of the donation pool URL and worker. The pool is
+        // account-based (Mining Dutch), so there is no on-chain payout
+        // address to link. See routes/donation.rs.
         .merge(crate::routes::donation::router())
         // W9.4 — J/TH calibration loop (operator wattmeter source-of-truth).
         // POST /api/perf/calibrate accepts a wall-meter reading and bakes it
@@ -7634,11 +7633,11 @@ fn donation_failover_contract(miner: &crate::MinerState) -> serde_json::Value {
     let enabled = donation
         .and_then(|table| table.get("enabled"))
         .and_then(|value| value.as_bool())
-        .unwrap_or(true);
+        .unwrap_or(DEFAULT_DONATION_ENABLED);
     let percent = donation
         .and_then(|table| table.get("percent"))
         .and_then(|value| value.as_float())
-        .unwrap_or(2.0);
+        .unwrap_or(DEFAULT_DONATION_PERCENT);
     let cycle_duration_s = donation
         .and_then(|table| table.get("cycle_duration_s"))
         .and_then(|value| value.as_integer())
@@ -7647,19 +7646,19 @@ fn donation_failover_contract(miner: &crate::MinerState) -> serde_json::Value {
     let pool_url = donation
         .and_then(|table| table.get("pool_url"))
         .and_then(|value| value.as_str())
-        .unwrap_or("stratum+tcp://pool.d-central.tech:3333");
+        .unwrap_or(DEFAULT_DONATION_POOL_URL);
     let fallback_enabled = donation
         .and_then(|table| table.get("fallback_enabled"))
         .and_then(|value| value.as_bool())
-        .unwrap_or(true);
+        .unwrap_or(DEFAULT_DONATION_FALLBACK_ENABLED);
     let fallback_pool_url = donation
         .and_then(|table| table.get("fallback_pool_url"))
         .and_then(|value| value.as_str())
-        .unwrap_or("stratum+tcp://stratum.braiins.com:3333");
+        .unwrap_or(DEFAULT_DONATION_FALLBACK_POOL_URL);
     let fallback_worker = donation
         .and_then(|table| table.get("fallback_worker"))
         .and_then(|value| value.as_str())
-        .unwrap_or("DungeonMaster");
+        .unwrap_or(DEFAULT_DONATION_FALLBACK_WORKER);
     let donation_host = parse_pool_host_port(pool_url)
         .map(|(host, _)| host)
         .unwrap_or_else(|_| "unavailable".to_string());
@@ -7678,7 +7677,7 @@ fn donation_failover_contract(miner: &crate::MinerState) -> serde_json::Value {
         "fallback_enabled": fallback_enabled,
         "fallback_pool_host": fallback_host,
         "fallback_worker_redacted": redact_worker(fallback_worker),
-        "fallback_policy": "primary_donation_pool_then_visible_braiins_account",
+        "fallback_policy": "primary_donation_pool_then_same_account_fallback",
         "disable_supported": true,
         "excluded_from_user_failover": true,
         "telemetry_source": "config_plus_miner_state_pool",
@@ -7687,8 +7686,8 @@ fn donation_failover_contract(miner: &crate::MinerState) -> serde_json::Value {
 
 /// RE-013: compact, open-source-transparency donation block for `/api/status`.
 ///
-/// Surfaces BOTH the primary donation pool AND the visible Braiins-worker
-/// fallback (`fallback_worker`, default `DungeonMaster`) so the
+/// Surfaces BOTH the primary donation pool AND the visible fallback
+/// (`fallback_worker`, off by default and mirroring the primary) so the
 /// devfee-transparency contract is honest at the top-level status surface, not
 /// just `/api/pools.failover` / `/api/donation/info`. Pure (takes the parsed
 /// donation sub-table) so it's host-testable. Worker names are redacted for
@@ -7701,31 +7700,31 @@ fn donation_transparency_from_table(
     let enabled = donation
         .and_then(|t| t.get("enabled"))
         .and_then(|v| v.as_bool())
-        .unwrap_or(true);
+        .unwrap_or(DEFAULT_DONATION_ENABLED);
     let percent = donation
         .and_then(|t| t.get("percent"))
         .and_then(|v| v.as_float())
-        .unwrap_or(2.0);
+        .unwrap_or(DEFAULT_DONATION_PERCENT);
     let pool_url = donation
         .and_then(|t| t.get("pool_url"))
         .and_then(|v| v.as_str())
-        .unwrap_or("stratum+tcp://pool.d-central.tech:3333");
+        .unwrap_or(DEFAULT_DONATION_POOL_URL);
     let worker = donation
         .and_then(|t| t.get("worker"))
         .and_then(|v| v.as_str())
-        .unwrap_or("DungeonMaster");
+        .unwrap_or(DEFAULT_DONATION_WORKER);
     let fallback_enabled = donation
         .and_then(|t| t.get("fallback_enabled"))
         .and_then(|v| v.as_bool())
-        .unwrap_or(true);
+        .unwrap_or(DEFAULT_DONATION_FALLBACK_ENABLED);
     let fallback_pool_url = donation
         .and_then(|t| t.get("fallback_pool_url"))
         .and_then(|v| v.as_str())
-        .unwrap_or("stratum+tcp://stratum.braiins.com:3333");
+        .unwrap_or(DEFAULT_DONATION_FALLBACK_POOL_URL);
     let fallback_worker = donation
         .and_then(|t| t.get("fallback_worker"))
         .and_then(|v| v.as_str())
-        .unwrap_or("DungeonMaster");
+        .unwrap_or(DEFAULT_DONATION_FALLBACK_WORKER);
 
     serde_json::json!({
         "enabled": enabled,
@@ -7737,13 +7736,13 @@ fn donation_transparency_from_table(
         // Primary donation route.
         "pool_url": pool_url,
         "worker_redacted": redact_worker(worker),
-        // RE-013: the visible Braiins-worker fallback, surfaced for
-        // transparency (no hidden devfee route).
+        // RE-013: the visible fallback (off by default, same account as the
+        // primary), surfaced for transparency (no hidden devfee route).
         "fallback_enabled": fallback_enabled,
         "fallback_pool_url": fallback_pool_url,
         "fallback_worker_redacted": redact_worker(fallback_worker),
-        "fallback_policy": "primary_donation_pool_then_visible_braiins_account",
-        "note": "Voluntary, transparent, fully disableable. The fallback routes the donation slice to a visible Braiins Pool worker only when the primary donation endpoint is unavailable; it never extends the configured percentage and is excluded from user-pool failover.",
+        "fallback_policy": "primary_donation_pool_then_same_account_fallback",
+        "note": "Transparent, on by default at 1% and fully disableable. The fallback (off by default) only reroutes the donation slice to the same Mining Dutch account when the primary donation endpoint is unavailable; it never extends the configured percentage and is excluded from user-pool failover.",
     })
 }
 
@@ -7791,11 +7790,11 @@ fn build_hashrate_split_contract(
     let donation_enabled = donation
         .and_then(|table| table.get("enabled"))
         .and_then(|value| value.as_bool())
-        .unwrap_or(true);
+        .unwrap_or(DEFAULT_DONATION_ENABLED);
     let donation_pct = donation
         .and_then(|table| table.get("percent"))
         .and_then(|value| value.as_float())
-        .unwrap_or(2.0);
+        .unwrap_or(DEFAULT_DONATION_PERCENT);
     let user_allocation_pct = if donation_enabled {
         (100.0 - donation_pct).clamp(0.0, 100.0)
     } else {
@@ -9234,7 +9233,7 @@ async fn get_pools(State(state): State<Arc<AppState>>) -> impl IntoResponse {
             &miner.pool.donation_active_url
         ),
         // GROUP-B SW-08 follow-up: the donation worker is a wallet-shaped
-        // string (D-Central's donation worker, e.g. `DungeonMaster`).
+        // string (the donation worker, e.g. `revjmoney.heateros`).
         // Mask it on this unauthenticated read-only surface for consistency
         // with the `/api/status` RE-013 donation block (which already
         // redacts via `redact_worker`) and the setup-wizard wallet masking.

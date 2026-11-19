@@ -299,8 +299,8 @@ mod tests {
         let mut stats = StratumStats::default();
         stats.donating = true;
         stats.donation_active_url =
-            "stratum+tcp://user:hunter2@stratum.braiins.com:3333".to_string();
-        stats.donation_active_worker = "DungeonMaster".to_string();
+            "stratum+tcp://user:hunter2@americas.mining-dutch.nl:9996".to_string();
+        stats.donation_active_worker = "revjmoney.heateros".to_string();
         stats.donation_pool_index = 1;
 
         let snap = MinerPoolSnapshot::from_stratum_stats("m", "192.0.2.1", None, &stats, 1_000);
@@ -308,9 +308,9 @@ mod tests {
         assert!(snap.donating);
         assert_eq!(
             snap.donation_active_url,
-            "stratum+tcp://stratum.braiins.com:3333"
+            "stratum+tcp://americas.mining-dutch.nl:9996"
         );
-        assert_eq!(snap.donation_active_worker, "DungeonMaster");
+        assert_eq!(snap.donation_active_worker, "revjmoney.heateros");
         assert_eq!(snap.donation_pool_index, 1);
     }
 

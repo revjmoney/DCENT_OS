@@ -33,7 +33,7 @@ export function ReportProblem() {
       Downloads redacted logs, build identity and the last crash record. Nothing is uploaded.
     </p>
     {downloaded && <p role="status">Bundle downloaded. Review it, then attach it to your{' '}
-      <a href="https://d-central.tech/contact/" target="_blank" rel="noopener noreferrer">support request</a>.
+      <a href="https://jmscnc.com" target="_blank" rel="noopener noreferrer">support request</a>.
     </p>}
     {error && <p role="alert">{error}</p>}
   </div>;

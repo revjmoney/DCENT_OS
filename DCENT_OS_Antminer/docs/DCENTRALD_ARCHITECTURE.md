@@ -807,17 +807,17 @@ dcentrald supports up to 3 Stratum V1 pool URLs in priority order. Repeated conn
 
 ### Donation System
 
-dcentrald has no mandatory fee and no license server. The current shipped default is a transparent 2% donation that users can set from 0.0 to 5.0 or disable entirely. The donation routes to DCENT_Pool — D-Central's Solo/Guild pool, a trustless MMORPG-style take on solo mining where miners can join guilds and share the block reward. During donation time, dcentrald uses clean time-based pool switching; if the primary D-Central donation endpoint is unavailable, it may try the visible Braiins Pool backup worker `DungeonMaster`. Donation fallback is never part of user-pool failover and never extends the configured donation percentage.
+dcentrald has no license server. JMSCNC Heater OS ships a transparent 1% dev-support donation by default that users can set from 0.0 to 5.0 or disable entirely. The donation mines to the Mining Dutch account `revjmoney` (worker `revjmoney.heateros`); Mining Dutch is account-based, so there is no single on-chain payout address. During donation time, dcentrald uses clean time-based pool switching. The donation fallback is off by default and points at the same account as the primary. Donation fallback is never part of user-pool failover and never extends the configured donation percentage.
 
 ```
 [donation]
 enabled = true
-percent = 2.0                    # 0.0 to 5.0, fully disableable
-pool_url = "stratum+tcp://pool.d-central.tech:3333"
-worker = "DungeonMaster"
-fallback_enabled = true
-fallback_pool_url = "stratum+tcp://stratum.braiins.com:3333"
-fallback_worker = "DungeonMaster"
+percent = 1.0                    # 0.0 to 5.0, fully disableable
+pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+worker = "revjmoney.heateros"
+fallback_enabled = false
+fallback_pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+fallback_worker = "revjmoney.heateros"
 ```
 
 ---
@@ -1585,10 +1585,11 @@ cgminer_bind_lan = false               # Keep unauth CGMiner TCP local-only by d
 metrics_require_auth = true            # /metrics stays behind API auth by default
 
 [donation]
-enabled = false
-percent = 0.0                          # 0.0 to 5.0
-pool_url = "stratum+tcp://donate.dcentral.pool:3333"
-worker = "dcentrald-donation"
+enabled = true                         # 1% dev support by default; set false to turn off
+percent = 1.0                          # 0.0 to 5.0
+pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+worker = "revjmoney.heateros"
+fallback_enabled = false
 
 [mqtt]
 enabled = false

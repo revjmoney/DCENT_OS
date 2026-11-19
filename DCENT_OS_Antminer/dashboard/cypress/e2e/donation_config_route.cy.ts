@@ -2,13 +2,13 @@
 
 const donationConfig = {
   enabled: true,
-  percent: 2,
-  pool_url: 'stratum+tcp://pool.d-central.tech:3333',
-  worker: 'DungeonMaster',
+  percent: 1,
+  pool_url: 'stratum+tcp://americas.mining-dutch.nl:9996',
+  worker: 'revjmoney.heateros',
   password: 'x',
-  fallback_enabled: true,
-  fallback_pool_url: 'stratum+tcp://stratum.braiins.com:3333',
-  fallback_worker: 'DungeonMaster',
+  fallback_enabled: false,
+  fallback_pool_url: 'stratum+tcp://americas.mining-dutch.nl:9996',
+  fallback_worker: 'revjmoney.heateros',
   fallback_password: 'x',
   cycle_duration_s: 3600,
 };

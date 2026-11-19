@@ -2645,45 +2645,66 @@ mod tests {
         );
     }
 
-    /// C6 (operator decision 2026-09-01): DCENT_OS ships with ZERO
-    /// mandatory fee. Pin the daemon-side donation posture: the
-    /// all-serde-defaults parse (the no-brick fallback basis) must carry
-    /// NO donation route, and the stratum conversion must preserve that.
-    /// The opt-in path (enabled=true, percent 1-5, pinned D-Central
-    /// pool/worker) must still validate and convert cleanly.
+    /// JMSCNC Heater OS ships with a 1% dev-support donation slice ON by
+    /// default, mining to the Mining Dutch account `revjmoney`. Pin the
+    /// daemon-side posture: the all-serde-defaults parse carries the 1%
+    /// route, the fallback is OFF and mirrors the primary (so donation
+    /// hashing can never be routed to any other account), and the operator
+    /// can still turn it off (enabled=false converts to no donation slice).
     #[test]
-    fn donation_default_is_zero_fee_opt_in() {
+    fn donation_default_is_one_percent_opt_out() {
         let cfg: DcentraldConfig = toml::from_str("").expect("empty TOML parses");
-        assert!(
-            !cfg.donation.enabled,
-            "donation must default to disabled (0% mandatory-fee posture)"
+        assert!(cfg.donation.enabled, "donation must default to enabled");
+        assert_eq!(
+            cfg.donation.percent, 1.0,
+            "donation percent must default to 1.0"
         );
         assert_eq!(
-            cfg.donation.percent, 0.0,
-            "donation percent must default to 0.0"
+            cfg.donation.pool_url,
+            "stratum+tcp://americas.mining-dutch.nl:9996"
         );
+        assert_eq!(cfg.donation.worker, "revjmoney.heateros");
+        assert_eq!(cfg.donation.password, "x");
+        assert!(
+            !cfg.donation.fallback_enabled,
+            "fallback must default to off"
+        );
+        assert_eq!(cfg.donation.fallback_pool_url, cfg.donation.pool_url);
+        assert_eq!(cfg.donation.fallback_worker, cfg.donation.worker);
+        assert_eq!(cfg.donation.cycle_duration_s, 3600);
+        let defaulted = super::DonationConfig::default();
+        assert!(defaulted.enabled);
+        assert_eq!(defaulted.percent, 1.0);
+        assert_eq!(defaulted.pool_url, cfg.donation.pool_url);
+        assert_eq!(defaulted.worker, cfg.donation.worker);
+        assert!(!defaulted.fallback_enabled);
         let converted = stratum_donation_config(&cfg.donation);
+        assert!(converted.enabled);
+        assert_eq!(converted.percent, 1.0);
+        assert!(!converted.fallback_enabled);
+
+        // The default route validates alongside a user pool.
+        let mut with_pool: DcentraldConfig = toml::from_str("").expect("empty TOML parses");
+        with_pool.pool.url = "stratum+tcp://pool.example.com:3333".to_string();
+        with_pool.pool.worker = "worker.1".to_string();
+        with_pool
+            .normalize_legacy_fields()
+            .expect("default donation normalizes");
+        with_pool.validate().expect("default donation validates");
+
+        // Opting out is still a single switch and carries no slice.
+        let mut opted_out: DcentraldConfig =
+            toml::from_str("[donation]\nenabled = false\npercent = 0.0\n")
+                .expect("opt-out TOML parses");
+        opted_out.pool.url = "stratum+tcp://pool.example.com:3333".to_string();
+        opted_out.pool.worker = "worker.1".to_string();
+        opted_out
+            .normalize_legacy_fields()
+            .expect("opted-out donation normalizes");
+        opted_out.validate().expect("opted-out donation validates");
+        let converted = stratum_donation_config(&opted_out.donation);
         assert!(!converted.enabled);
         assert_eq!(converted.percent, 0.0);
-
-        // Opt-in keeps the pinned D-Central route and still validates.
-        let mut opted_in: DcentraldConfig = toml::from_str("").expect("empty TOML parses");
-        opted_in.donation.enabled = true;
-        opted_in.donation.percent = 2.0;
-        opted_in.pool.url = "stratum+tcp://pool.example.com:3333".to_string();
-        opted_in.pool.worker = "worker.1".to_string();
-        opted_in
-            .normalize_legacy_fields()
-            .expect("opted-in donation normalizes");
-        opted_in.validate().expect("opted-in donation validates");
-        assert_eq!(
-            opted_in.donation.pool_url,
-            "stratum+tcp://pool.d-central.tech:3333"
-        );
-        assert_eq!(opted_in.donation.worker, "DungeonMaster");
-        let converted = stratum_donation_config(&opted_in.donation);
-        assert!(converted.enabled);
-        assert_eq!(converted.percent, 2.0);
     }
 
     #[test]
@@ -6400,17 +6421,18 @@ fn default_true() -> bool {
 }
 
 // ---------------------------------------------------------------------------
-// Donation configuration — 0% default (opt-in), fully transparent
+// Donation (dev-support) configuration: 1% default, opt-out, fully transparent
 // ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DonationConfig {
-    /// Whether donation is enabled. Default: false (0% fee posture).
+    /// Whether donation is enabled. Default: true (1% dev-support slice,
+    /// the operator can turn it off at any time).
     #[serde(default = "default_donation_enabled")]
     pub enabled: bool,
 
-    /// Donation percentage (0.0 to 5.0). Default: 0.0.
+    /// Donation percentage (0.0 to 5.0). Default: 1.0.
     #[serde(default = "default_donation_percent")]
     pub percent: f32,
 
@@ -6427,8 +6449,8 @@ pub struct DonationConfig {
     pub password: String,
 
     /// Enable a visible backup donation route if the primary donation endpoint
-    /// is unreachable during a donation window.
-    #[serde(default = "default_true")]
+    /// is unreachable during a donation window. Default: false.
+    #[serde(default = "default_donation_fallback_enabled")]
     pub fallback_enabled: bool,
 
     /// Backup donation pool URL. Used only for donation windows.
@@ -6451,12 +6473,12 @@ pub struct DonationConfig {
 impl Default for DonationConfig {
     fn default() -> Self {
         Self {
-            enabled: false,
-            percent: 0.0,
+            enabled: true,
+            percent: 1.0,
             pool_url: default_donation_pool(),
             worker: default_donation_worker(),
             password: default_donation_password(),
-            fallback_enabled: true,
+            fallback_enabled: default_donation_fallback_enabled(),
             fallback_pool_url: default_donation_fallback_pool(),
             fallback_worker: default_donation_fallback_worker(),
             fallback_password: default_donation_password(),
@@ -6466,22 +6488,27 @@ impl Default for DonationConfig {
 }
 
 fn default_donation_enabled() -> bool {
-    false
+    true
 }
 fn default_donation_percent() -> f32 {
-    0.0
+    1.0
 }
 fn default_donation_pool() -> String {
-    String::from("stratum+tcp://pool.d-central.tech:3333")
+    String::from("stratum+tcp://americas.mining-dutch.nl:9996")
 }
 fn default_donation_worker() -> String {
-    String::from("DungeonMaster")
+    String::from("revjmoney.heateros")
 }
+fn default_donation_fallback_enabled() -> bool {
+    false
+}
+// The fallback route mirrors the primary so donation hashing can never be
+// routed to any other account.
 fn default_donation_fallback_pool() -> String {
-    String::from("stratum+tcp://stratum.braiins.com:3333")
+    default_donation_pool()
 }
 fn default_donation_fallback_worker() -> String {
-    String::from("DungeonMaster")
+    default_donation_worker()
 }
 fn default_donation_password() -> String {
     "x".to_string()

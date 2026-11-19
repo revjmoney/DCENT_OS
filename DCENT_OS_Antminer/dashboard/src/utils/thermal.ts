@@ -413,12 +413,12 @@ export function estimateDailyCost(watts: number, electricityRate: number): numbe
 
 /**
  * Firmware default donation when config has not been read. Mirrors the
- * daemon's `DonationConfig` default (C6, operator decision 2026-09-01):
- * donation is DISABLED and 0% until the operator opts in. An opted-in
- * config (enabled=true + percent) still applies its full percent below —
- * the earnings math must never silently zero an active donation.
+ * daemon's `DonationConfig` default (JMSCNC Heater OS): donation is ON at
+ * 1% of hashing time until the operator lowers it or turns it off. An
+ * enabled config still applies its full percent below, and the earnings
+ * math must never silently zero an active donation.
  */
-export const DEFAULT_DONATION_PERCENT = 0;
+export const DEFAULT_DONATION_PERCENT = 1;
 
 const POOL_FEE_STORAGE_KEY = 'dcentos-earnings-pool-fee-percent';
 const POOL_FEE_MAX_PERCENT = 10;
@@ -435,7 +435,7 @@ export function clampPoolFeePercent(percent: number): number {
 
 /**
  * Effective donation take-rate for earnings math.
- * Unknown/missing config → 0% (the daemon's opt-in default). Operator-disabled → 0.
+ * Unknown/missing config → 1% (the daemon's default). Operator-disabled → 0.
  * An opted-in config always applies its configured percent (never silently zeroed).
  */
 export function donationTakePercent(

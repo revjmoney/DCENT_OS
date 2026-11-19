@@ -1054,7 +1054,7 @@ mod tests {
     // address — neither may survive raw on the wire.
     #[test]
     fn ws_stats_frame_masks_donation_url_and_worker() {
-        let donation_url = "stratum+tcp://donateuser:secretpass@pool.d-central.tech:3333";
+        let donation_url = "stratum+tcp://donateuser:secretpass@americas.mining-dutch.nl:9996";
         let donation_worker = "";
         let state = miner_state_donating(donation_url, donation_worker);
         let power = dcentrald_autotuner::LivePowerEstimate::default();

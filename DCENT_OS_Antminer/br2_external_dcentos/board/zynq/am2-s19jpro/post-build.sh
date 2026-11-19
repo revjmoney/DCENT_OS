@@ -308,8 +308,8 @@ echo "DCENTos post-build (am2-s19jpro): sha256 $(cat "${TARGET_DIR}/etc/dcentos/
 #   * pool.url / pool.worker = "" (operator configures via dashboard)
 #   * mining.enabled = false (idle-first until pool configured)
 #   * watchdog.enabled = true (HW watchdog ON by default — workspace safety rule)
-#   * donation.enabled = false (0% mandatory-fee posture; opt-in transparent
-#     donation of 1-5% is available in Settings — C6, operator 2026-09-01)
+#   * donation.enabled = true at 1% (transparent dev-support slice, one tap
+#     off in Settings; mines to the Mining Dutch account revjmoney)
 #   * api.cgminer_port = 4028 (clean image owns the port)
 #
 # Always stamp this over the shared Zynq overlay default — the shared overlay

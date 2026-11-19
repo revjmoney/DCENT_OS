@@ -357,9 +357,10 @@ export const GLOSSARY = {
   donation: {
     term: 'Donation (not a dev fee)',
     body:
-      'DCENT_OS has no license server and no mandatory fee. The optional ' +
-      'donation is transparent, adjustable (0–5%), and fully ' +
-      'disableable. It funds DCENT_OS + D-Central’s open-source work. ' +
+      'JMSCNC Heater OS has no license server. By default it sends 1% of ' +
+      'hashing time to support development (Mining Dutch account revjmoney). ' +
+      'The donation is transparent, adjustable (0 to 5%), and you can turn ' +
+      'it off at any time in Settings. ' +
       'It is always called a donation, never a "dev fee".',
     note:
       'For context, competing firmware charges a mandatory ~1.8–3% dev ' +
@@ -375,7 +376,7 @@ export const GLOSSARY = {
   dcent_pool: {
     term: 'DCENT_Pool (Solo/Guild pool)',
     body:
-      'D-Central’s own mining pool and the default donation destination. It ' +
+      'D-Central’s own mining pool. It ' +
       'is a trustless, MMORPG-style take on solo mining: hunt for a block on ' +
       'your own, or join a guild to share the block reward with other miners ' +
       '— fully non-custodial, with no account custody of your coins.',

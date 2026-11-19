@@ -1,43 +1,44 @@
 import { DCENT_FUND_CANONICAL_URL as FUND_URL } from '../../utils/links';
 // DonationFeeCard - transparent donation visibility and controls.
 //
-// C6 (operator decision 2026-09-01): DCENT_OS ships with ZERO mandatory
-// fee. This card is a NUDGE, not a toll booth: the default state is
-// disabled at 0%, one-tap 1/2/3% presets let an operator opt in, and the
-// mechanism stays fully visible and one-tap-off. The compact variant is
-// a DISMISSIBLE donate nudge (About page); the full variant (Settings)
-// is the always-available control surface.
+// JMSCNC Heater OS default: the dev-support donation is ON at 1% of
+// hashing time (Mining Dutch, worker revjmoney.heateros). It is never
+// hidden and never mandatory: the card always shows when it is active, and
+// one tap turns it off. The compact variant is a DISMISSIBLE summary (About
+// page); the full variant (Settings) is the always-available control surface.
 //
-// Copy truth-contract (load-bearing — enforced by donationNudge.honesty.test.ts):
-//   • never claim the donation "pays for itself" or that the autotuner
+// Copy truth-contract (load-bearing, enforced by donationNudge.honesty.test.ts):
+//   * never claim the donation "pays for itself" or that the autotuner
 //     offsets it (CLAIM_UNSAFE per COMPETITIVE_FEATURE_MATRIX);
-//   • no countdown / scarcity pressure patterns;
-//   • always state "no mandatory fee, ever";
-//   • the fund link https://d-central.tech/fund/ is always present.
+//   * no countdown / scarcity pressure patterns;
+//   * always state the default honestly (1% by default, off with one tap);
+//   * the canonical support link (utils/links) is always present.
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { api } from '../../api/client';
 import type { DonationConfig, DonationInfoResponse } from '../../api/types';
 import { useMinerStore } from '../../store/miner';
 
-const DEFAULT_POOL_URL = 'stratum+tcp://pool.d-central.tech:3333';
-const DEFAULT_WORKER = 'DungeonMaster';
+const DEFAULT_POOL_URL = 'stratum+tcp://americas.mining-dutch.nl:9996';
+const DEFAULT_WORKER = 'revjmoney.heateros';
 const DEFAULT_PASSWORD = 'x';
-const DEFAULT_FALLBACK_POOL_URL = 'stratum+tcp://stratum.braiins.com:3333';
-const DEFAULT_FALLBACK_WORKER = 'DungeonMaster';
+// Fallback mirrors the primary and stays disabled: donation hashing only
+// ever goes to the Mining Dutch account above.
+const DEFAULT_FALLBACK_POOL_URL = DEFAULT_POOL_URL;
+const DEFAULT_FALLBACK_WORKER = DEFAULT_WORKER;
 const DEFAULT_CYCLE_S = 3600;
-const DEFAULT_PERCENT = 0;
+const DEFAULT_PERCENT = 1;
 const NUDGE_DISMISS_STORAGE_KEY = 'dcentos-donate-nudge-dismissed';
 
 type DonationState = DonationConfig;
 
 const DEFAULT_STATE: DonationState = {
-  enabled: false,
+  enabled: true,
   percent: DEFAULT_PERCENT,
   pool_url: DEFAULT_POOL_URL,
   worker: DEFAULT_WORKER,
   password: DEFAULT_PASSWORD,
-  fallback_enabled: true,
+  fallback_enabled: false,
   fallback_pool_url: DEFAULT_FALLBACK_POOL_URL,
   fallback_worker: DEFAULT_FALLBACK_WORKER,
   fallback_password: DEFAULT_PASSWORD,
@@ -205,7 +206,7 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
   const { donateS, userS } = formatCycleSplit(state.percent, state.cycle_duration_s);
   const enabledLabel = state.enabled
     ? `${formatPercent(state.percent)}% donation enabled`
-    : 'Donation off — 0% fee';
+    : 'Donation off';
 
   async function persist(patch: Partial<DonationState>) {
     const nextDonation = normalizeDonationConfig({ ...state, ...patch });
@@ -217,8 +218,8 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
       setServerState(saved);
       setState(saved);
       addAlert('info', saved.enabled
-        ? `Donation saved at ${formatPercent(saved.percent)}%. Thank you for supporting DCENT_OS.`
-        : 'Donation disabled. No mandatory fee, ever.');
+        ? `Donation saved at ${formatPercent(saved.percent)}%. Thank you for supporting JMSCNC Heater OS.`
+        : 'Donation turned off. Nothing is sent to the donation pool.');
     } catch (err) {
       addAlert('warning', saveErrorMessage(err));
     } finally {
@@ -247,7 +248,10 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
     if (nudgeDismissed) {
       return (
         <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', lineHeight: 1.6 }}>
-          DCENT_OS stays 0% fee — donation stays off. Change it anytime under{' '}
+          {loaded && apiReportsDonation && state.enabled
+            ? `Donation is on at ${formatPercent(state.percent)}% of hashing time. `
+            : loaded && apiReportsDonation ? 'Donation is off. ' : ''}
+          Change it or turn it off anytime under{' '}
           {onNavigateToSettings ? (
             <button
               type="button"
@@ -265,7 +269,7 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
             rel="noopener noreferrer"
             style={{ color: 'var(--accent, #FAA500)' }}
           >
-            fund development directly
+            buy me a coffee
           </a>.
         </div>
       );
@@ -277,7 +281,7 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
           type="button"
           onClick={dismissNudge}
           aria-label="Dismiss donation nudge"
-          title="Dismiss — the donation stays fully available in Settings"
+          title="Dismiss (the donation controls stay available in Settings)"
           style={{
             position: 'absolute',
             top: -4,
@@ -295,7 +299,7 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
         </button>
         <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
           <strong style={{ fontFamily: "var(--font-heading)", fontSize: '1.05rem', color: 'var(--accent, #FAA500)' }}>
-            {loaded && apiReportsDonation ? enabledLabel : '0% fee — open source'}
+            {loaded && apiReportsDonation ? enabledLabel : 'Open source, 1% dev support by default'}
           </strong>
           {poolDonating && (
             <span className="ds-chip ds-accent ds-live" aria-label="Currently mining on the donation pool">
@@ -304,9 +308,9 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
           )}
         </div>
         <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', lineHeight: 1.6, marginBottom: 10 }}>
-          DCENT_OS is 0% fee and open source — <strong>no mandatory fee, ever</strong>.
-          If it helps your miner, you can fund development with an optional,
-          always-visible time-sliced donation.
+          JMSCNC Heater OS sends <strong>1% of hashing time</strong> to support
+          development by default. You can lower it or turn it off here at any
+          time. It is never hidden: a DONATING indicator shows whenever it runs.
         </div>
         <div
           role="group"
@@ -340,9 +344,20 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
             rel="noopener noreferrer"
             style={{ color: 'var(--accent, #FAA500)', textDecoration: 'underline' }}
           >
-            d-central.tech/fund
+            Buy Me a Coffee
           </a>
         </div>
+        {state.enabled && (
+          <button
+            type="button"
+            className="ds-btn ghost"
+            onClick={handleDisable}
+            disabled={saving || !loaded}
+            style={{ padding: '4px 12px', marginBottom: 10 }}
+          >
+            Turn off donation
+          </button>
+        )}
         <DonationVerifyLink info={donationInfo} compact />
         {onNavigateToSettings && (
           <button
@@ -406,7 +421,7 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
           )}
         </div>
         <div className="ds-chip ds-info" style={{ fontSize: '0.62rem' }}>
-          0% fee · opt in
+          {state.enabled ? `Active · ${formatPercent(state.percent)}%` : 'Off'}
         </div>
       </div>
 
@@ -416,9 +431,9 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
         lineHeight: 1.6,
         marginBottom: 18,
       }}>
-        DCENT_OS is 0% fee and open source — <strong>no mandatory fee, ever</strong>.
-        The donation below is optional, visible pool switching that funds firmware
-        development: 1% helps, you can go up to 5%, and one tap turns it off.
+        JMSCNC Heater OS sends <strong>1% of hashing time</strong> to support
+        development by default. You can lower it or turn it off here at any time.
+        It is visible pool switching, 0% to 5%, and one tap turns it off.
       </div>
 
       {!apiReportsDonation && loaded && (
@@ -433,7 +448,7 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
           lineHeight: 1.5,
         }}>
           This API response has not reported saved donation settings yet. The
-          firmware default is 0% (off); save once to record your choice on
+          firmware default is on at 1%; save once to record your choice on
           firmware builds that expose the donation config key.
         </div>
       )}
@@ -573,7 +588,7 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
           <div style={{ fontSize: '0.75rem', color: 'var(--text-dim, #9CA3AF)', marginTop: 2 }}>
             {state.enabled
               ? 'Briefly mines on the donation pool each cycle, then returns to your pool.'
-              : 'Your miner stays on your pool for the full cycle. No mandatory fee, ever.'}
+              : 'Your miner stays on your pool for the full cycle. Nothing goes to the donation pool.'}
           </div>
         </div>
         <button
@@ -619,7 +634,7 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
           rel="noopener noreferrer"
           style={{ color: 'var(--accent, #FAA500)', textDecoration: 'underline' }}
         >
-          d-central.tech/fund
+          Buy Me a Coffee
         </a>
       </div>
 
@@ -736,18 +751,16 @@ export function DonationFeeCard({ variant = 'full', onNavigateToSettings }: Dona
 }
 
 /**
- * W9.5 — DonationVerifyLink
+ * W9.5 DonationVerifyLink: donation destination disclosure.
  *
- * Renders a "Verify on-chain" disclosure block below the donation
- * slider/toggle. Shows the donation pool's payout Bitcoin address and
- * a block-explorer link to its on-chain payout history. The whole
- * point: trust-but-verify. The operator can paste the address into
- * any block explorer and audit that the donation slice actually lands
- * where the firmware claims.
+ * Shows where the donation slice goes. For an on-chain payout pool it
+ * renders the payout address and a block-explorer link (trust-but-verify).
+ * For an account-based pool (the JMSCNC Heater OS default, Mining Dutch),
+ * `/api/donation/info` returns an empty payout_address / explorer_url, so
+ * only the pool, worker and disclosure text are shown, with no link.
  *
  * Hidden when `info` is null (older daemons without /api/donation/info,
- * or transient fetch failure). The donation slider above keeps working
- * either way; this component is purely additive disclosure.
+ * or transient fetch failure).
  */
 function DonationVerifyLink({
   info,
@@ -756,120 +769,53 @@ function DonationVerifyLink({
   info: DonationInfoResponse | null;
   compact?: boolean;
 }) {
-  if (!info || !info.payout_address || !info.explorer_url) return null;
-
-  // Truncate the address for display: first 7 + last 6 chars with an
-  // ellipsis. The full address is in the link target so the operator
-  // can always copy the canonical value from the URL.
-  const addr = info.payout_address;
-  const displayAddr =
-    addr.length > 16 ? `${addr.slice(0, 7)}...${addr.slice(-6)}` : addr;
-
-  if (compact) {
-    return (
-      <div
-        style={{
-          marginBottom: 10,
-          padding: '8px 10px',
-          background: 'rgba(10,10,15,0.5)',
-          border: '1px solid var(--border, rgba(255,255,255,0.06))',
-          borderRadius: 8,
-          fontSize: '0.72rem',
-          color: 'var(--text-dim, #9CA3AF)',
-          lineHeight: 1.55,
-          fontFamily: "'JetBrains Mono', monospace",
-        }}
-      >
-        <div style={{ marginBottom: 4 }}>
-          Donations go to{' '}
-          <a
-            href={info.explorer_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: 'var(--accent, #FAA500)' }}
-            aria-label={`Donation payout address ${addr} on ${info.explorer_name}`}
-          >
-            {displayAddr}
-          </a>
-        </div>
-        <a
-          href={info.explorer_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: 'var(--accent, #FAA500)', textDecoration: 'underline' }}
-        >
-          {info.verify_label || 'View on-chain payout history'} -&gt;
-        </a>
-      </div>
-    );
-  }
+  if (!info) return null;
+  const addr = info.payout_address || '';
+  const explorer = addr ? info.explorer_url || '' : '';
+  const host = info.pool_host || (info.pool_url || '').replace(/^stratum\+tcp:\/\//, '');
+  if (!explorer && !host && !info.disclosure) return null;
+  // Truncate the address for display: first 7 + last 6 chars.
+  const displayAddr = addr.length > 16 ? `${addr.slice(0, 7)}...${addr.slice(-6)}` : addr;
+  const accent = { color: 'var(--accent, #FAA500)' };
 
   return (
     <div
+      data-testid={explorer ? 'donation-verify-link' : 'donation-account-disclosure'}
       style={{
-        marginTop: 14,
-        padding: '12px 14px',
+        marginTop: compact ? 0 : 14,
+        marginBottom: compact ? 10 : 0,
+        padding: compact ? '8px 10px' : '12px 14px',
         background: 'rgba(10,10,15,0.5)',
         border: '1px solid var(--border, rgba(255,255,255,0.08))',
-        borderRadius: 10,
-        fontSize: '0.8rem',
-        color: 'var(--text, #E8E8E8)',
-        lineHeight: 1.6,
+        borderRadius: compact ? 8 : 10,
+        fontSize: compact ? '0.72rem' : '0.78rem',
+        color: 'var(--text-dim, #9CA3AF)',
+        lineHeight: 1.55,
       }}
     >
-      <div
-        style={{
-          fontSize: '0.7rem',
-          color: 'var(--text-dim, #9CA3AF)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.08em',
-          fontWeight: 600,
-          marginBottom: 6,
-        }}
-      >
-        Verify on-chain (trust-but-verify)
-      </div>
-      <div style={{ marginBottom: 6 }}>
-        Donations go to{' '}
-        <a
-          href={info.explorer_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: 'var(--accent, #FAA500)',
-            fontFamily: "'JetBrains Mono', monospace",
-          }}
-          aria-label={`Donation payout address ${addr} on ${info.explorer_name}`}
-        >
-          {displayAddr}
-        </a>{' '}
-        <span style={{ color: 'var(--text-dim, #9CA3AF)', fontSize: '0.75rem' }}>
-          (on {info.explorer_name})
-        </span>
-      </div>
-      <a
-        href={info.explorer_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          color: 'var(--accent, #FAA500)',
-          textDecoration: 'underline',
-          fontSize: '0.78rem',
-        }}
-      >
-        {info.verify_label || 'View on-chain payout history'} -&gt;
-      </a>
-      <div
-        style={{
-          marginTop: 6,
-          fontSize: '0.72rem',
-          color: 'var(--text-dim, #6B7280)',
-          lineHeight: 1.5,
-        }}
-      >
-        {info.disclosure ||
-          'Donation slice flows to the address above. Verify on the block explorer.'}
-      </div>
+      {host && (
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", marginBottom: 4 }}>
+          Donation pool: {host}{info.worker ? ` (worker ${info.worker})` : ''}
+        </div>
+      )}
+      {explorer && (
+        <div style={{ marginBottom: 4 }}>
+          Donations go to{' '}
+          <a
+            href={explorer}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ ...accent, fontFamily: "'JetBrains Mono', monospace" }}
+            aria-label={`Donation payout address ${addr} on ${info.explorer_name}`}
+          >
+            {displayAddr}
+          </a>{' '}
+          (<a href={explorer} target="_blank" rel="noopener noreferrer" style={{ ...accent, textDecoration: 'underline' }}>
+            {info.verify_label || 'View on-chain payout history'}
+          </a>)
+        </div>
+      )}
+      {info.disclosure && <div>{info.disclosure}</div>}
     </div>
   );
 }

@@ -10871,7 +10871,7 @@ mod tests {
         assert_eq!(sc.routing_mode, "failover");
         assert!(sc.version_rolling);
         assert_eq!(sc.suggest_difficulty, Some(4096));
-        // Donation defaults flow through (transparent 2% donation by default).
+        // Donation defaults flow through (transparent 1% donation by default).
         assert_eq!(sc.donation.enabled, cfg.donation.enabled);
         assert_eq!(sc.donation.percent, cfg.donation.percent);
         assert_eq!(sc.donation.worker, cfg.donation.worker);

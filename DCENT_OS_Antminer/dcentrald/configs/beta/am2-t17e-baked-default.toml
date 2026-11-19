@@ -1,6 +1,6 @@
 # Exact T17e / 78-chip BM1396 cold-300 source profile.
 # Mining stays disabled until pool setup and native runtime admission.
-# Support development: https://d-central.tech/fund/
+# Support development: https://buymeacoffee.com/revjmoney
 [general]
 hostname = "dcentos-t17e"
 log_level = "info"

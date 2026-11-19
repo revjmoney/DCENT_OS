@@ -2122,12 +2122,12 @@ pub struct PoolState {
     #[serde(default)]
     pub donation_active_url: String,
     /// W5.5: Worker name authenticated with the active donation pool. Empty
-    /// when not in a donation window. Useful to distinguish primary D-Central
-    /// donation worker from the visible Braiins Pool fallback (also `DungeonMaster`).
+    /// when not in a donation window. Useful to distinguish the primary
+    /// donation worker from the visible fallback (same account by default).
     #[serde(default)]
     pub donation_active_worker: String,
     /// W5.5: Zero-based index of the active donation route. 0 = primary
-    /// D-Central donation pool, 1 = visible Braiins fallback worker. Stays
+    /// donation pool, 1 = visible donation fallback. Stays
     /// at 0 outside the donation window — pair with `donating` to interpret.
     #[serde(default)]
     pub donation_pool_index: usize,

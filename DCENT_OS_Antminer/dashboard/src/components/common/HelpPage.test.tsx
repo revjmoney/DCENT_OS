@@ -40,12 +40,13 @@ describe('bundled operator help and shared support destinations', () => {
     expect(container.querySelector('code')?.textContent).toBe('literal');
   });
 
-  it('renders the actual wizard Fund link and encodes placement as one parameter', () => {
-    render(<DonationStep value={{ enabled: false, percent: 0 }} mode="heater" onChange={() => {}} />);
+  it('renders the actual wizard support link and sends every placement to the one canonical URL', () => {
+    render(<DonationStep value={{ enabled: true, percent: 1 }} mode="heater" onChange={() => {}} />);
+    expect(DCENT_FUND_CANONICAL_URL).toBe('https://buymeacoffee.com/revjmoney');
     expect(document.querySelector(`a[href="${DCENT_FUND_CANONICAL_URL}"]`)).not.toBeNull();
-    const url = new URL(fundContributeUrl('settings&redirect=elsewhere'));
-    expect(url.searchParams.get('placement')).toBe('settings&redirect=elsewhere');
-    expect(url.searchParams.has('redirect')).toBe(false);
+    // No tracking query string: the placement never leaks into the URL.
+    expect(fundContributeUrl('settings&redirect=elsewhere')).toBe(DCENT_FUND_CANONICAL_URL);
+    expect(fundContributeUrl('about')).toBe(DCENT_FUND_CANONICAL_URL);
   });
 
   it('has one canonical declaration consumed by all six Fund surfaces', () => {

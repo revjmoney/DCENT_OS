@@ -16,7 +16,7 @@ export function FundSupportLink({ placement }: { placement: string }) {
       href={fundContributeUrl(placement)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Fund the Sovereign Stack"
+      aria-label="Buy Me a Coffee: support JMSCNC Heater OS"
       style={{
         position: 'fixed',
         right: 12,
@@ -34,7 +34,7 @@ export function FundSupportLink({ placement }: { placement: string }) {
         border: '1px solid rgba(250, 165, 0, 0.32)',
       }}
     >
-      Fund
+      Support
     </a>
   );
 }

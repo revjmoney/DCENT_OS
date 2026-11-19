@@ -2,7 +2,7 @@
 //
 // Structural recreation of the kit `WelcomeStep` (ui_kits/wizard/Wizard.jsx):
 // the 3-sphere molecule logo + "DCENT_OS" wordmark, the "Welcome to your
-// miner" hero, the 3 value cards (Home fan cap / No mandatory dev fee /
+// miner" hero, the 3 value cards (Home fan cap / 1% dev support /
 // Flexible PSU + hashboard support), and the Quick Start / Guided setup / Skip
 // CTAs. Mode selection now lives in its own kit ModeStep (the kit splits Welcome
 // and Mode); this screen is purely the kit welcome.
@@ -11,6 +11,7 @@
 // production skip-confirm (the real terminal-skip path — NOT a fake skip).
 
 import React from 'react';
+import { DcentOsIcon } from '../common/DcentOsLogo';
 
 interface WelcomeStepProps {
   onQuickStart: () => void;
@@ -22,23 +23,9 @@ export function WelcomeStep({ onQuickStart, onGuidedStart, onSkipAll }: WelcomeS
   return (
     <div className="wiz-step-body welcome wizard-step-pane wizard-step-pane--welcome">
       <div className="wiz-logo">
-        <svg width="72" height="72" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <defs>
-            <radialGradient id="wz-welcome-sph" cx="38%" cy="28%" r="70%">
-              <stop offset="0%" stopColor="#FFD47A" />
-              <stop offset="55%" stopColor="#FAA500" />
-              <stop offset="100%" stopColor="#FA6700" />
-            </radialGradient>
-          </defs>
-          <line x1="22" y1="26" x2="42" y2="26" stroke="#0a0a0f" strokeWidth="3" />
-          <line x1="32" y1="44" x2="22" y2="26" stroke="#0a0a0f" strokeWidth="3" />
-          <line x1="32" y1="44" x2="42" y2="26" stroke="#0a0a0f" strokeWidth="3" />
-          <circle cx="22" cy="26" r="10" fill="url(#wz-welcome-sph)" />
-          <circle cx="42" cy="26" r="10" fill="url(#wz-welcome-sph)" />
-          <circle cx="32" cy="44" r="10" fill="url(#wz-welcome-sph)" />
-        </svg>
+        <DcentOsIcon size={72} />
         <div className="wiz-logo-text">
-          DCENT<span style={{ color: 'var(--wz-accent)' }}>_</span>OS
+          JMSCNC <span style={{ color: 'var(--wz-accent)' }}>Heater OS</span>
         </div>
       </div>
 
@@ -58,8 +45,8 @@ export function WelcomeStep({ onQuickStart, onGuidedStart, onSkipAll }: WelcomeS
         </div>
         <div className="wiz-welcome-card">
           <div className="wiz-welcome-card-icon" aria-hidden="true">⌫</div>
-          <h3>No mandatory dev fee</h3>
-          <p>Voluntary donation only. The &quot;DONATING&quot; indicator is visible whenever it&apos;s on.</p>
+          <h3>1% dev support, one tap off</h3>
+          <p>Sends 1% of hashing time to support development by default. Turn it off any time. The &quot;DONATING&quot; indicator is visible whenever it&apos;s on.</p>
         </div>
         <div className="wiz-welcome-card">
           <div className="wiz-welcome-card-icon" aria-hidden="true">⚙</div>
@@ -88,7 +75,7 @@ export function WelcomeStep({ onQuickStart, onGuidedStart, onSkipAll }: WelcomeS
       </p>
 
       <div style={{ marginTop: 8, color: 'var(--wz-fg-dim)', fontSize: '.78rem' }}>
-        Powered by D-Central Technologies
+        A fork of DCENT_OS by D-Central Technologies
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
 # DCENT_OS — Frequently Asked Questions
 
-## Is DCENT_OS really free, with no developer fee?
+## Does JMSCNC Heater OS take a developer fee?
 
-Yes. DCENT_OS ships with **0% donation by default — no mandatory fee, ever, and no license
-server**. Nothing is taken from your hashrate unless you explicitly opt in. The *optional*
-donation (off by default; opt in at 1-5% if you want to fund development) is always visible on
-the dashboard when active and is one tap off. D-Central makes its living repairing and selling
-mining hardware — not by skimming your hashrate. Prefer not to touch hashrate at all?
-[Support the project directly](https://d-central.tech/fund/).
+JMSCNC Heater OS has no license server. It sends **1% of hashing time to support development by
+default**, and you can lower it or turn it off at any time. The donation is always visible on the
+dashboard when active and is one tap off. It mines to the Mining Dutch account `revjmoney`
+(account-based pool, so there is no single on-chain payout address). Prefer not to touch hashrate
+at all? Turn the donation off and
+[support the project directly](https://buymeacoffee.com/revjmoney).
 
 ## How is DCENT_OS different from Braiins OS+, LuxOS, and VNish?
 

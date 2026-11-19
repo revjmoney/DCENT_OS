@@ -199,9 +199,8 @@ function DcentOsMolecule({ collapsed }: { collapsed: boolean }) {
       </div>
       {!collapsed && (
         <div className="sidebar-logo-wordmark">
-          <span className="sidebar-logo-dcent">DCENT</span>
-          <span className="sidebar-logo-underscore">_</span>
-          <span className="sidebar-logo-os">OS</span>
+          <span className="sidebar-logo-dcent">JMSCNC</span>
+          <span className="sidebar-logo-os">HEATER OS</span>
           <span className="sidebar-logo-cursor" />
         </div>
       )}
@@ -361,8 +360,8 @@ export function Sidebar({ mobileOpen, onNavigate, sidebarId, sidebarRef }: Sideb
           placement="right"
           content={
             visuallyCollapsed
-              ? <><b>Fund</b> — Keep this open firmware alive (Bitcoin or card).</>
-              : 'Keep this open firmware alive — Bitcoin or card.'
+              ? <><b>Support</b>: Buy Me a Coffee for JMSCNC Heater OS.</>
+              : 'Buy Me a Coffee: support JMSCNC Heater OS.'
           }
         >
           <a
@@ -370,11 +369,11 @@ export function Sidebar({ mobileOpen, onNavigate, sidebarId, sidebarRef }: Sideb
             href={fundContributeUrl('sidebar_nav')}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Fund the Sovereign Stack"
+            aria-label="Buy Me a Coffee: support JMSCNC Heater OS"
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
             <span className="nav-icon" aria-hidden="true">{icons.fund}</span>
-            {!visuallyCollapsed && <span className="nav-label">Fund</span>}
+            {!visuallyCollapsed && <span className="nav-label">Support</span>}
           </a>
         </Tooltip>
 
@@ -409,7 +408,7 @@ export function Sidebar({ mobileOpen, onNavigate, sidebarId, sidebarRef }: Sideb
         {!visuallyCollapsed && (
           <div className="sidebar-footer-text">
             Version
-            <br />DCENT_OS {version}
+            <br />JMSCNC Heater OS {version}
             {build && (<><br />build {build}</>)}
             <br />
             <a
@@ -418,7 +417,7 @@ export function Sidebar({ mobileOpen, onNavigate, sidebarId, sidebarRef }: Sideb
               rel="noopener noreferrer"
               style={{ color: 'var(--accent, #FAA500)', textDecoration: 'none', fontWeight: 600 }}
             >
-              Fund
+              Buy Me a Coffee
             </a>
           </div>
         )}

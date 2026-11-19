@@ -1,7 +1,7 @@
 # Exact S17e / 135-chip BM1396 per-chip factory source profile.
 # frequency_mhz is a ceiling: factory targets must fit and are never rewritten.
 # Mining stays disabled until pool setup and native runtime admission.
-# Support development: https://d-central.tech/fund/
+# Support development: https://buymeacoffee.com/revjmoney
 [general]
 hostname = "dcentos-s17e"
 log_level = "info"

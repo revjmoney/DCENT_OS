@@ -109,7 +109,7 @@ describe('Setup wizard — BUG 5: PSU Override step is board-gated', () => {
     cy.contains('button', 'Continue →').click();
 
     cy.contains('.wiz-h2', 'PSU Override').should('not.exist');
-    cy.contains('.wiz-h2', 'Optional donation', { timeout: 10000 }).should('be.visible');
+    cy.contains('.wiz-h2', 'Development support', { timeout: 10000 }).should('be.visible');
   });
 
   it('am2-s19jpro (Zynq) DOES show the PSU Override step (no regression)', () => {

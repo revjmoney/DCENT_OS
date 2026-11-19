@@ -457,13 +457,13 @@ function Test-TomlDonationConfig {
     if ($section -match '(?m)^\s*enabled\s*=\s*true\s*$') {
         Add-Result PASS 'donation shipped default enabled' 'donation is enabled by default in shipped config' $RelativePath
     } else {
-        Add-Result FAIL 'donation shipped default enabled' 'expected [donation].enabled = true for voluntary 2% default' $RelativePath
+        Add-Result FAIL 'donation shipped default enabled' 'expected [donation].enabled = true for voluntary 1% default' $RelativePath
     }
 
-    if ($section -match '(?m)^\s*percent\s*=\s*2(?:\.0+)?\s*$') {
-        Add-Result PASS 'donation shipped default percent' 'donation percent defaults to 2%' $RelativePath
+    if ($section -match '(?m)^\s*percent\s*=\s*1(?:\.0+)?\s*$') {
+        Add-Result PASS 'donation shipped default percent' 'donation percent defaults to 1%' $RelativePath
     } else {
-        Add-Result FAIL 'donation shipped default percent' 'expected [donation].percent = 2.0' $RelativePath
+        Add-Result FAIL 'donation shipped default percent' 'expected [donation].percent = 1.0' $RelativePath
     }
 
     if ($section -match '(?m)^\s*pool_url\s*=\s*"(stratum\+tcp|stratum2\+tcp)://[^"]+"\s*$') {
@@ -525,14 +525,14 @@ function Test-DonationFeeReadiness {
     $wizardText = Get-RepoText $wizardPath
     $wizardStepText = Get-RepoText $wizardStepPath
 
-    Test-Pattern $daemonConfigText 'impl\s+Default\s+for\s+DonationConfig[\s\S]*enabled:\s*true[\s\S]*percent:\s*2\.0' 'daemon donation default' 'daemon DonationConfig defaults to enabled 2%' 'daemon DonationConfig does not visibly default to enabled 2%' $daemonConfigPath
+    Test-Pattern $daemonConfigText 'impl\s+Default\s+for\s+DonationConfig[\s\S]*enabled:\s*true[\s\S]*percent:\s*1\.0' 'daemon donation default' 'daemon DonationConfig defaults to enabled 1%' 'daemon DonationConfig does not visibly default to enabled 1%' $daemonConfigPath
     Test-Pattern $daemonConfigText 'fn\s+default_donation_enabled\(\)\s*->\s*bool\s*\{\s*true\s*\}' 'daemon donation serde default' 'missing TOML donation.enabled defaults to true' 'missing TOML donation.enabled does not visibly default to true' $daemonConfigPath
     Test-Pattern $daemonConfigText 'fn\s+default_donation_pool\(\)\s*->\s*String\s*\{\s*("[^"]+"\.(to_string|into)\(\)|String::from\("[^"]+"\))\s*\}' 'daemon donation pool default' 'daemon has a non-empty donation pool default' 'daemon donation pool default is empty or not visible' $daemonConfigPath
     Test-Pattern $daemonConfigText 'fn\s+default_donation_worker\(\)\s*->\s*String\s*\{\s*("[^"]+"\.(to_string|into)\(\)|String::from\("[^"]+"\))\s*\}' 'daemon donation worker default' 'daemon has a non-empty donation worker default' 'daemon donation worker default is empty or not visible' $daemonConfigPath
     Test-Pattern $daemonConfigText 'donation\.percent[\s\S]*0\.0[\s\S]*5\.0' 'donation percent bounds' 'daemon validates donation.percent in the 0-5% range' 'daemon does not visibly validate donation.percent in the 0-5% range' $daemonConfigPath
     Test-Pattern $daemonConfigText 'donation\.enabled[\s\S]*donation\.pool_url[\s\S]*donation\.worker' 'donation pool required only when enabled' 'daemon requires donation pool/worker only when donation is enabled' 'daemon does not visibly gate donation pool/worker validation on enabled' $daemonConfigPath
 
-    Test-Pattern $stratumTypesText 'impl\s+Default\s+for\s+DonationConfig[\s\S]*enabled:\s*true[\s\S]*percent:\s*2\.0[\s\S]*cycle_duration_s:\s*3600' 'stratum donation default' 'stratum DonationConfig defaults to enabled 2% with a 3600s cycle' 'stratum DonationConfig does not visibly default to enabled 2%' $stratumTypesPath
+    Test-Pattern $stratumTypesText 'impl\s+Default\s+for\s+DonationConfig[\s\S]*enabled:\s*true[\s\S]*percent:\s*1\.0[\s\S]*cycle_duration_s:\s*3600' 'stratum donation default' 'stratum DonationConfig defaults to enabled 1% with a 3600s cycle' 'stratum DonationConfig does not visibly default to enabled 1%' $stratumTypesPath
     Test-Pattern $stratumTypesText 'Donation configuration[\s\S]*voluntary[\s\S]*transparent[\s\S]*disableable' 'stratum donation transparency docs' 'stratum types document donation as voluntary, transparent, and disableable' 'stratum donation docs do not visibly state voluntary/transparent/disableable' $stratumTypesPath
     Test-Pattern $stratumClientText 'config\.donation\.enabled\s*&&\s*config\.donation\.percent\s*>\s*0\.0' 'donation runtime disable path' 'runtime disables donation when enabled=false or percent=0' 'runtime does not visibly disable donation for enabled=false or percent=0' $stratumClientPath
     Test-Pattern $stratumClientText 'let\s+don_frac\s*=\s*\(\(?config\.donation\.percent\s+as\s+f64\)?\s*/\s*100\.0\)\.clamp\(0\.0,\s*1\.0\)' 'donation timing math' 'runtime computes donation time as percent / 100 and clamps the fraction defensively' 'runtime donation timing math is not visibly percent based' $stratumClientPath
@@ -554,8 +554,8 @@ function Test-DonationFeeReadiness {
     Test-Pattern $apiTypesText 'export\s+interface\s+DonationConfig[\s\S]*enabled:\s*boolean[\s\S]*percent:\s*number[\s\S]*cycle_duration_s:\s*number' 'dashboard donation config type' 'dashboard API types include donation config fields' 'dashboard API types do not visibly model donation config' $apiTypesPath
     Test-Pattern $apiTypesText 'donating\?:\s*boolean' 'dashboard donating status type' 'dashboard API types include pool.donating' 'dashboard API types do not visibly include pool.donating' $apiTypesPath
 
-    Test-Pattern $donationCardText 'const\s+DEFAULT_PERCENT\s*=\s*2(?:\.0)?;' 'dashboard donation percent default' 'DonationFeeCard defaults the suggested percent to 2%' 'DonationFeeCard does not visibly default percent to 2%' $donationCardPath
-    Test-Pattern $donationCardText 'DEFAULT_STATE:\s*DonationState\s*=\s*\{[\s\S]*enabled:\s*true[\s\S]*percent:\s*DEFAULT_PERCENT' 'dashboard donation enabled fallback' 'DonationFeeCard fallback state is enabled at 2%' 'DonationFeeCard fallback state is not visibly enabled at 2%' $donationCardPath
+    Test-Pattern $donationCardText 'const\s+DEFAULT_PERCENT\s*=\s*1(?:\.0)?;' 'dashboard donation percent default' 'DonationFeeCard defaults the suggested percent to 1%' 'DonationFeeCard does not visibly default percent to 1%' $donationCardPath
+    Test-Pattern $donationCardText 'DEFAULT_STATE:\s*DonationState\s*=\s*\{[\s\S]*enabled:\s*true[\s\S]*percent:\s*DEFAULT_PERCENT' 'dashboard donation enabled fallback' 'DonationFeeCard fallback state is enabled at 1%' 'DonationFeeCard fallback state is not visibly enabled at 1%' $donationCardPath
     Test-Pattern $donationCardText '(api\.updateConfig\(\{\s*donation:\s*nextDonation|api\.updateDonationConfig\(\s*nextDonation)' 'dashboard donation config write' 'DonationFeeCard persists donation settings through a donation-only write path' 'DonationFeeCard does not visibly persist donation settings' $donationCardPath
     Test-Pattern $donationCardText 'role="switch"[\s\S]*aria-checked=\{state\.enabled\}[\s\S]*Disable donation[\s\S]*Enable donation' 'dashboard donation disable control' 'DonationFeeCard exposes an accessible enable/disable switch' 'DonationFeeCard does not visibly expose a disable control' $donationCardPath
     Test-Pattern $donationCardText '(?i)(voluntary|optional)[\s\S]*(disable|choose|change)[\s\S]*(open-source|open source)' 'dashboard donation transparency copy' 'DonationFeeCard explains voluntary donation and open-source funding' 'DonationFeeCard transparency copy is missing or too weak' $donationCardPath
@@ -563,7 +563,7 @@ function Test-DonationFeeReadiness {
     Test-Pattern $donatingIndicatorText 'status\?\.pool\?\.donating[\s\S]*Currently mining on the donation pool[\s\S]*DONATING' 'dashboard donating chip' 'DonatingIndicator is driven by pool.donating and labels the live donation window' 'DonatingIndicator does not visibly expose pool.donating state' $donatingIndicatorPath
     Test-Pattern $settingsText 'DonationFeeCard\s+variant="full"' 'settings donation surface' 'Settings page includes the full donation controls' 'Settings page does not visibly include donation controls' $settingsPath
     Test-Pattern $aboutText 'DonationFeeCard' 'about donation surface' 'About page includes donation transparency card' 'About page does not visibly include donation transparency' $aboutPath
-    Test-Pattern $wizardText 'donation:\s*\{\s*enabled:\s*true,\s*percent:\s*2\s*\}' 'wizard donation default' 'setup wizard defaults donation to enabled 2%' 'setup wizard does not visibly default donation to enabled 2%' $wizardPath
+    Test-Pattern $wizardText 'donation:\s*\{\s*enabled:\s*true,\s*percent:\s*(1|DEFAULT_DONATION_PERCENT)\s*\}' 'wizard donation default' 'setup wizard defaults donation to enabled 1%' 'setup wizard does not visibly default donation to enabled 1%' $wizardPath
     Test-Pattern $wizardText '(api\.updateConfig\(\{[\s\S]*donation:\s*\{|api\.updateDonationConfig\(\{)[\s\S]*enabled:\s*Boolean\(config\.donation\?\.enabled\)[\s\S]*percent:\s*Math\.max\(0,\s*Math\.min\(5' 'wizard donation config write' 'setup wizard persists donation enabled/percent with 0-5 clamp' 'setup wizard does not visibly persist donation settings safely' $wizardPath
     Test-Pattern $wizardText '\{\s*id:\s*''donation''[\s\S]*skippable:\s*true' 'wizard donation step skippable' 'setup wizard donation step is visible and skippable' 'setup wizard donation step is not visibly skippable' $wizardPath
     Test-Pattern $wizardStepText 'optional[\s\S]*mandatory[\s\S]*cannot disable[\s\S]*choose' 'wizard donation transparency copy' 'wizard explains the donation is optional and user-controlled' 'wizard donation copy does not visibly explain optional control' $wizardStepPath

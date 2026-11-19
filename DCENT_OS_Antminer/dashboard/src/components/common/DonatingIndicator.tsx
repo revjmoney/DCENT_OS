@@ -2,9 +2,9 @@
 // currently on the donation pool (pool.donating === true in /api/status).
 // Mode-agnostic; safe to drop into Basic, Standard, or Hacker topbars.
 //
-// W5.5: when donation routing falls over from the primary D-Central
-// donation pool to the visible Braiins fallback worker
-// (DungeonMaster), the chip and tooltip surface the active route
+// W5.5: when donation routing falls over from the primary donation pool
+// to the configured fallback (disabled by default in JMSCNC Heater OS),
+// the chip and tooltip surface the active route
 // instead of just saying "DONATING". Operators can tell at a glance
 // whether the primary endpoint is up.
 
@@ -24,8 +24,8 @@ const POLL_INTERVAL_MS = 5_000;
 export function DonatingIndicator({ cycleDurationS = 3600 }: DonatingIndicatorProps) {
   const status = useMinerStore(s => s.status);
   const donating = status?.pool?.donating === true;
-  // 0 = firmware 0% default (C6, 2026-09-01); only an opted-in config
-  // raises it. The chip only renders while `donating` is true anyway.
+  // Placeholder until the config loads (firmware default is 1%). The chip
+  // only renders while `donating` is true anyway.
   const [percent, setPercent] = useState(0);
   const [configuredCycleS, setConfiguredCycleS] = useState(cycleDurationS);
   const [route, setRoute] = useState<PoolsDonationStatus | null>(null);
@@ -118,13 +118,13 @@ export function DonatingIndicator({ cycleDurationS = 3600 }: DonatingIndicatorPr
       return `${elapsedLine} ${cycleLine}`;
     }
     if (route.route === 'donation_fallback') {
-      const worker = route.active_worker || 'DungeonMaster';
-      const url = route.active_url || 'visible Braiins fallback';
-      return `${elapsedLine} Donating via Braiins fallback worker ${worker} (${url}). ${cycleLine}`;
+      const worker = route.active_worker || 'unknown worker';
+      const url = route.active_url || 'donation fallback pool';
+      return `${elapsedLine} Donating via fallback worker ${worker} (${url}). ${cycleLine}`;
     }
     if (route.route === 'donation_primary') {
-      const url = route.active_url || 'pool.d-central.tech';
-      return `${elapsedLine} Donating to D-Central primary (${url}). ${cycleLine}`;
+      const url = route.active_url || 'americas.mining-dutch.nl:9996';
+      return `${elapsedLine} Donating to primary donation pool (${url}). ${cycleLine}`;
     }
     return `${elapsedLine} ${cycleLine}`;
   })();

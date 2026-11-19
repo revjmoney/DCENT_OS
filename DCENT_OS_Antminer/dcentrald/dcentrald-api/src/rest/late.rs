@@ -1,18 +1,20 @@
 use super::*;
 
-pub(super) const DEFAULT_DONATION_POOL_URL: &str = "stratum+tcp://pool.d-central.tech:3333";
-pub(super) const DEFAULT_DONATION_WORKER: &str = "DungeonMaster";
+pub(super) const DEFAULT_DONATION_POOL_URL: &str = "stratum+tcp://americas.mining-dutch.nl:9996";
+pub(super) const DEFAULT_DONATION_WORKER: &str = "revjmoney.heateros";
 pub(super) const DEFAULT_DONATION_PASSWORD: &str = "x";
-pub(super) const DEFAULT_DONATION_FALLBACK_POOL_URL: &str =
-    "stratum+tcp://stratum.braiins.com:3333";
-pub(super) const DEFAULT_DONATION_FALLBACK_WORKER: &str = "DungeonMaster";
+/// The fallback mirrors the primary so donation hashing can never be routed
+/// to any other account.
+pub(super) const DEFAULT_DONATION_FALLBACK_POOL_URL: &str = DEFAULT_DONATION_POOL_URL;
+pub(super) const DEFAULT_DONATION_FALLBACK_WORKER: &str = DEFAULT_DONATION_WORKER;
+/// Mirrors `DonationConfig::default().fallback_enabled` (off).
+pub(super) const DEFAULT_DONATION_FALLBACK_ENABLED: bool = false;
 pub(super) const DEFAULT_DONATION_CYCLE_S: i64 = 3600;
-/// Mirrors `DonationConfig::default().percent` — the 0% default posture
-/// (operator decision 2026-09-01). Only used when the persisted
-/// `[donation]` section omits `percent`.
-pub(super) const DEFAULT_DONATION_PERCENT: f64 = 0.0;
-/// Mirrors `DonationConfig::default().enabled` — donation is opt-in.
-pub(super) const DEFAULT_DONATION_ENABLED: bool = false;
+/// Mirrors `DonationConfig::default().percent`: the 1% dev-support default.
+/// Only used when the persisted `[donation]` section omits `percent`.
+pub(super) const DEFAULT_DONATION_PERCENT: f64 = 1.0;
+/// Mirrors `DonationConfig::default().enabled`: on by default, one tap off.
+pub(super) const DEFAULT_DONATION_ENABLED: bool = true;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) struct HomeNightModeView {
@@ -138,7 +140,7 @@ pub(super) fn donation_config_value_from_table(table: &toml::Table) -> serde_jso
         "fallback_enabled": donation
             .and_then(|section| section.get("fallback_enabled"))
             .and_then(|value| value.as_bool())
-            .unwrap_or(true),
+            .unwrap_or(DEFAULT_DONATION_FALLBACK_ENABLED),
         "fallback_pool_url": donation
             .and_then(|section| section.get("fallback_pool_url"))
             .and_then(|value| value.as_str())
@@ -4675,17 +4677,17 @@ end_hour = 5
     }
 
     // RE-013: the donation transparency block surfaces BOTH the primary and the
-    // visible Braiins-worker fallback, with workers redacted.
+    // visible fallback, with workers redacted.
     #[test]
-    fn donation_transparency_surfaces_visible_braiins_fallback() {
+    fn donation_transparency_surfaces_visible_fallback() {
         let toml_src = r#"
             enabled = true
             percent = 2.0
-            pool_url = "stratum+tcp://pool.d-central.tech:3333"
-            worker = "DungeonMaster"
+            pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+            worker = "revjmoney.heateros"
             fallback_enabled = true
-            fallback_pool_url = "stratum+tcp://stratum.braiins.com:3333"
-            fallback_worker = "DungeonMaster"
+            fallback_pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+            fallback_worker = "revjmoney.heateros"
         "#;
         let donation: toml::Table = toml::from_str(toml_src).expect("valid toml");
         let block = donation_transparency_from_table(Some(&donation), true);
@@ -4695,40 +4697,45 @@ end_hour = 5
         assert_eq!(block["is_devfee"], serde_json::json!(false));
         assert_eq!(
             block["pool_url"],
-            serde_json::json!("stratum+tcp://pool.d-central.tech:3333")
+            serde_json::json!("stratum+tcp://americas.mining-dutch.nl:9996")
         );
         // Fallback is surfaced for transparency.
         assert_eq!(block["fallback_enabled"], serde_json::json!(true));
         assert_eq!(
             block["fallback_pool_url"],
-            serde_json::json!("stratum+tcp://stratum.braiins.com:3333")
+            serde_json::json!("stratum+tcp://americas.mining-dutch.nl:9996")
         );
-        // Worker passes through redact_worker unchanged — "DungeonMaster" is
-        // 13 chars (<= 18) so it is not truncated.
+        // Workers pass through redact_worker: "revjmoney.heateros" is
+        // 18 chars (<= 18) so it is not truncated.
         assert_eq!(
             block["fallback_worker_redacted"],
-            serde_json::json!("DungeonMaster")
+            serde_json::json!(redact_worker("revjmoney.heateros"))
         );
-        // Primary worker "DungeonMaster" (13 chars) passes through unchanged.
-        assert_eq!(block["worker_redacted"], serde_json::json!("DungeonMaster"));
+        assert_eq!(
+            block["worker_redacted"],
+            serde_json::json!(redact_worker("revjmoney.heateros"))
+        );
     }
 
     #[test]
     fn donation_transparency_defaults_when_unconfigured() {
-        // No [donation] table ⇒ defaults that match dcentrald.toml, including
-        // the visible Braiins fallback worker.
+        // No [donation] table => defaults that match DonationConfig::default():
+        // on at 1% to Mining Dutch, fallback off and mirroring the primary.
         let block = donation_transparency_from_table(None, false);
         assert_eq!(block["enabled"], serde_json::json!(true));
-        assert_eq!(block["percent"], serde_json::json!(2.0));
-        // Default fallback worker "DungeonMaster" (13 chars) passes through
-        // redact_worker unchanged.
+        assert_eq!(block["percent"], serde_json::json!(1.0));
+        assert_eq!(
+            block["pool_url"],
+            serde_json::json!("stratum+tcp://americas.mining-dutch.nl:9996")
+        );
+        assert_eq!(block["fallback_enabled"], serde_json::json!(false));
         assert_eq!(
             block["fallback_worker_redacted"],
-            serde_json::json!("DungeonMaster")
+            serde_json::json!(redact_worker("revjmoney.heateros"))
         );
         assert_eq!(
             block["fallback_pool_url"],
-            serde_json::json!("stratum+tcp://stratum.braiins.com:3333")
+            serde_json::json!("stratum+tcp://americas.mining-dutch.nl:9996")
         );
         assert_eq!(block["active"], serde_json::json!(false));
     }
@@ -4778,21 +4785,29 @@ end_hour = 5
     }
 
     #[test]
-    fn donation_config_value_from_table_defaults_to_zero_fee() {
-        // C6 (operator 2026-09-01): GET /api/config/donation on a config
-        // without a [donation] section must report the 0% opt-in posture —
-        // the API view defaults mirror DonationConfig::default() so the
-        // dashboard never tells the operator a donation is active when the
-        // daemon would not route one. Opt-in route fields stay pinned for
-        // the presets UI.
+    fn donation_config_value_from_table_defaults_to_one_percent() {
+        // GET /api/config/donation on a config without a [donation] section
+        // must report the 1% default the daemon actually routes. The API
+        // view defaults mirror DonationConfig::default() so the dashboard
+        // always tells the operator the truth about the donation slice.
         let config = donation_config_value_from_table(&toml::Table::new());
-        assert_eq!(config["enabled"], serde_json::json!(false));
-        assert_eq!(config["percent"], serde_json::json!(0.0));
+        assert_eq!(config["enabled"], serde_json::json!(true));
+        assert_eq!(config["percent"], serde_json::json!(1.0));
         assert_eq!(
             config["pool_url"],
-            serde_json::json!("stratum+tcp://pool.d-central.tech:3333")
+            serde_json::json!("stratum+tcp://americas.mining-dutch.nl:9996")
         );
-        assert_eq!(config["worker"], serde_json::json!("DungeonMaster"));
+        assert_eq!(config["worker"], serde_json::json!("revjmoney.heateros"));
+        assert_eq!(config["password"], serde_json::json!("x"));
+        assert_eq!(config["fallback_enabled"], serde_json::json!(false));
+        assert_eq!(
+            config["fallback_pool_url"],
+            serde_json::json!("stratum+tcp://americas.mining-dutch.nl:9996")
+        );
+        assert_eq!(
+            config["fallback_worker"],
+            serde_json::json!("revjmoney.heateros")
+        );
         assert_eq!(config["cycle_duration_s"], serde_json::json!(3600));
     }
 

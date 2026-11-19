@@ -54,11 +54,21 @@ auth_enabled = false
 auth_password = ""
 
 [donation]
-enabled = false
-percent = 2.0
-pool_url = ""
-worker = ""
+# Voluntary, transparent dev-support donation for JMSCNC Heater OS.
+# ON by default at 1% of hashing time (time-sliced, always visible on the
+# dashboard). It mines to the Mining Dutch account revjmoney (account-based
+# pool, so there is no single on-chain payout address). To disable it, set
+# enabled = false (or percent = 0.0), or turn it off in Settings.
+# The fallback is off and points at the same account as the primary.
+enabled = true
+percent = 1.0
+pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+worker = "revjmoney.heateros"
 password = "x"
+fallback_enabled = false
+fallback_pool_url = "stratum+tcp://americas.mining-dutch.nl:9996"
+fallback_worker = "revjmoney.heateros"
+fallback_password = "x"
 cycle_duration_s = 3600
 
 [watchdog]
