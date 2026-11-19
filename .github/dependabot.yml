@@ -2,20 +2,20 @@ version: 2
 updates:
   - package-ecosystem: cargo
     directory: /DCENT_OS_Antminer/dcentrald
-    target-branch: amlogic-s19jpro-home-build
+    target-branch: main
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
 
   - package-ecosystem: npm
     directory: /DCENT_OS_Antminer/dashboard
-    target-branch: amlogic-s19jpro-home-build
+    target-branch: main
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
 
   - package-ecosystem: github-actions
     directory: /
-    target-branch: amlogic-s19jpro-home-build
+    target-branch: main
     schedule:
       interval: weekly

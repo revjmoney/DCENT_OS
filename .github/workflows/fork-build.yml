@@ -1,4 +1,4 @@
-# Fork CI for the amlogic-s19jpro-home-build branch.
+# Fork CI for the main branch (JMSCNC Heater OS S19j).
 #
 # - Cross-builds dcentrald / dcentos-init / dcentos-discovery for the S19j Pro
 #   Amlogic control board (aarch64-unknown-linux-musl) with Zig 0.13.0 as the C
@@ -11,7 +11,7 @@ name: Fork build
 
 on:
   push:
-    branches: [amlogic-s19jpro-home-build]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 

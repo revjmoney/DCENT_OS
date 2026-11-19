@@ -16,7 +16,7 @@ name: CI
 
 on:
   push:
-    branches: [main, amlogic-s19jpro-home-build]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 

@@ -9,7 +9,7 @@ name: Security
 
 on:
   push:
-    branches: [amlogic-s19jpro-home-build]
+    branches: [main]
   pull_request:
   schedule:
     - cron: "23 7 * * 1"
